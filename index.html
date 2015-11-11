@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>Situational Overview</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>       
+        <link rel="stylesheet" type="text/css" href="css/site.css"/>
+        <script src="js/jquery.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/tile.stamen.js"></script>
+        <script src="js/d3.min.js"></script>
+    </head>
+    <body class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Europe Migrant Crisis - Situational Overview</h1>
+                <p>The latest updates from European in regards to issues affecting migrants from the last 7 days.  Move over a marker to get more information. Use the time slider to look at past events.  Contact: <a href="mailto:ryales@redcross.org.uk" target="_top">R Yales</a>
+            </div>
+        </div>
+        <div class="row">           
+            <div class="col-md-8">
+                <div id="map-container"><div id="map"></div></div>
+            </div>
+            <div id="text" class="col-md-4">
+                <input id="dateinput" type="range" step="86400000" />
+                <p id="dateupdate"></p>
+                <h4 id="title"></h4>
+                <p id="date"><p>
+                <p id="content"></p>
+                <p id="url"></p>
+            </div>
+        </div>
+        <script src='js/site.js'></script>
+    </body>
+</html>

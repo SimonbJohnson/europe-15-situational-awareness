@@ -1,0 +1,20 @@
+#map {
+    height:500px;
+}
+
+.sticky {
+    position: fixed;
+    top: 0px;
+}
+
+ #dateupdate {
+ 	margin-top:10px;
+ 	height:40px;
+ 	border-bottom-style:solid;
+ 	border-bottom-width:1px;
+ 	border-bottom-color:#cccccc;
+ }
+
+ #url {
+ 	font-size: 1.5em;
+ }
