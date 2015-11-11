@@ -9,8 +9,7 @@ function generateMap(){
 }
 
 function filterDateRange(begin,end,data){
-    console.log(begin);
-    console.log(end);
+
     data.forEach(function(d){
         if(d['#date']>=begin&&d['#date']<=end){
             if(!d.visible){
