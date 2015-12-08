@@ -102,8 +102,11 @@ $.when(dataCall).then(function(dataArgs){
     });
 
     generateMap(data);
+
+    var begin = new Date($('#dateinput').val()*1);
+    begin.setDate(begin.getDate()-7);
     data = createMarkers(data);
-    data = filterDateRange(new Date(2015,10,1),max,data);
+    data = filterDateRange(begin,max,data);
 
     var end = new Date($('#dateinput').val()*1);
     $('#dateinput').width($('#text').width());
