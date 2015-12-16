@@ -22,3 +22,12 @@
 #date {
 	color:#777777;
 }
+
+.graphlabel {
+	width:100px;
+	display: inline-block;
+}
+
+.graph {
+	display:inline-block;
+}
