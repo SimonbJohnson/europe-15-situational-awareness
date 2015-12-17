@@ -149,7 +149,7 @@ function sparkline(elemId, data, tag, max) {
     var x = d3.scale.linear().range([0, width]);
     var y = d3.scale.linear().range([height, 0]);
     var line = d3.svg.line()
-            .x(function(d) { if(d['#date']=='N/A'){
+              .x(function(d) { if(d['#date']=='N/A'){
                     return x(0);
                 } else {
                     return x(d['#date']);
@@ -159,29 +159,89 @@ function sparkline(elemId, data, tag, max) {
                     return y(0);
                 } else {
                     return y(d[tag]);
-                } 
-            });
+                }  
+            });		 
+			
+	
+	function getAvg(i, data, country, numDaysMovAvg) {
+		numDaysMovAvgBuffer = Math.floor(numDaysMovAvg/2);
+		if (country == '#affected+arriveaustria') {
+			sum = 0;       //for each country?
+			for (j=0; j==numDaysMovAvg; j++) {
+				sum += data[i-numDaysMovAvgBuffer+j];
+			};
+			avg = sum/numDaysMovAvg;
+		}
+		return avg;
+	}
+	
+	var movAvg = function(data)   {   //needs to be an array of values, one for each date with values per 'tag'
+		numDaysMovAvg = 7;
+		numDaysMovAvgBuffer = Math.floor(numDaysMovAvg/2);
+		//console.log("numDaysMovAvgBuffer = ", numDaysMovAvgBuffer);
+		//console.log("DATA = ", data);
+		
+		var avgObj = {};
+		var movAvgs = [];
+   		for (i=numDaysMovAvgBuffer; i<=data.length-1-numDaysMovAvgBuffer; i++) {
+			//avgObj = data[i];		*** DON'T DO THIS - IT LINKS THE 2 OBJECTS SO CHANGES TO ONE CHANGES THE OTHER ONE	
+			//avgObj['#affected+arriveaustria'] = 999;
+			//avgObj['#affected+arriveaustria'] = data[i]['#affected+arriveaustria'];
+			//avgObj['#affected+arriveaustria'] = data[i-1]['#affected+arriveaustria'];
+			
+			date = data[i]['#date'];
+			avgObj['#date'] = date;
+			
+			avgObj['#affected+arriveaustria'] = getAvg(i, data, '#affected+arriveaustria', numDaysMovAvg);			
+			movAvgs.push(avgObj);
+			//console.log("data[i]['#affected+arriveaustria'] = ", data[i]['#affected+arriveaustria']);
+			console.log("movAvgs = ", movAvgs);  
+			//console.log("movAvgs[0]['#date'] = ", movAvgs[0]['#date']); 
+			
+					
+			
+		/* 	sum = 0;       //for each country
+			for (j=0; j==numDaysMovAvg; j++) {
+				sum += data[i-numDaysMovAvgBuffer+j];
+			};
+			avg = sum/numDaysMovAvg;
+			 */
+			
+
+		}  
+		 
+		return movAvgs;
+	};
 
     x.domain(d3.extent(data, function(d) { return d['#date']; }));
     y.domain([0,max]);
     var svg = d3.select(elemId).append('svg').attr('width', width).attr('height', height);
+	console.log("data = ", data);
 
-    svg.append('path')
+     svg.append('path')
         .datum(data)
         .attr('class', 'sparkline')
         .attr('d', line)
         .attr("stroke", "blue")
         .attr("stroke-width", 2)
-        .attr("fill", "none");
+        .attr("fill", "none"); 
+		
+  	svg.append('path')
+		.datum(movAvg(data))
+		.attr('class', 'movAvgLine')
+		.attr('d', line)
+        .attr("stroke", "red")
+        .attr("stroke-width", 2)
+        .attr("fill", "none");   
 
-    svg.append('line')
+     svg.append('line')
         .attr("x1", 200)
         .attr("y1", 0)
         .attr("x2", 200)
         .attr("y2", 50)
         .attr("stroke-width", 1)
         .attr("stroke", "grey")
-        .attr("class","datemarker");
+        .attr("class","datemarker"); 
 }
 
 function updateSparkline(data,date){
