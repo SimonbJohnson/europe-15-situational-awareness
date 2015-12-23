@@ -138,7 +138,7 @@ function generateSparklines(data,arrivalMarkers){
         sparkline('#graph'+i,data,d.tag,max);
     });
 
-    $('#graphs').append('<p>Access full data <a href="" target="_blanks">here.</a>.  Arrivals data from UNHCR data portal</p>');
+    $('#graphs').append('<p>Access full data <a href="https://docs.google.com/spreadsheets/d/15OC8U1lodClWj0LQ3dUi3sR1emtZxQx5ZDOIPZFgwgM/edit?usp=sharing" target="_blanks">here.</a>.  Arrivals data from <a href="http://data.unhcr.org/mediterranean/regional.php">UNHCR data portal</a></p>');
     
 }
 
@@ -185,7 +185,6 @@ function sparkline(elemId, data, tag, max) {
 }
 
 function updateSparkline(data,date){
-    console.log(date);
     var width = 200;
     var x = d3.scale.linear().range([0, width]);
     x.domain(d3.extent(data, function(d) { return d['#date']; }));
@@ -234,7 +233,7 @@ var dataCall = $.ajax({
 
 var arrivalsCall = $.ajax({ 
     type: 'GET', 
-    url: 'https://proxy.hxlstandard.org/data.json?strip-headers=on&url=https%3A//docs.google.com/spreadsheets/d/15OC8U1lodClWj0LQ3dUi3sR1emtZxQx5ZDOIPZFgwgM/pub%3Fgid%3D0%26single%3Dtrue%26output%3Dcsv&force=1', 
+    url: 'https://proxy.hxlstandard.org/data.json?strip-headers=on&url=https%3A//docs.google.com/spreadsheets/d/15OC8U1lodClWj0LQ3dUi3sR1emtZxQx5ZDOIPZFgwgM/pub%3Fgid%3D0%26single%3Dtrue%26output%3Dcsv', 
     dataType: 'json',
 });
 
