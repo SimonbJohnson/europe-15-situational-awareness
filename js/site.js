@@ -162,8 +162,60 @@ function sparkline(elemId, data, tag, max) {
                 } 
             });
 
+    function naiveShallowCopy (original) {  //clones original object
+        var clone = {} ;
+        var key ;
+        for (key in original) {
+            clone[key] = original[key];
+        }
+        return clone;
+    };
+    
+    function movAvg(data) {    
+        numDaysMovAvg = 7;
+        numDaysMovAvgBuffer = Math.floor(numDaysMovAvg/2);
+
+        tempDay = {};
+        tempObj = {};
+        var movAvgs = [];
+
+        country = ['#affected+arriveaustria','#affected+arrivecroatia','#affected+arrivefyrom','#affected+arrivegreekislands','#affected+arrivehungary','#affected+arrivemainlandgreece','#affected+arriveserbia','#affected+arriveslovenia'];
+        
+        for (i=0; i<=data.length-1; i++) {    //for each day in the array
+            if ((i>=numDaysMovAvgBuffer) && (i<=data.length-1-numDaysMovAvgBuffer)) {    //remove buffer days
+                tempDay['#date'] = data[i]['#date'];
+                
+                for (c=0; c<=country.length-1; c++) {       //for each country
+                    sum = 0;                                
+                    numDays = numDaysMovAvg;
+                    for (j=0; j<=numDaysMovAvg-1; j++) {
+                        if (data[i-numDaysMovAvgBuffer+j][country[c]]=='N/A') {
+                            numDays = numDays - 1;
+                        } else {
+                            sum = sum + parseInt(data[i-numDaysMovAvgBuffer+j][country[c]]);
+                        };
+                    };                  
+                    if (numDays == 0) {
+                        avg = 'N/A';
+                    } else {
+                        avg = sum/numDays;  
+                    };                  
+                    tempDay[country[c]] = avg;          
+                }
+             
+                tempObj = naiveShallowCopy(tempDay);
+                movAvgs.push(tempObj);  
+            };
+
+        }   
+        //console.log("movAvgs = ", movAvgs);   
+        return movAvgs;
+    };            
+
     x.domain(d3.extent(data, function(d) { return d['#date']; }));
     y.domain([0,max]);
+    movAvgArray = movAvg(data);
+
     var svg = d3.select(elemId).append('svg').attr('width', width).attr('height', height);
 
     svg.append('path')
@@ -171,8 +223,16 @@ function sparkline(elemId, data, tag, max) {
         .attr('class', 'sparkline')
         .attr('d', line)
         .attr("stroke", "blue")
-        .attr("stroke-width", 2)
+        .attr("stroke-width", 1)
         .attr("fill", "none");
+
+    svg.append('path')
+        .datum(movAvgArray)
+        //.attr('class', 'movAvgLine')
+        .attr('d', line)
+        .attr("stroke", "red")
+        .attr("stroke-width", 2)
+        .attr("fill", "none");         
 
     svg.append('line')
         .attr("x1", 200)
@@ -265,6 +325,7 @@ $.when(dataCall,arrivalsCall).then(function(dataArgs,arrivalsArgs){
     $('#dateinput').attr('max',max)
         .attr('min',min)
         .attr('value',max)
+        .css('margin-left', 105+'px')
         .on('input',function(e){
             var end = new Date($('#dateinput').val()*1);
             var begin = new Date($('#dateinput').val()*1);
@@ -281,6 +342,6 @@ $.when(dataCall,arrivalsCall).then(function(dataArgs,arrivalsArgs){
     data = filterDateRange(begin,max,data);
     updateArrivals(max,arrivals,arrivalMarkers);
     var end = new Date($('#dateinput').val()*1);
-    $('#dateinput').width($('#text').width());
+    $('#dateinput').width(200);
     $('#dateupdate').html('Showing updates for '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+' and 7 days prior.');
 });
