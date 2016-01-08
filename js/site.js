@@ -1,11 +1,27 @@
-function generateMap(){
+function generateMap(bordersGeom){
     var baselayer = L.tileLayer('https://data.hdx.rwlabs.org/mapbox-base-tiles/{z}/{x}/{y}.png', {});
     var baselayer2 = L.tileLayer('https://data.hdx.rwlabs.org/mapbox-layer-tiles/{z}/{x}/{y}.png', {});
+
+
     map = L.map('map', {
         center: [43,20],
         zoom: 5,
         layers: [baselayer,baselayer2]
     });
+
+    var style = function(feature) {
+            return {
+                        "color": "#cccccc",
+                        "weight": 1,
+                        "opacity": 0.65,
+                        "className": feature.properties['adm0_1-2'].replace('-','')+' '+feature.properties['adm0_2-1'].replace('-','')
+                    };
+    }    
+
+    var borders = L.geoJson(bordersGeom,{
+                    style: style
+                }).addTo(map);
+
 }
 
 function filterDateRange(begin,end,data){
@@ -162,8 +178,60 @@ function sparkline(elemId, data, tag, max) {
                 } 
             });
 
+    function naiveShallowCopy (original) {  //clones original object
+        var clone = {} ;
+        var key ;
+        for (key in original) {
+            clone[key] = original[key];
+        }
+        return clone;
+    };
+    
+    function movAvg(data) {    
+        numDaysMovAvg = 7;
+        numDaysMovAvgBuffer = Math.floor(numDaysMovAvg/2);
+
+        tempDay = {};
+        tempObj = {};
+        var movAvgs = [];
+
+        country = ['#affected+arriveaustria','#affected+arrivecroatia','#affected+arrivefyrom','#affected+arrivegreekislands','#affected+arrivehungary','#affected+arrivemainlandgreece','#affected+arriveserbia','#affected+arriveslovenia'];
+        
+        for (i=0; i<=data.length-1; i++) {    //for each day in the array
+            if ((i>=numDaysMovAvgBuffer) && (i<=data.length-1-numDaysMovAvgBuffer)) {    //remove buffer days
+                tempDay['#date'] = data[i]['#date'];
+                
+                for (c=0; c<=country.length-1; c++) {       //for each country
+                    sum = 0;                                
+                    numDays = numDaysMovAvg;
+                    for (j=0; j<=numDaysMovAvg-1; j++) {
+                        if (data[i-numDaysMovAvgBuffer+j][country[c]]=='N/A') {
+                            numDays = numDays - 1;
+                        } else {
+                            sum = sum + parseInt(data[i-numDaysMovAvgBuffer+j][country[c]]);
+                        };
+                    };                  
+                    if (numDays == 0) {
+                        avg = 'N/A';
+                    } else {
+                        avg = sum/numDays;  
+                    };                  
+                    tempDay[country[c]] = avg;          
+                }
+             
+                tempObj = naiveShallowCopy(tempDay);
+                movAvgs.push(tempObj);  
+            };
+
+        }   
+        //console.log("movAvgs = ", movAvgs);   
+        return movAvgs;
+    };            
+
     x.domain(d3.extent(data, function(d) { return d['#date']; }));
     y.domain([0,max]);
+    movAvgArray = movAvg(data);
+
     var svg = d3.select(elemId).append('svg').attr('width', width).attr('height', height);
 
     svg.append('path')
@@ -171,8 +239,16 @@ function sparkline(elemId, data, tag, max) {
         .attr('class', 'sparkline')
         .attr('d', line)
         .attr("stroke", "blue")
-        .attr("stroke-width", 2)
+        .attr("stroke-width", 1)
         .attr("fill", "none");
+
+    svg.append('path')
+        .datum(movAvgArray)
+        //.attr('class', 'movAvgLine')
+        .attr('d', line)
+        .attr("stroke", "red")
+        .attr("stroke-width", 2)
+        .attr("fill", "none");         
 
     svg.append('line')
         .attr("x1", 200)
@@ -190,6 +266,12 @@ function updateSparkline(data,date){
     x.domain(d3.extent(data, function(d) { return d['#date']; }));
 
     d3.selectAll('.datemarker').attr('x1',x(date)).attr('x2',x(date));
+}
+
+function updateBorders(borders){
+    borders.forEach(function(b){
+        d3.selectAll('.'+b['#meta+id'].replace('-','')).attr('stroke','#ff0000').attr('stroke-width',3);
+    });
 }
 
 function hxlProxyToJSON(input,headers){
@@ -237,11 +319,25 @@ var arrivalsCall = $.ajax({
     dataType: 'json',
 });
 
+var bordersCall = $.ajax({ 
+    type: 'GET', 
+    url: 'https://proxy.hxlstandard.org/data.json?strip-headers=on&url=https%3A//docs.google.com/spreadsheets/d/1aICxVKQCA1gzpBVZm1ExgzcSAjhnhAM-z4MhAtm1Oio/pub%3Fgid%3D621776132%26single%3Dtrue%26output%3Dcsv', 
+    dataType: 'json',
+});
+
+var bordersGeomCall = $.ajax({ 
+    type: 'GET', 
+    url: 'data/geom.json', 
+    dataType: 'json',
+});
+
 //when both ready construct dashboard
 
-$.when(dataCall,arrivalsCall).then(function(dataArgs,arrivalsArgs){
+$.when(dataCall,arrivalsCall,bordersGeomCall,bordersCall).then(function(dataArgs,arrivalsArgs,bordersGeomArgs,bordersArgs){
+    var bordersGeom = topojson.feature(bordersGeomArgs[0],bordersGeomArgs[0].objects.europe_borders);
     data = hxlProxyToJSON(dataArgs[0],false);
     arrivals = hxlProxyToJSON(arrivalsArgs[0],false);
+    borders = hxlProxyToJSON(bordersArgs[0],false);
 
     var dateFormat = d3.time.format("%d/%m/%Y");
 
@@ -253,7 +349,7 @@ $.when(dataCall,arrivalsCall).then(function(dataArgs,arrivalsArgs){
         d['#date'] = dateFormat.parse(d['#date']);
     });
 
-    generateMap();
+    generateMap(bordersGeom);
 
     var arrivalMarkers = createArrivalMarkers();
     generateSparklines(arrivals,arrivalMarkers);
@@ -265,6 +361,7 @@ $.when(dataCall,arrivalsCall).then(function(dataArgs,arrivalsArgs){
     $('#dateinput').attr('max',max)
         .attr('min',min)
         .attr('value',max)
+        .css('margin-left', 105+'px')
         .on('input',function(e){
             var end = new Date($('#dateinput').val()*1);
             var begin = new Date($('#dateinput').val()*1);
@@ -280,7 +377,8 @@ $.when(dataCall,arrivalsCall).then(function(dataArgs,arrivalsArgs){
     begin.setDate(begin.getDate()-7);
     data = filterDateRange(begin,max,data);
     updateArrivals(max,arrivals,arrivalMarkers);
+    //updateBorders(borders);
     var end = new Date($('#dateinput').val()*1);
-    $('#dateinput').width($('#text').width());
+    $('#dateinput').width(200);
     $('#dateupdate').html('Showing updates for '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+' and 7 days prior.');
 });
