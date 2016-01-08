@@ -1,11 +1,27 @@
-function generateMap(){
+function generateMap(bordersGeom){
     var baselayer = L.tileLayer('https://data.hdx.rwlabs.org/mapbox-base-tiles/{z}/{x}/{y}.png', {});
     var baselayer2 = L.tileLayer('https://data.hdx.rwlabs.org/mapbox-layer-tiles/{z}/{x}/{y}.png', {});
+
+
     map = L.map('map', {
         center: [43,20],
         zoom: 5,
         layers: [baselayer,baselayer2]
     });
+
+    var style = function(feature) {
+            return {
+                        "color": "#cccccc",
+                        "weight": 1,
+                        "opacity": 0.65,
+                        "className": feature.properties['adm0_1-2'].replace('-','')+' '+feature.properties['adm0_2-1'].replace('-','')
+                    };
+    }    
+
+    var borders = L.geoJson(bordersGeom,{
+                    style: style
+                }).addTo(map);
+
 }
 
 function filterDateRange(begin,end,data){
@@ -252,6 +268,12 @@ function updateSparkline(data,date){
     d3.selectAll('.datemarker').attr('x1',x(date)).attr('x2',x(date));
 }
 
+function updateBorders(borders){
+    borders.forEach(function(b){
+        d3.selectAll('.'+b['#meta+id'].replace('-','')).attr('stroke','#ff0000').attr('stroke-width',3);
+    });
+}
+
 function hxlProxyToJSON(input,headers){
     var output = [];
     var keys=[]
@@ -297,11 +319,25 @@ var arrivalsCall = $.ajax({
     dataType: 'json',
 });
 
+var bordersCall = $.ajax({ 
+    type: 'GET', 
+    url: 'https://proxy.hxlstandard.org/data.json?strip-headers=on&url=https%3A//docs.google.com/spreadsheets/d/1aICxVKQCA1gzpBVZm1ExgzcSAjhnhAM-z4MhAtm1Oio/pub%3Fgid%3D621776132%26single%3Dtrue%26output%3Dcsv', 
+    dataType: 'json',
+});
+
+var bordersGeomCall = $.ajax({ 
+    type: 'GET', 
+    url: 'data/geom.json', 
+    dataType: 'json',
+});
+
 //when both ready construct dashboard
 
-$.when(dataCall,arrivalsCall).then(function(dataArgs,arrivalsArgs){
+$.when(dataCall,arrivalsCall,bordersGeomCall,bordersCall).then(function(dataArgs,arrivalsArgs,bordersGeomArgs,bordersArgs){
+    var bordersGeom = topojson.feature(bordersGeomArgs[0],bordersGeomArgs[0].objects.europe_borders);
     data = hxlProxyToJSON(dataArgs[0],false);
     arrivals = hxlProxyToJSON(arrivalsArgs[0],false);
+    borders = hxlProxyToJSON(bordersArgs[0],false);
 
     var dateFormat = d3.time.format("%d/%m/%Y");
 
@@ -313,7 +349,7 @@ $.when(dataCall,arrivalsCall).then(function(dataArgs,arrivalsArgs){
         d['#date'] = dateFormat.parse(d['#date']);
     });
 
-    generateMap();
+    generateMap(bordersGeom);
 
     var arrivalMarkers = createArrivalMarkers();
     generateSparklines(arrivals,arrivalMarkers);
@@ -341,6 +377,7 @@ $.when(dataCall,arrivalsCall).then(function(dataArgs,arrivalsArgs){
     begin.setDate(begin.getDate()-7);
     data = filterDateRange(begin,max,data);
     updateArrivals(max,arrivals,arrivalMarkers);
+    //updateBorders(borders);
     var end = new Date($('#dateinput').val()*1);
     $('#dateinput').width(200);
     $('#dateupdate').html('Showing updates for '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+' and 7 days prior.');
