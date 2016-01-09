@@ -7,6 +7,10 @@
     top: 0px;
 }
 
+#dateinput{
+ 	margin-top:70px;
+}
+
 #dateupdate {
  	margin-top:10px;
  	height:40px;
@@ -30,4 +34,44 @@
 
 .graph {
 	display:inline-block;
+}
+
+.graphlegend {
+	font-size: 14px;	
+}
+
+.graphnote {
+	font-size: 12px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.infolegend {
+	padding:5px;
+    background-color:white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    font-size: 11px;
+	font-weight: bold;
+}
+
+.imphead {
+	height: 32px;
+	display: inline-block;
+	margin-left: 5px;
+}
+
+.impcat {
+	width: 50px;
+	display: inline-block;
+	margin-left: 0px;
+	margin-bottom: 5px;
+	text-align: center;
+}
+
+.legendcat {
+	height: 12px;
+	margin-top: 0px;
+	margin-left: 5px;
 }
