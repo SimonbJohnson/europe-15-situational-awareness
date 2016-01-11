@@ -21,6 +21,56 @@ function generateMap(bordersGeom){
     var borders = L.geoJson(bordersGeom,{
                     style: style
                 }).addTo(map);
+				
+	var mapLegend = L.control({position: 'bottomleft'});			
+	
+	mapLegend.onAdd = function (map) {
+		var div = L.DomUtil.create('div', 'infolegend');	
+		var iconImportance = [{
+				iconText:'low',
+				iconUrl:'images/yellow.png'
+			},{
+				iconText:'medium',
+				iconUrl:'images/orange.png'
+			},{
+				iconText:'high',
+				iconUrl:'images/red.png'
+			}];
+			
+		var iconCategories = [{
+				iconText:'Border',
+				iconUrl:'images/border_medium-01.png'
+			},{
+				iconText:'Transit',
+				iconUrl:'images/transit_medium-01.png'
+			},{
+				iconText:'Camp',
+				iconUrl:'images/camp_medium-01.png'
+			},{
+				iconText:'Conflict',
+				iconUrl:'images/conflict_medium-01.png'
+			},{
+				iconText:'Policy',
+				iconUrl:'images/policy_medium-01.png'
+			},{
+				iconText:'Registration',
+				iconUrl:'images/registration_medium-01.png'
+			}];
+
+		div.innerHTML += '<p class="imphead">Icon colour depicts level<br/>of importance:</p><br/>';
+		
+		for (var i = 0; i < iconImportance.length; i++) {	
+			div.innerHTML += '<div class="impcat"><img class="icon" src="' + iconImportance[i].iconUrl + '" alt=legend_icon width="12" height="12"><br/>' + iconImportance[i].iconText + '</div>'
+		};
+				
+		div.innerHTML += '<br/>';
+		for (var i = 0; i < iconCategories.length; i++) {			
+			div.innerHTML += iconCategories[i] ? '<p class="legendcat"> <img class="icon" src="' + iconCategories[i].iconUrl + '" alt=legend_icon width="20" height="20"> &nbsp' + iconCategories[i].iconText + '</p>' : '+';
+		}
+		return div;
+	};
+	mapLegend.addTo(map);		
+				
 
 }
 
@@ -104,9 +154,14 @@ function createArrivalMarkers(){
     {
         area:'Serbia',
         lat:43.979184,
-        lon: 20.965015,
+        lon:20.965015,
         tag:'#affected+arriveserbia'
     },
+	{	area:'Croatia',
+		lat:45.646912, 
+		lon:16.697362,
+		tag:'#affected+arrivecroatia'
+	},
     {
         area:'Hungary',
         lat:47.034759,
@@ -149,19 +204,59 @@ function generateSparklines(data,arrivalMarkers){
         }
     });
 
+	 $('#graphs').append('<div><div class="graph" id="graphlegend"></div>');
+	 graphLegend('#graphlegend');
+	 $('#graphs').append('<p class="graphnote"><i>* Note: arrival numbers for each country below are relative (i.e. drawn to same scale).</i><p>');
+	
     arrivalMarkers.forEach(function(d,i){
         $('#graphs').append('<div><div class="graph" id="graph' + i + '"><span class="graphlabel">' + d.area + '</span></div></div>');
         sparkline('#graph'+i,data,d.tag,max);
     });
 
-    $('#graphs').append('<p>Access full data <a href="https://docs.google.com/spreadsheets/d/15OC8U1lodClWj0LQ3dUi3sR1emtZxQx5ZDOIPZFgwgM/edit?usp=sharing" target="_blanks">here.</a>.  Arrivals data from <a href="http://data.unhcr.org/mediterranean/regional.php">UNHCR data portal</a></p>');
+    $('#graphs').append('<br/><p>Access <a href="https://docs.google.com/spreadsheets/d/15OC8U1lodClWj0LQ3dUi3sR1emtZxQx5ZDOIPZFgwgM/edit?usp=sharing" target="_blanks">full data</a>.  Arrivals data from <a href="http://data.unhcr.org/mediterranean/regional.php">UNHCR data portal</a>.</p>');
     
 }
+
+function graphLegend(elemId) {
+	var width = 350;
+	var height = 40;
+	var svg = d3.select(elemId).append('svg').attr('width', width).attr('height', height);
+	
+	svg.append('line')
+        .attr("x1", 0)
+        .attr("y1", 20)
+        .attr("x2", 40)
+        .attr("y2", 20)
+        .attr("stroke-width", 1)
+        .attr("stroke", "blue");
+	
+	svg.append('line')
+        .attr("x1", 150)
+        .attr("y1", 20)
+        .attr("x2", 190)
+        .attr("y2", 20)
+        .attr("stroke-width", 2)
+        .attr("stroke", "red");
+		
+	svg.append('text')
+		.attr("x", 45)     
+        .attr("y", 20)									 					
+        .attr("dy", "0.25em")	
+        .attr("class","graphlegend")
+        .text('Daily arrivals');
+		
+	svg.append('text')
+		.attr("x", 195)     
+        .attr("y", 20)									 						
+        .attr("dy", "0.25em")							
+        .attr("class","graphlegend")
+        .text('7-day moving average');
+};
 
 function sparkline(elemId, data, tag, max) {
 
     var width = 200;
-    var height = 50;
+    var height = 45;
     var x = d3.scale.linear().range([0, width]);
     var y = d3.scale.linear().range([height, 0]);
     var line = d3.svg.line()
@@ -366,7 +461,7 @@ $.when(dataCall,arrivalsCall,bordersGeomCall,bordersCall).then(function(dataArgs
             var end = new Date($('#dateinput').val()*1);
             var begin = new Date($('#dateinput').val()*1);
             begin.setDate(begin.getDate()-7);
-            $('#dateupdate').html('Showing updates for '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+' and 7 days prior.');
+            $('#dateupdate').html('Displaying updates for: '+begin.getDate()+'/'+(begin.getMonth()+1)+'/'+begin.getFullYear()+' - '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear());
             data = filterDateRange(begin,end,data);
             updateArrivals(end,arrivals,arrivalMarkers);
             updateSparkline(arrivals,end);
@@ -380,5 +475,5 @@ $.when(dataCall,arrivalsCall,bordersGeomCall,bordersCall).then(function(dataArgs
     //updateBorders(borders);
     var end = new Date($('#dateinput').val()*1);
     $('#dateinput').width(200);
-    $('#dateupdate').html('Showing updates for '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+' and 7 days prior.');
+    $('#dateupdate').html('Displaying updates for: '+begin.getDate()+'/'+(begin.getMonth()+1)+'/'+begin.getFullYear()+' - '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear());
 });
