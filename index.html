@@ -25,18 +25,20 @@
     </head>
     <body class="container">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-8">
                 <h1>Europe Migrant Crisis - Situational Overview</h1>
-                <p>The latest updates from Europe in regards to issues affecting migrants from the last 7 days.  Move over a marker to get more information. Use the time slider to look at past events.  Contact: <a href="mailto:ryales@redcross.org.uk" target="_top">R Yales</a>
+                <p>The latest updates from Europe regarding issues affecting migrants from the last 7 days.<br/>Hover over an icon in the map to get more information. Use the time slider to the right to look at past events.  <br/>Contact: <a href="mailto:ryales@redcross.org.uk" target="_top">Rachel Yales</a>
             </div>
+			<div class="col-md-4">
+				<input id="dateinput" type="range" step="86400000" />
+                <p id="dateupdate"></p>
+			</div>
         </div>
         <div class="row">           
             <div class="col-md-8">
                 <div id="map-container"><div id="map"></div></div>
             </div>
-            <div id="text" class="col-md-4">
-                <input id="dateinput" type="range" step="86400000" />
-                <p id="dateupdate"></p>
+            <div id="text" class="col-md-4">                
                 <div id="graphs"></div>
                 <div id="article">
                     <p><button id='showgraphs'>Show Graphs</button></p>
