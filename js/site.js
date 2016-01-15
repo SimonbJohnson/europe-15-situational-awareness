@@ -59,7 +59,7 @@ function generateMap(bordersGeom){
 			
 		var iconArrivals = [{
 			iconText:'Arrivals per country <i>(relative)</i>',
-			iconUrl:'images/green.png'
+			iconUrl:'images/green.PNG'
 		}];
 		
 		var iconBorderCrossings = [{
