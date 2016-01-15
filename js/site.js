@@ -55,18 +55,48 @@ function generateMap(bordersGeom){
 			},{
 				iconText:'Registration',
 				iconUrl:'images/registration_medium-01.png'
-			}];
+		}];
+			
+		var iconArrivals = [{
+			iconText:'Arrivals per country <i>(relative)</i>',
+			iconUrl:'images/green.png'
+		}];
+		
+		var iconBorderCrossings = [{
+				iconText:'Operational',
+				iconUrl:'images/red_line.png'
+			},{
+				iconText:'Constructing',
+				iconUrl:'images/red_line.png'
+			},{
+				iconText:'Standby',
+				iconUrl:'images/purple_line.png'
+			},{
+				iconText:'Other issues',
+				iconUrl:'images/blue_line.png'
+			}]
 
-		div.innerHTML += '<p class="imphead">Icon colour depicts level<br/>of importance:</p><br/>';
+		div.innerHTML += iconArrivals[0] ? '<p class="legendcat"> <img class="icon" src="' + iconArrivals[0].iconUrl + '" alt=legend_icon width="24" height="24"> &nbsp' + iconArrivals[0].iconText + '</p>' : '+';
+		
+		div.innerHTML += '<br/>';
+		
+		div.innerHTML += '<p class="legendhead">News icon colour depicts level<br/>of importance:</p><br/>';
 		
 		for (var i = 0; i < iconImportance.length; i++) {	
 			div.innerHTML += '<div class="impcat"><img class="icon" src="' + iconImportance[i].iconUrl + '" alt=legend_icon width="12" height="12"><br/>' + iconImportance[i].iconText + '</div>'
-		};
-				
+		};				
 		div.innerHTML += '<br/>';
 		for (var i = 0; i < iconCategories.length; i++) {			
 			div.innerHTML += iconCategories[i] ? '<p class="legendcat"> <img class="icon" src="' + iconCategories[i].iconUrl + '" alt=legend_icon width="20" height="20"> &nbsp' + iconCategories[i].iconText + '</p>' : '+';
 		}
+		div.innerHTML += '<br/>';
+		
+		div.innerHTML += '<p class="legendhead borderhead">Border crossing controls:</p>';
+		for (var i = 0; i < iconBorderCrossings.length; i++) {			
+			div.innerHTML += iconBorderCrossings[i] ? '<p class="legendcat"> <img class="icon" src="' + iconBorderCrossings[i].iconUrl + '" alt=legend_icon width="20" height="20"> &nbsp' + iconBorderCrossings[i].iconText + '</p>' : '+';
+		}
+		
+		
 		return div;
 	};
 	mapLegend.addTo(map);		
@@ -134,13 +164,13 @@ function createMarkers(data){
 
 function createArrivalMarkers(){
     var data = [{
-        area:'Greece Islands',
+        area:'Greek Islands',
         lat:36.688902,
         lon:27.073489,
         tag:'#affected+arrivegreekislands'
     },
     {
-        area:'Greece Mainland',
+        area:'Greek Mainland',
         lat:39.004464,
         lon:22.492114,
         tag:'#affected+arrivemainlandgreece'
@@ -363,9 +393,46 @@ function updateSparkline(data,date){
     d3.selectAll('.datemarker').attr('x1',x(date)).attr('x2',x(date));
 }
 
-function updateBorders(borders){
-    borders.forEach(function(b){
-        d3.selectAll('.'+b['#meta+id'].replace('-','')).attr('stroke','#ff0000').attr('stroke-width',3);
+
+
+function updateBorders(end,borders){
+	var dateFormat = d3.time.format("%d-%b-%Y");
+	//var dateFormat = d3.time.format("%d/%m/%Y");
+	
+ 	borders.sort(function(a, b) {
+		//return a['#date'].getTime() - b['#date'].getTime();
+		return dateFormat.parse(a['#date']).getTime() - dateFormat.parse(b['#date']).getTime();
+	}); 
+
+	borders.forEach(function(b, i){         //color all borders grey as default starting point
+		d3.selectAll('.'+b['#meta+id'].replace('-','')).attr('stroke','#cccccc').attr('stroke-width',1);
+	});
+	
+    borders.forEach(function(b, i){
+		if (dateFormat.parse(b['#date']).getTime() <= end) {
+			//console.log("i:", i, "  date: ", b['#date'], ",   border: ", b);		
+			switch(b['#status']) { 
+				case 'Operational':  //Red thick solid line
+					//console.log("Operational i:", i, "  date: ", b['#date'], ",   border: ", b);
+					d3.selectAll('.'+b['#meta+id'].replace('-','')).attr('stroke','#ff0000').attr('stroke-width',3).style('stroke-dasharray', ('0,0'));
+					break;
+				case 'Lifted':  //Grey default line
+					//console.log("Lifted i:", i, "  date: ", b['#date'], ",   border: ", b);  
+					d3.selectAll('.'+b['#meta+id'].replace('-','')).attr('stroke','#cccccc').attr('stroke-width',1).style('stroke-dasharray', ('0,0'));
+					break;
+				case 'Constructing':   //Red thick dashed line
+					//console.log("Constructing i:", i, "  date: ", b['#date'], ",   border: ", b);	
+					d3.selectAll('.'+b['#meta+id'].replace('-','')).attr('stroke','#ff0000').attr('stroke-width',3).style('stroke-dasharray', ('8,8'));
+					break;
+				case 'Standby':    //Yellow thick dashed line
+					//console.log("Standby i:", i, "  date: ", b['#date'], ",   border: ", b);	
+					d3.selectAll('.'+b['#meta+id'].replace('-','')).attr('stroke','#b135b8').attr('stroke-width',3).style('stroke-dasharray', ('8,20'));
+					break;
+				default:     //Blue thick solid line
+					//console.log("Default i:", i, "  date: ", b['#date'], ",   border: ", b);
+					d3.selectAll('.'+b['#meta+id'].replace('-','')).attr('stroke','#0000ff').attr('stroke-width',3).style('stroke-dasharray', ('0,0'));
+			};
+		}; 
     });
 }
 
@@ -416,7 +483,7 @@ var arrivalsCall = $.ajax({
 
 var bordersCall = $.ajax({ 
     type: 'GET', 
-    url: 'https://proxy.hxlstandard.org/data.json?strip-headers=on&url=https%3A//docs.google.com/spreadsheets/d/1aICxVKQCA1gzpBVZm1ExgzcSAjhnhAM-z4MhAtm1Oio/pub%3Fgid%3D621776132%26single%3Dtrue%26output%3Dcsv', 
+    url: 'https://proxy.hxlstandard.org/data.json?strip-headers=on&url=https%3A//docs.google.com/spreadsheets/d/1aICxVKQCA1gzpBVZm1ExgzcSAjhnhAM-z4MhAtm1Oio/pub%3Fgid%3D621776132%26single%3Dtrue%26output%3Dcsv&force=on', 
     dataType: 'json',
 });
 
@@ -434,7 +501,8 @@ $.when(dataCall,arrivalsCall,bordersGeomCall,bordersCall).then(function(dataArgs
     arrivals = hxlProxyToJSON(arrivalsArgs[0],false);
     borders = hxlProxyToJSON(bordersArgs[0],false);
 
-    var dateFormat = d3.time.format("%d/%m/%Y");
+    //var dateFormat = d3.time.format("%d-%b-%Y");
+	var dateFormat = d3.time.format("%d/%m/%Y");
 
     data.forEach(function(d){
         d['#date'] = dateFormat.parse(d['#date']);
@@ -461,9 +529,10 @@ $.when(dataCall,arrivalsCall,bordersGeomCall,bordersCall).then(function(dataArgs
             var end = new Date($('#dateinput').val()*1);
             var begin = new Date($('#dateinput').val()*1);
             begin.setDate(begin.getDate()-7);
-            $('#dateupdate').html('Displaying updates for: '+begin.getDate()+'/'+(begin.getMonth()+1)+'/'+begin.getFullYear()+' - '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear());
+            $('#dateupdate').html('<p>Displaying news updates for: '+begin.getDate()+'/'+(begin.getMonth()+1)+'/'+begin.getFullYear()+' - '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'</p><p>Displaying border updates for: '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'</p>');
             data = filterDateRange(begin,end,data);
             updateArrivals(end,arrivals,arrivalMarkers);
+			updateBorders(end,borders);
             updateSparkline(arrivals,end);
         });
 
@@ -472,8 +541,8 @@ $.when(dataCall,arrivalsCall,bordersGeomCall,bordersCall).then(function(dataArgs
     begin.setDate(begin.getDate()-7);
     data = filterDateRange(begin,max,data);
     updateArrivals(max,arrivals,arrivalMarkers);
-    //updateBorders(borders);
+    updateBorders(max,borders);
     var end = new Date($('#dateinput').val()*1);
     $('#dateinput').width(200);
-    $('#dateupdate').html('Displaying updates for: '+begin.getDate()+'/'+(begin.getMonth()+1)+'/'+begin.getFullYear()+' - '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear());
+    $('#dateupdate').html('<p>Displaying news updates for: '+begin.getDate()+'/'+(begin.getMonth()+1)+'/'+begin.getFullYear()+' - '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'</p><p>Displaying border updates for: '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'</p>');
 });
