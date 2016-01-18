@@ -13,7 +13,7 @@
 
 #dateupdate {
  	margin-top:10px;
- 	height:40px;
+ 	height:60px;
  	border-bottom-style:solid;
  	border-bottom-width:1px;
  	border-bottom-color:#cccccc;
@@ -56,10 +56,14 @@
 	font-weight: bold;
 }
 
-.imphead {
-	height: 32px;
+.legendhead {
+	height: 26px;
 	display: inline-block;
 	margin-left: 5px;
+}
+
+.borderhead {
+	height: 16px;
 }
 
 .impcat {
