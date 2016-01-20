@@ -15,11 +15,11 @@ def runModel(model,testData):
     for line in testData[1:]:
         NA = False
         estimate = float(model[1][2])
+        if(is_number(line[1]) == False):
+             NA = True
         for i in range(2,len(model)):
             if(NA == False):
-                if(is_number(line[1]) == False):
-                    NA = True
-                elif(is_number(line[i]) == False):
+                if(is_number(line[i]) == False):
                     NA = True
                     estimate = "N/A"
                 else:
@@ -28,10 +28,6 @@ def runModel(model,testData):
                     estimate += indvar*coef                    
         if(NA == False):
             count = count+1
-            is_number(line[1])
-            print is_number(line[1])
-            print int(line[1])
-            print float(estimate)
             error = int(line[1]) - float(estimate)
             errorabsum += abs(error)
             percentabsum += abs(error/float(estimate))
@@ -40,12 +36,11 @@ def runModel(model,testData):
             error = "N/A"
             percent = "N/A"
         print line[0] + " - " + line[1] + " - " + str(estimate) + " - " + str(error) + " - " + percent
-    print count
     erroravg = errorabsum/(count)
     percentavg = percentabsum/(count)
 
     print erroravg
-    print percentavg
+    #print percentavg
     
 def createTestData(model,actual,startDate,endDate):
     url = 'https://docs.google.com/spreadsheets/d/15OC8U1lodClWj0LQ3dUi3sR1emtZxQx5ZDOIPZFgwgM/pub?gid=0&single=true&output=csv'
@@ -101,19 +96,33 @@ def is_number(s):
     except ValueError:
         return False    
 
-#checkModel('models/austriamodel2','arriveaustria','14/12/2015','16/01/2016')
-#checkModel('models/austriamodel3','arriveaustria','14/12/2015','16/01/2016')
-#checkModel('models/austriamodel4','arriveaustria','14/12/2015','16/01/2016')
-#checkModel('models/austriamodel5','arriveaustria','14/12/2015','16/01/2016')
+checkModel('models/austriamodel1','arriveaustria','14/12/2015','16/01/2016')
+checkModel('models/austriamodel2','arriveaustria','14/12/2015','16/01/2016')
+checkModel('models/austriamodel3','arriveaustria','14/12/2015','16/01/2016')
+checkModel('models/austriamodel4','arriveaustria','14/12/2015','16/01/2016')
+checkModel('models/austriamodel5','arriveaustria','14/12/2015','16/01/2016')
+#checkModel('models/sloveniamodel1','arriveslovenia','14/12/2015','16/01/2016')
 #checkModel('models/sloveniamodel2','arriveslovenia','14/12/2015','16/01/2016')
 #checkModel('models/sloveniamodel3','arriveslovenia','14/12/2015','16/01/2016')
 #checkModel('models/sloveniamodel4','arriveslovenia','14/12/2015','16/01/2016')
 #checkModel('models/sloveniamodel5','arriveslovenia','14/12/2015','16/01/2016')
+#checkModel('models/croatiamodel1','arrivecroatia','14/12/2015','16/01/2016')
 #checkModel('models/croatiamodel2','arrivecroatia','14/12/2015','16/01/2016')
 #checkModel('models/croatiamodel3','arrivecroatia','14/12/2015','16/01/2016')
 #checkModel('models/croatiamodel4','arrivecroatia','14/12/2015','16/01/2016')
 #checkModel('models/croatiamodel5','arrivecroatia','14/12/2015','16/01/2016')
+#checkModel('models/serbiamodel1','arriveserbia','14/12/2015','16/01/2016')
 #checkModel('models/serbiamodel2','arriveserbia','14/12/2015','16/01/2016')
 #checkModel('models/serbiamodel3','arriveserbia','14/12/2015','16/01/2016')
-checkModel('models/serbiamodel4','arriveserbia','14/12/2015','16/01/2016')
-checkModel('models/serbiamodel5','arriveserbia','14/12/2015','16/01/2016')
+#checkModel('models/serbiamodel4','arriveserbia','14/12/2015','16/01/2016')
+#checkModel('models/serbiamodel5','arriveserbia','14/12/2015','16/01/2016')
+#checkModel('models/fyrommodel1','arrivefyrom','14/12/2015','16/01/2016')
+#checkModel('models/fyrommodel2','arrivefyrom','14/12/2015','16/01/2016')
+#checkModel('models/fyrommodel3','arrivefyrom','14/12/2015','16/01/2016')
+#checkModel('models/fyrommodel4','arrivefyrom','14/12/2015','16/01/2016')
+#checkModel('models/fyrommodel5','arrivefyrom','14/12/2015','16/01/2016')
+#checkModel('models/greecemodel1','arrivemainlandgreece','14/12/2015','16/01/2016')
+#checkModel('models/greecemodel2','arrivemainlandgreece','14/12/2015','16/01/2016')
+#checkModel('models/greecemodel3','arrivemainlandgreece','14/12/2015','16/01/2016')
+#checkModel('models/greecemodel4','arrivemainlandgreece','14/12/2015','16/01/2016')
+#checkModel('models/greecemodel5','arrivemainlandgreece','14/12/2015','16/01/2016')

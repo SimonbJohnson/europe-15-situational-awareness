@@ -79,3 +79,10 @@
 	margin-top: 0px;
 	margin-left: 5px;
 }
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
