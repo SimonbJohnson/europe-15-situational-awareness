@@ -3,14 +3,15 @@ function loadModel(url){
       dataType: 'json',
       url: url,
       success: function(data) {
-      	models = ['austria','slovenia','croatia','serbia','fyrom','mainlandgreece'];
-      	names = ['Austria','Slovenia','Croatia','Serbia','former Yugoslav Republic of Macedonia','Mainland Greece'];
+      	$('#description').html("Description of model: "+data.description);
+      	models = ['austria','slovenia','croatia','serbia','fyrom'];
+      	names = ['Austria','Slovenia','Croatia','Serbia','former Yugoslav Republic of Macedonia'];
       	for(ind=0;ind<models.length;ind++){
 	      	$('#results').append('<h2>'+names[ind]+'</h2>');
-	        graph('#results',arrivals.slice(arrivals.length-40,arrivals.length),models[ind],data);
+	        graph('#results',arrivals.slice(arrivals.length-40,arrivals.length),models[ind],data.models);
 	        for(ind2=1;ind2<6;ind2++){
 	        	$('#previous').append('<h2>' + names[ind] + ' ' + ind2 + ' day forcast performance</h2>');
-        		forecastGraph('#previous',arrivals.slice(arrivals.length-40,arrivals.length),models[ind],data,ind2);  
+        		forecastGraph('#previous',arrivals.slice(arrivals.length-40,arrivals.length),models[ind],data.models,ind2);  
 	        }
     	}
               
@@ -84,14 +85,14 @@ function forecastGraph(elemId, data, country, models,lag){
 	               .attr("y", y(est+avgerr))
 	               .attr("width", x(forecastDate)-x(prevDate))
 	               .attr("height", y(est-avgerr)-y(est+avgerr))
-	               .attr("fill","#dddddd");
+	               .attr("fill","#FFD392");
 			forecastg.append("line")
 					.attr("x1", x(prevDate)+(x(forecastDate)-x(prevDate))*0.5)
 	                .attr("y1", y(est))
 	                .attr("x2", x(forecastDate)+(x(forecastDate)-x(prevDate))*0.5)
 	                .attr("y2", y(est))
 	                .attr("stroke-width", 2)
-	                .attr("stroke", "black");
+	                .attr("stroke", "#4F47D3");
 		}
 		prevDate = new Date(forecastDate.getTime());
 	});        
@@ -100,7 +101,7 @@ function forecastGraph(elemId, data, country, models,lag){
         .datum(data)
         .attr('class', 'sparkline')
         .attr('d', line)
-        .attr("stroke", "blue")
+        .attr("stroke", "#4F47D3")
         .attr("stroke-width", 1)
         .attr("fill", "none");
 
@@ -182,8 +183,8 @@ function graph(elemId, data, country, models) {
         .datum(data)
         .attr('class', 'sparkline')
         .attr('d', line)
-        .attr("stroke", "blue")
-        .attr("stroke-width", 1)
+        .attr("stroke", "#5C52FF")
+        .attr("stroke-width", 2)
         .attr("fill", "none");
 
 	svg.append("g")
@@ -210,14 +211,14 @@ function graph(elemId, data, country, models) {
                 .attr("y", y(est+avgerr))
                 .attr("width", x(forecastDate)-x(prevDate))
                 .attr("height", y(est-avgerr)-y(est+avgerr))
-                .attr("fill","#dddddd");
+                .attr("fill","#FFD392");
 			forecastg.append("line")
 				.attr("x1", x(prevDate))
                 .attr("y1", y(est))
                 .attr("x2", x(forecastDate))
                 .attr("y2", y(est))
                 .attr("stroke-width", 2)
-                .attr("stroke", "black");
+                .attr("stroke", "#4F47D3");
 		}
 		prevDate = new Date(forecastDate.getTime());
 	}                  
@@ -293,6 +294,20 @@ function hxlProxyToJSON(input,headers){
 }
 
 var arrivals
+var modelList = ['05nov05_15dec15_lasso','05dec05_15jan16_lasso'];
+
+var html ='';
+modelList.forEach(function(m){
+	html +='<option values="'+m+'">'+m+'</option>';
+});
+$('#modeldropdown').html(html);
+$('#load').on('click',function(e){
+	$('#results').html('');
+	$('#previous').html('');
+	$('#results').show();
+	$('#previous').hide();
+	loadModel('forecasting/'+$('#modeldropdown').val()+'.json');
+});
 $('#previous').hide();
 
 $.ajax({
@@ -307,7 +322,7 @@ $.ajax({
 	        d['#date'] = dateFormat.parse(d['#date']);
 	    });
 
-        loadModel('forecasting/15nov05_15dec15.json');
+        loadModel('forecasting/05nov05_15dec15_lasso.json');
     }
 });
 

@@ -21,5 +21,5 @@ for f in os.listdir("models"):
           models[parts[0]][parts[1]].append({'var':line[1],'coef':line[2]})
         i+=1
     
-with open('15nov05_15dec15.json', 'w') as outfile:
+with open('05dec05_15djan15.json', 'w') as outfile:
     json.dump(models, outfile)

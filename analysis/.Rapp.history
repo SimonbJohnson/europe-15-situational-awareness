@@ -1,13 +1,4 @@
 library(glmnet)
-setwd("/users/SJohnson/Documents/github\ resp/europe-15-situational-awareness/analysis")#
-austriainput = read.csv("austriarinput.csv")
-austriainput[3]
-austriainput[0]
-austriainput[1]
-austriainput[9]
-austriainput[16]
-austriainput[15]
-austriainput[27]
 library(glmnet)#
 setwd("/users/SJohnson/Documents/github\ resp/europe-15-situational-awareness/analysis")#
 austriainput = read.csv("austriarinput.csv")#
@@ -47,6 +38,8 @@ cols = c(c("intercept"),colnames(austriamat5))#
 outputdf <- data.frame(cols[which(austriamodel5 != 0)],austriamodel5[which(austriamodel5 != 0)])#
 write.csv(file="models/austriamodel5", x=outputdf)#
 #
+sloveniainput = read.csv("sloveniarinput.csv")#
+#
 sloveniamat1 <- data.matrix(sloveniainput[3:37])#
 sloveniafit1 = cv.glmnet(sloveniamat1,sloveniainput$y)#
 sloveniamodel1 <- coef(sloveniafit1,sloveniafit1$lambda.min)#
@@ -54,7 +47,6 @@ cols = c(c("intercept"),colnames(sloveniamat1))#
 outputdf <- data.frame(cols[which(sloveniamodel1 != 0)],sloveniamodel1[which(sloveniamodel1 != 0)])#
 write.csv(file="models/sloveniamodel1", x=outputdf)#
 #
-sloveniainput = read.csv("sloveniarinput.csv")#
 sloveniamat2 <- data.matrix(sloveniainput[8:37])#
 sloveniafit2 = cv.glmnet(sloveniamat2,sloveniainput$y)#
 sloveniamodel2 <- coef(sloveniafit2,sloveniafit2$lambda.min)#
@@ -194,42 +186,42 @@ cols = c(c("intercept"),colnames(fyrommat5))#
 outputdf <- data.frame(cols[which(fyrommodel5 != 0)],fyrommodel5[which(fyrommodel5 != 0)])#
 write.csv(file="models/fyrommodel5", x=outputdf)#
 #
-fyrominput = read.csv("fyromrinput.csv")#
+greeceinput = read.csv("greecerinput.csv")#
 #
-fyrommat1 <- data.matrix(fyrominput[3:9])#
-fyromfit1 = cv.glmnet(fyrommat1,fyrominput$y)#
-fyrommodel1 <- coef(fyromfit1,fyromfit1$lambda.min)#
-cols = c(c("intercept"),colnames(fyrommat1))#
-outputdf <- data.frame(cols[which(fyrommodel1 != 0)],fyrommodel1[which(fyrommodel1 != 0)])#
-write.csv(file="models/fyrommodel1", x=outputdf)#
+greecemat1 <- data.matrix(greeceinput[3:9])#
+greecefit1 = cv.glmnet(greecemat1,greeceinput$y)#
+greecemodel1 <- coef(greecefit1,greecefit1$lambda.min)#
+cols = c(c("intercept"),colnames(greecemat1))#
+outputdf <- data.frame(cols[which(greecemodel1 != 0)],greecemodel1[which(greecemodel1 != 0)])#
+write.csv(file="models/greecemodel1", x=outputdf)#
 #
-fyrommat2 <- data.matrix(fyrominput[4:9])#
-fyromfit2 = cv.glmnet(fyrommat2,fyrominput$y)#
-fyrommodel2 <- coef(fyromfit2,fyromfit2$lambda.min)#
-cols = c(c("intercept"),colnames(fyrommat2))#
-outputdf <- data.frame(cols[which(fyrommodel2 != 0)],fyrommodel2[which(fyrommodel2 != 0)])#
-write.csv(file="models/fyrommodel2", x=outputdf)#
+greecemat2 <- data.matrix(greeceinput[4:9])#
+greecefit2 = cv.glmnet(greecemat2,greeceinput$y)#
+greecemodel2 <- coef(greecefit2,greecefit2$lambda.min)#
+cols = c(c("intercept"),colnames(greecemat2))#
+outputdf <- data.frame(cols[which(greecemodel2 != 0)],greecemodel2[which(greecemodel2 != 0)])#
+write.csv(file="models/greecemodel2", x=outputdf)#
 #
-fyrommat3 <- data.matrix(fyrominput[5:9])#
-fyromfit3 = cv.glmnet(fyrommat3,fyrominput$y)#
-fyrommodel3 <- coef(fyromfit3,fyromfit3$lambda.min)#
-cols = c(c("intercept"),colnames(fyrommat3))#
-outputdf <- data.frame(cols[which(fyrommodel3 != 0)],fyrommodel3[which(fyrommodel3 != 0)])#
-write.csv(file="models/fyrommodel3", x=outputdf)#
+greecemat3 <- data.matrix(greeceinput[5:9])#
+greecefit3 = cv.glmnet(greecemat3,greeceinput$y)#
+greecemodel3 <- coef(greecefit3,greecefit3$lambda.min)#
+cols = c(c("intercept"),colnames(greecemat3))#
+outputdf <- data.frame(cols[which(greecemodel3 != 0)],greecemodel3[which(greecemodel3 != 0)])#
+write.csv(file="models/greecemodel3", x=outputdf)#
 #
-fyrommat4 <- data.matrix(fyrominput[6:9])#
-fyromfit4 = cv.glmnet(fyrommat4,fyrominput$y)#
-fyrommodel4 <- coef(fyromfit4,fyromfit4$lambda.min)#
-cols = c(c("intercept"),colnames(fyrommat4))#
-outputdf <- data.frame(cols[which(fyrommodel4 != 0)],fyrommodel4[which(fyrommodel4 != 0)])#
-write.csv(file="models/fyrommodel4", x=outputdf)#
+greecemat4 <- data.matrix(greeceinput[6:9])#
+greecefit4 = cv.glmnet(greecemat4,greeceinput$y)#
+greecemodel4 <- coef(greecefit4,greecefit4$lambda.min)#
+cols = c(c("intercept"),colnames(greecemat4))#
+outputdf <- data.frame(cols[which(greecemodel4 != 0)],greecemodel4[which(greecemodel4 != 0)])#
+write.csv(file="models/greecemodel4", x=outputdf)#
 #
-fyrommat5 <- data.matrix(fyrominput[7:9])#
-fyromfit5 = cv.glmnet(fyrommat5,fyrominput$y)#
-fyrommodel5 <- coef(fyromfit5,fyromfit5$lambda.min)#
-cols = c(c("intercept"),colnames(fyrommat5))#
-outputdf <- data.frame(cols[which(fyrommodel5 != 0)],fyrommodel5[which(fyrommodel5 != 0)])#
-write.csv(file="models/fyrommodel5", x=outputdf)
+greecemat5 <- data.matrix(greeceinput[7:9])#
+greecefit5 = cv.glmnet(greecemat5,greeceinput$y)#
+greecemodel5 <- coef(greecefit5,greecefit5$lambda.min)#
+cols = c(c("intercept"),colnames(greecemat5))#
+outputdf <- data.frame(cols[which(greecemodel5 != 0)],greecemodel5[which(greecemodel5 != 0)])#
+write.csv(file="models/greecemodel5", x=outputdf)
 library(glmnet)#
 setwd("/users/SJohnson/Documents/github\ resp/europe-15-situational-awareness/analysis")#
 austriainput = read.csv("austriarinput.csv")#

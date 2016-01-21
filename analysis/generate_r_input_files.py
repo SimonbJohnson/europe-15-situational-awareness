@@ -20,13 +20,19 @@ def createList(data,subject,subjectname,startdate,enddate,lagstart,lagend,exclud
         if(line[0]==startdate):
             start=True
         if(start==True and end==False):
+            NA = False
             row.append(line[0])
             row.append(line[subject])
+            if(line[subject]=='N/A'):
+                NA = True
             for l in range(lagstart,lagend+1):
                 for e in range(1,len(line)):
                     if(e<>subject):
                         row.append(datamat[i-l][e])
-            output.append(row)
+                        if(datamat[i-l][e]=='N/A'):
+                            NA = True
+            if(NA == False):
+                output.append(row)
         i+=1
         if(line[0]==enddate):
             end=True
@@ -40,19 +46,19 @@ import csv
 url = 'https://docs.google.com/spreadsheets/d/15OC8U1lodClWj0LQ3dUi3sR1emtZxQx5ZDOIPZFgwgM/pub?gid=0&single=true&output=csv'
 
 data = hxl.data(url)
-createList(data,7,'#affected+arriveaustria','05/11/2015','15/12/2015',1,7,['#affected+arrivehungary'],'austriarinput.csv')
+createList(data,7,'#affected+arriveaustria','05/12/2015','15/01/2016',1,7,['#affected+arrivehungary'],'austriarinput.csv')
 
 data = hxl.data(url)
-createList(data,6,'#affected+arriveslovenia','05/11/2015','15/12/2015',1,7,['#affected+arrivehungary','#affected+arriveaustria'],'sloveniarinput.csv')
+createList(data,6,'#affected+arriveslovenia','05/12/2015','15/01/2016',1,7,['#affected+arrivehungary','#affected+arriveaustria'],'sloveniarinput.csv')
 
 data = hxl.data(url)
-createList(data,5,'#affected+arrivecroatia','05/11/2015','15/12/2015',1,7,['#affected+arrivehungary','#affected+arriveaustria','#affected+arriveslovenia'],'croatiarinput.csv')
+createList(data,5,'#affected+arrivecroatia','05/12/2015','15/01/2016',1,7,['#affected+arrivehungary','#affected+arriveaustria','#affected+arriveslovenia'],'croatiarinput.csv')
 
 data = hxl.data(url)
-createList(data,4,'#affected+arriveserbia','05/11/2015','15/12/2015',1,7,['#affected+arrivehungary','#affected+arriveaustria','#affected+arriveslovenia','#affected+arrivecroatia'],'serbiarinput.csv')
+createList(data,4,'#affected+arriveserbia','05/12/2015','15/01/2016',1,7,['#affected+arrivehungary','#affected+arriveaustria','#affected+arriveslovenia','#affected+arrivecroatia'],'serbiarinput.csv')
 
 data = hxl.data(url)
-createList(data,3,'#affected+arrivefyrom','05/11/2015','15/12/2015',1,7,['#affected+arrivehungary','#affected+arriveaustria','#affected+arriveslovenia','#affected+arrivecroatia','#affected+arriveserbia'],'fyromrinput.csv')
+createList(data,3,'#affected+arrivefyrom','05/12/2015','15/01/2016',1,7,['#affected+arrivehungary','#affected+arriveaustria','#affected+arriveslovenia','#affected+arrivecroatia','#affected+arriveserbia'],'fyromrinput.csv')
 
 data = hxl.data(url)
-createList(data,2,'#affected+arrivemainlandgreece','05/11/2015','15/12/2015',1,7,['#affected+arrivehungary','#affected+arriveaustria','#affected+arriveslovenia','#affected+arrivecroatia','#affected+arrivefyrom','#affected+arriveserbia'],'greecerinput.csv')
+createList(data,2,'#affected+arrivemainlandgreece','05/12/2015','15/01/2016',1,7,['#affected+arrivehungary','#affected+arriveaustria','#affected+arriveslovenia','#affected+arrivecroatia','#affected+arrivefyrom','#affected+arriveserbia'],'greecerinput.csv')
