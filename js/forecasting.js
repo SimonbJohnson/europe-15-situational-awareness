@@ -3,6 +3,8 @@ function loadModel(url){
       dataType: 'json',
       url: url,
       success: function(data) {
+        $('#results').html('');
+        $('#previous').html('');
       	$('#description').html("Description of model: "+data.description);
       	models = ['austria','slovenia','croatia','serbia','fyrom'];
       	names = ['Austria','Slovenia','Croatia','Serbia','former Yugoslav Republic of Macedonia'];
@@ -205,13 +207,17 @@ function graph(elemId, data, country, models) {
 		var forecastDate = new Date(data[data.length-1]['#date'].getTime());
 		forecastDate.setDate(forecastDate.getDate() + i);
 		var est = estimate(forecastDate,models[country][i],data);
+
 		if(!isNaN(est)){
 			forecastg.append("rect")
+                .attr("class","err"+i)
                 .attr("x", x(prevDate))
                 .attr("y", y(est+avgerr))
                 .attr("width", x(forecastDate)-x(prevDate))
                 .attr("height", y(est-avgerr)-y(est+avgerr))
-                .attr("fill","#FFD392");
+                .attr("fill","#FFD392")
+                .attr('title',forecastDate);
+
 			forecastg.append("line")
 				.attr("x1", x(prevDate))
                 .attr("y1", y(est))
@@ -219,6 +225,7 @@ function graph(elemId, data, country, models) {
                 .attr("y2", y(est))
                 .attr("stroke-width", 2)
                 .attr("stroke", "#4F47D3");
+  
 		}
 		prevDate = new Date(forecastDate.getTime());
 	}                  
@@ -302,8 +309,6 @@ modelList.forEach(function(m){
 });
 $('#modeldropdown').html(html);
 $('#load').on('click',function(e){
-	$('#results').html('');
-	$('#previous').html('');
 	$('#results').show();
 	$('#previous').hide();
 	loadModel('forecasting/'+$('#modeldropdown').val()+'.json');
