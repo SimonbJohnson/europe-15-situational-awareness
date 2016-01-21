@@ -1,11 +1,4 @@
 "","cols.which.sloveniamodel3....0..","sloveniamodel3.which.sloveniamodel3....0.."
-"1","intercept",-344.869365834935
-"2","X.affected.arrivemainlandgreece.3",0.31588207403491
-"3","X.affected.arrivegreekislands.4",0.0638579957843937
-"4","X.affected.arrivemainlandgreece.4",0.240664143472749
-"5","X.affected.arrivefyrom.4",0.182645407801184
-"6","X.affected.arrivemainlandgreece.5",0.0520877378939442
-"7","X.affected.arriveserbia.6",0.0905704562996865
-"8","X.affected.arrivegreekislands.7",0.147653659906731
-"9","X.affected.arrivemainlandgreece.7",0.00916271938631901
-"10","X.affected.arriveserbia.7",0.0259175969094227
+"1","intercept",1482.44418768842
+"2","X.affected.arrivegreekislands.5",0.157386353503834
+"3","X.affected.arrivegreekislands.7",0.291560730547222
