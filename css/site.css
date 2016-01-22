@@ -79,3 +79,46 @@
 	margin-top: 0px;
 	margin-left: 5px;
 }
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.forecast{
+	background-color:#fafafa;
+}
+
+.topspacer {
+	margin-top:20px;
+}
+
+.button {
+	margin-right:10px;
+	margin-left:10px;
+	border-width:3px;
+	border-color:#4F47D3;
+	border-style:solid;
+	background-color:#4F47D3;
+	color:#fafafa;
+}
+
+#expimage {
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.highlight {
+	color:#F39000;
+	font-weight:bold;
+}
+
+.bottomborder {
+	border-bottom-width:1px;
+	border-bottom-color:#bbbbbb;
+	border-bottom-style:solid;
+	padding-bottom:10px;
+}

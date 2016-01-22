@@ -1,0 +1,447 @@
+library(glmnet)
+library(glmnet)#
+setwd("/users/SJohnson/Documents/github\ resp/europe-15-situational-awareness/analysis")#
+austriainput = read.csv("austriarinput.csv")#
+#
+austriamat1 <- data.matrix(austriainput[3:44])#
+austriafit1 = cv.glmnet(austriamat1,austriainput$y)#
+austriamodel1 <- coef(austriafit1,austriafit1$lambda.min)#
+cols = c(c("intercept"),colnames(austriamat1))#
+outputdf <- data.frame(cols[which(austriamodel1 != 0)],austriamodel1[which(austriamodel1 != 0)])#
+write.csv(file="models/austriamodel1", x=outputdf)#
+#
+austriamat2 <- data.matrix(austriainput[9:44])#
+austriafit2 = cv.glmnet(austriamat2,austriainput$y)#
+austriamodel2 <- coef(austriafit2,austriafit2$lambda.min)#
+cols = c(c("intercept"),colnames(austriamat2))#
+outputdf <- data.frame(cols[which(austriamodel2 != 0)],austriamodel2[which(austriamodel2 != 0)])#
+write.csv(file="models/austriamodel2", x=outputdf)#
+#
+austriamat3 <- data.matrix(austriainput[15:44])#
+austriafit3 = cv.glmnet(austriamat3,austriainput$y)#
+austriamodel3 <- coef(austriafit3,austriafit3$lambda.min)#
+cols = c(c("intercept"),colnames(austriamat3))#
+outputdf <- data.frame(cols[which(austriamodel3 != 0)],austriamodel3[which(austriamodel3 != 0)])#
+write.csv(file="models/austriamodel3", x=outputdf)#
+#
+austriamat4 <- data.matrix(austriainput[21:44])#
+austriafit4 = cv.glmnet(austriamat4,austriainput$y)#
+austriamodel4 <- coef(austriafit4,austriafit4$lambda.min)#
+cols = c(c("intercept"),colnames(austriamat4))#
+outputdf <- data.frame(cols[which(austriamodel4 != 0)],austriamodel4[which(austriamodel4 != 0)])#
+write.csv(file="models/austriamodel4", x=outputdf)#
+#
+austriamat5 <- data.matrix(austriainput[27:44])#
+austriafit5 = cv.glmnet(austriamat5,austriainput$y)#
+austriamodel5 <- coef(austriafit5,austriafit5$lambda.min)#
+cols = c(c("intercept"),colnames(austriamat5))#
+outputdf <- data.frame(cols[which(austriamodel5 != 0)],austriamodel5[which(austriamodel5 != 0)])#
+write.csv(file="models/austriamodel5", x=outputdf)#
+#
+sloveniainput = read.csv("sloveniarinput.csv")#
+#
+sloveniamat1 <- data.matrix(sloveniainput[3:37])#
+sloveniafit1 = cv.glmnet(sloveniamat1,sloveniainput$y)#
+sloveniamodel1 <- coef(sloveniafit1,sloveniafit1$lambda.min)#
+cols = c(c("intercept"),colnames(sloveniamat1))#
+outputdf <- data.frame(cols[which(sloveniamodel1 != 0)],sloveniamodel1[which(sloveniamodel1 != 0)])#
+write.csv(file="models/sloveniamodel1", x=outputdf)#
+#
+sloveniamat2 <- data.matrix(sloveniainput[8:37])#
+sloveniafit2 = cv.glmnet(sloveniamat2,sloveniainput$y)#
+sloveniamodel2 <- coef(sloveniafit2,sloveniafit2$lambda.min)#
+cols = c(c("intercept"),colnames(sloveniamat2))#
+outputdf <- data.frame(cols[which(sloveniamodel2 != 0)],sloveniamodel2[which(sloveniamodel2 != 0)])#
+write.csv(file="models/sloveniamodel2", x=outputdf)#
+#
+sloveniamat3 <- data.matrix(sloveniainput[18:37])#
+sloveniafit3 = cv.glmnet(sloveniamat3,sloveniainput$y)#
+sloveniamodel3 <- coef(sloveniafit3,sloveniafit3$lambda.min)#
+cols = c(c("intercept"),colnames(sloveniamat3))#
+outputdf <- data.frame(cols[which(sloveniamodel3 != 0)],sloveniamodel3[which(sloveniamodel3 != 0)])#
+write.csv(file="models/sloveniamodel3", x=outputdf)#
+#
+sloveniamat4 <- data.matrix(sloveniainput[23:37])#
+sloveniafit4 = cv.glmnet(sloveniamat4,sloveniainput$y)#
+sloveniamodel4 <- coef(sloveniafit4,sloveniafit4$lambda.min)#
+cols = c(c("intercept"),colnames(sloveniamat4))#
+outputdf <- data.frame(cols[which(sloveniamodel4 != 0)],sloveniamodel4[which(sloveniamodel4 != 0)])#
+write.csv(file="models/sloveniamodel4", x=outputdf)#
+#
+sloveniamat5 <- data.matrix(sloveniainput[28:37])#
+sloveniafit5 = cv.glmnet(sloveniamat5,sloveniainput$y)#
+sloveniamodel5 <- coef(sloveniafit5,sloveniafit5$lambda.min)#
+cols = c(c("intercept"),colnames(sloveniamat5))#
+outputdf <- data.frame(cols[which(sloveniamodel5 != 0)],sloveniamodel5[which(sloveniamodel5 != 0)])#
+write.csv(file="models/sloveniamodel5", x=outputdf)#
+#
+croatiainput = read.csv("croatiarinput.csv")#
+#
+croatiamat1 <- data.matrix(croatiainput[3:30])#
+croatiafit1 = cv.glmnet(croatiamat1,croatiainput$y)#
+croatiamodel1 <- coef(croatiafit1,croatiafit1$lambda.min)#
+cols = c(c("intercept"),colnames(croatiamat1))#
+outputdf <- data.frame(cols[which(croatiamodel1 != 0)],croatiamodel1[which(croatiamodel1 != 0)])#
+write.csv(file="models/croatiamodel1", x=outputdf)#
+#
+croatiamat2 <- data.matrix(croatiainput[7:30])#
+croatiafit2 = cv.glmnet(croatiamat2,croatiainput$y)#
+croatiamodel2 <- coef(croatiafit2,croatiafit2$lambda.min)#
+cols = c(c("intercept"),colnames(croatiamat2))#
+outputdf <- data.frame(cols[which(croatiamodel2 != 0)],croatiamodel2[which(croatiamodel2 != 0)])#
+write.csv(file="models/croatiamodel2", x=outputdf)#
+#
+croatiamat3 <- data.matrix(croatiainput[11:30])#
+croatiafit3 = cv.glmnet(croatiamat3,croatiainput$y)#
+croatiamodel3 <- coef(croatiafit3,croatiafit3$lambda.min)#
+cols = c(c("intercept"),colnames(croatiamat3))#
+outputdf <- data.frame(cols[which(croatiamodel3 != 0)],croatiamodel3[which(croatiamodel3 != 0)])#
+write.csv(file="models/croatiamodel3", x=outputdf)#
+#
+croatiamat4 <- data.matrix(croatiainput[15:30])#
+croatiafit4 = cv.glmnet(croatiamat4,croatiainput$y)#
+croatiamodel4 <- coef(croatiafit4,croatiafit4$lambda.min)#
+cols = c(c("intercept"),colnames(croatiamat4))#
+outputdf <- data.frame(cols[which(croatiamodel4 != 0)],croatiamodel4[which(croatiamodel4 != 0)])#
+write.csv(file="models/croatiamodel4", x=outputdf)#
+#
+croatiamat5 <- data.matrix(croatiainput[19:30])#
+croatiafit5 = cv.glmnet(croatiamat5,croatiainput$y)#
+croatiamodel5 <- coef(croatiafit5,croatiafit5$lambda.min)#
+cols = c(c("intercept"),colnames(croatiamat5))#
+outputdf <- data.frame(cols[which(croatiamodel5 != 0)],croatiamodel5[which(croatiamodel5 != 0)])#
+write.csv(file="models/croatiamodel5", x=outputdf)#
+#
+serbiainput = read.csv("serbiarinput.csv")#
+#
+serbiamat1 <- data.matrix(serbiainput[3:23])#
+serbiafit1 = cv.glmnet(serbiamat1,serbiainput$y)#
+serbiamodel1 <- coef(serbiafit1,serbiafit1$lambda.min)#
+cols = c(c("intercept"),colnames(serbiamat1))#
+outputdf <- data.frame(cols[which(serbiamodel1 != 0)],serbiamodel1[which(serbiamodel1 != 0)])#
+write.csv(file="models/serbiamodel1", x=outputdf)#
+#
+serbiamat2 <- data.matrix(serbiainput[6:23])#
+serbiafit2 = cv.glmnet(serbiamat2,serbiainput$y)#
+serbiamodel2 <- coef(serbiafit2,serbiafit2$lambda.min)#
+cols = c(c("intercept"),colnames(serbiamat2))#
+outputdf <- data.frame(cols[which(serbiamodel2 != 0)],serbiamodel2[which(serbiamodel2 != 0)])#
+write.csv(file="models/serbiamodel2", x=outputdf)#
+#
+serbiamat3 <- data.matrix(serbiainput[9:23])#
+serbiafit3 = cv.glmnet(serbiamat3,serbiainput$y)#
+serbiamodel3 <- coef(serbiafit3,serbiafit3$lambda.min)#
+cols = c(c("intercept"),colnames(serbiamat3))#
+outputdf <- data.frame(cols[which(serbiamodel3 != 0)],serbiamodel3[which(serbiamodel3 != 0)])#
+write.csv(file="models/serbiamodel3", x=outputdf)#
+#
+serbiamat4 <- data.matrix(serbiainput[12:23])#
+serbiafit4 = cv.glmnet(serbiamat4,serbiainput$y)#
+serbiamodel4 <- coef(serbiafit4,serbiafit4$lambda.min)#
+cols = c(c("intercept"),colnames(serbiamat4))#
+outputdf <- data.frame(cols[which(serbiamodel4 != 0)],serbiamodel4[which(serbiamodel4 != 0)])#
+write.csv(file="models/serbiamodel4", x=outputdf)#
+#
+serbiamat5 <- data.matrix(serbiainput[15:23])#
+serbiafit5 = cv.glmnet(serbiamat5,serbiainput$y)#
+serbiamodel5 <- coef(serbiafit5,serbiafit5$lambda.min)#
+cols = c(c("intercept"),colnames(serbiamat5))#
+outputdf <- data.frame(cols[which(serbiamodel5 != 0)],serbiamodel5[which(serbiamodel5 != 0)])#
+write.csv(file="models/serbiamodel5", x=outputdf)#
+#
+fyrominput = read.csv("fyromrinput.csv")#
+#
+fyrommat1 <- data.matrix(fyrominput[3:16])#
+fyromfit1 = cv.glmnet(fyrommat1,fyrominput$y)#
+fyrommodel1 <- coef(fyromfit1,fyromfit1$lambda.min)#
+cols = c(c("intercept"),colnames(fyrommat1))#
+outputdf <- data.frame(cols[which(fyrommodel1 != 0)],fyrommodel1[which(fyrommodel1 != 0)])#
+write.csv(file="models/fyrommodel1", x=outputdf)#
+#
+fyrommat2 <- data.matrix(fyrominput[5:16])#
+fyromfit2 = cv.glmnet(fyrommat2,fyrominput$y)#
+fyrommodel2 <- coef(fyromfit2,fyromfit2$lambda.min)#
+cols = c(c("intercept"),colnames(fyrommat2))#
+outputdf <- data.frame(cols[which(fyrommodel2 != 0)],fyrommodel2[which(fyrommodel2 != 0)])#
+write.csv(file="models/fyrommodel2", x=outputdf)#
+#
+fyrommat3 <- data.matrix(fyrominput[7:16])#
+fyromfit3 = cv.glmnet(fyrommat3,fyrominput$y)#
+fyrommodel3 <- coef(fyromfit3,fyromfit3$lambda.min)#
+cols = c(c("intercept"),colnames(fyrommat3))#
+outputdf <- data.frame(cols[which(fyrommodel3 != 0)],fyrommodel3[which(fyrommodel3 != 0)])#
+write.csv(file="models/fyrommodel3", x=outputdf)#
+#
+fyrommat4 <- data.matrix(fyrominput[9:16])#
+fyromfit4 = cv.glmnet(fyrommat4,fyrominput$y)#
+fyrommodel4 <- coef(fyromfit4,fyromfit4$lambda.min)#
+cols = c(c("intercept"),colnames(fyrommat4))#
+outputdf <- data.frame(cols[which(fyrommodel4 != 0)],fyrommodel4[which(fyrommodel4 != 0)])#
+write.csv(file="models/fyrommodel4", x=outputdf)#
+#
+fyrommat5 <- data.matrix(fyrominput[11:16])#
+fyromfit5 = cv.glmnet(fyrommat5,fyrominput$y)#
+fyrommodel5 <- coef(fyromfit5,fyromfit5$lambda.min)#
+cols = c(c("intercept"),colnames(fyrommat5))#
+outputdf <- data.frame(cols[which(fyrommodel5 != 0)],fyrommodel5[which(fyrommodel5 != 0)])#
+write.csv(file="models/fyrommodel5", x=outputdf)#
+#
+greeceinput = read.csv("greecerinput.csv")#
+#
+greecemat1 <- data.matrix(greeceinput[3:9])#
+greecefit1 = cv.glmnet(greecemat1,greeceinput$y)#
+greecemodel1 <- coef(greecefit1,greecefit1$lambda.min)#
+cols = c(c("intercept"),colnames(greecemat1))#
+outputdf <- data.frame(cols[which(greecemodel1 != 0)],greecemodel1[which(greecemodel1 != 0)])#
+write.csv(file="models/greecemodel1", x=outputdf)#
+#
+greecemat2 <- data.matrix(greeceinput[4:9])#
+greecefit2 = cv.glmnet(greecemat2,greeceinput$y)#
+greecemodel2 <- coef(greecefit2,greecefit2$lambda.min)#
+cols = c(c("intercept"),colnames(greecemat2))#
+outputdf <- data.frame(cols[which(greecemodel2 != 0)],greecemodel2[which(greecemodel2 != 0)])#
+write.csv(file="models/greecemodel2", x=outputdf)#
+#
+greecemat3 <- data.matrix(greeceinput[5:9])#
+greecefit3 = cv.glmnet(greecemat3,greeceinput$y)#
+greecemodel3 <- coef(greecefit3,greecefit3$lambda.min)#
+cols = c(c("intercept"),colnames(greecemat3))#
+outputdf <- data.frame(cols[which(greecemodel3 != 0)],greecemodel3[which(greecemodel3 != 0)])#
+write.csv(file="models/greecemodel3", x=outputdf)#
+#
+greecemat4 <- data.matrix(greeceinput[6:9])#
+greecefit4 = cv.glmnet(greecemat4,greeceinput$y)#
+greecemodel4 <- coef(greecefit4,greecefit4$lambda.min)#
+cols = c(c("intercept"),colnames(greecemat4))#
+outputdf <- data.frame(cols[which(greecemodel4 != 0)],greecemodel4[which(greecemodel4 != 0)])#
+write.csv(file="models/greecemodel4", x=outputdf)#
+#
+greecemat5 <- data.matrix(greeceinput[7:9])#
+greecefit5 = cv.glmnet(greecemat5,greeceinput$y)#
+greecemodel5 <- coef(greecefit5,greecefit5$lambda.min)#
+cols = c(c("intercept"),colnames(greecemat5))#
+outputdf <- data.frame(cols[which(greecemodel5 != 0)],greecemodel5[which(greecemodel5 != 0)])#
+write.csv(file="models/greecemodel5", x=outputdf)
+library(glmnet)#
+setwd("/users/SJohnson/Documents/github\ resp/europe-15-situational-awareness/analysis")#
+austriainput = read.csv("austriarinput.csv")#
+#
+austriamat1 <- data.matrix(austriainput[3:44])#
+austriafit1 = cv.glmnet(austriamat1,austriainput$y)#
+austriamodel1 <- coef(austriafit1,austriafit1$lambda.min)#
+cols = c(c("intercept"),colnames(austriamat1))#
+outputdf <- data.frame(cols[which(austriamodel1 != 0)],austriamodel1[which(austriamodel1 != 0)])#
+write.csv(file="models/austriamodel1", x=outputdf)#
+#
+austriamat2 <- data.matrix(austriainput[9:44])#
+austriafit2 = cv.glmnet(austriamat2,austriainput$y)#
+austriamodel2 <- coef(austriafit2,austriafit2$lambda.min)#
+cols = c(c("intercept"),colnames(austriamat2))#
+outputdf <- data.frame(cols[which(austriamodel2 != 0)],austriamodel2[which(austriamodel2 != 0)])#
+write.csv(file="models/austriamodel2", x=outputdf)#
+#
+austriamat3 <- data.matrix(austriainput[15:44])#
+austriafit3 = cv.glmnet(austriamat3,austriainput$y)#
+austriamodel3 <- coef(austriafit3,austriafit3$lambda.min)#
+cols = c(c("intercept"),colnames(austriamat3))#
+outputdf <- data.frame(cols[which(austriamodel3 != 0)],austriamodel3[which(austriamodel3 != 0)])#
+write.csv(file="models/austriamodel3", x=outputdf)#
+#
+austriamat4 <- data.matrix(austriainput[21:44])#
+austriafit4 = cv.glmnet(austriamat4,austriainput$y)#
+austriamodel4 <- coef(austriafit4,austriafit4$lambda.min)#
+cols = c(c("intercept"),colnames(austriamat4))#
+outputdf <- data.frame(cols[which(austriamodel4 != 0)],austriamodel4[which(austriamodel4 != 0)])#
+write.csv(file="models/austriamodel4", x=outputdf)#
+#
+austriamat5 <- data.matrix(austriainput[27:44])#
+austriafit5 = cv.glmnet(austriamat5,austriainput$y)#
+austriamodel5 <- coef(austriafit5,austriafit5$lambda.min)#
+cols = c(c("intercept"),colnames(austriamat5))#
+outputdf <- data.frame(cols[which(austriamodel5 != 0)],austriamodel5[which(austriamodel5 != 0)])#
+write.csv(file="models/austriamodel5", x=outputdf)#
+#
+sloveniainput = read.csv("sloveniarinput.csv")#
+#
+sloveniamat1 <- data.matrix(sloveniainput[3:37])#
+sloveniafit1 = cv.glmnet(sloveniamat1,sloveniainput$y)#
+sloveniamodel1 <- coef(sloveniafit1,sloveniafit1$lambda.min)#
+cols = c(c("intercept"),colnames(sloveniamat1))#
+outputdf <- data.frame(cols[which(sloveniamodel1 != 0)],sloveniamodel1[which(sloveniamodel1 != 0)])#
+write.csv(file="models/sloveniamodel1", x=outputdf)#
+#
+sloveniamat2 <- data.matrix(sloveniainput[8:37])#
+sloveniafit2 = cv.glmnet(sloveniamat2,sloveniainput$y)#
+sloveniamodel2 <- coef(sloveniafit2,sloveniafit2$lambda.min)#
+cols = c(c("intercept"),colnames(sloveniamat2))#
+outputdf <- data.frame(cols[which(sloveniamodel2 != 0)],sloveniamodel2[which(sloveniamodel2 != 0)])#
+write.csv(file="models/sloveniamodel2", x=outputdf)#
+#
+sloveniamat3 <- data.matrix(sloveniainput[18:37])#
+sloveniafit3 = cv.glmnet(sloveniamat3,sloveniainput$y)#
+sloveniamodel3 <- coef(sloveniafit3,sloveniafit3$lambda.min)#
+cols = c(c("intercept"),colnames(sloveniamat3))#
+outputdf <- data.frame(cols[which(sloveniamodel3 != 0)],sloveniamodel3[which(sloveniamodel3 != 0)])#
+write.csv(file="models/sloveniamodel3", x=outputdf)#
+#
+sloveniamat4 <- data.matrix(sloveniainput[23:37])#
+sloveniafit4 = cv.glmnet(sloveniamat4,sloveniainput$y)#
+sloveniamodel4 <- coef(sloveniafit4,sloveniafit4$lambda.min)#
+cols = c(c("intercept"),colnames(sloveniamat4))#
+outputdf <- data.frame(cols[which(sloveniamodel4 != 0)],sloveniamodel4[which(sloveniamodel4 != 0)])#
+write.csv(file="models/sloveniamodel4", x=outputdf)#
+#
+sloveniamat5 <- data.matrix(sloveniainput[28:37])#
+sloveniafit5 = cv.glmnet(sloveniamat5,sloveniainput$y)#
+sloveniamodel5 <- coef(sloveniafit5,sloveniafit5$lambda.min)#
+cols = c(c("intercept"),colnames(sloveniamat5))#
+outputdf <- data.frame(cols[which(sloveniamodel5 != 0)],sloveniamodel5[which(sloveniamodel5 != 0)])#
+write.csv(file="models/sloveniamodel5", x=outputdf)#
+#
+croatiainput = read.csv("croatiarinput.csv")#
+#
+croatiamat1 <- data.matrix(croatiainput[3:30])#
+croatiafit1 = cv.glmnet(croatiamat1,croatiainput$y)#
+croatiamodel1 <- coef(croatiafit1,croatiafit1$lambda.min)#
+cols = c(c("intercept"),colnames(croatiamat1))#
+outputdf <- data.frame(cols[which(croatiamodel1 != 0)],croatiamodel1[which(croatiamodel1 != 0)])#
+write.csv(file="models/croatiamodel1", x=outputdf)#
+#
+croatiamat2 <- data.matrix(croatiainput[7:30])#
+croatiafit2 = cv.glmnet(croatiamat2,croatiainput$y)#
+croatiamodel2 <- coef(croatiafit2,croatiafit2$lambda.min)#
+cols = c(c("intercept"),colnames(croatiamat2))#
+outputdf <- data.frame(cols[which(croatiamodel2 != 0)],croatiamodel2[which(croatiamodel2 != 0)])#
+write.csv(file="models/croatiamodel2", x=outputdf)#
+#
+croatiamat3 <- data.matrix(croatiainput[11:30])#
+croatiafit3 = cv.glmnet(croatiamat3,croatiainput$y)#
+croatiamodel3 <- coef(croatiafit3,croatiafit3$lambda.min)#
+cols = c(c("intercept"),colnames(croatiamat3))#
+outputdf <- data.frame(cols[which(croatiamodel3 != 0)],croatiamodel3[which(croatiamodel3 != 0)])#
+write.csv(file="models/croatiamodel3", x=outputdf)#
+#
+croatiamat4 <- data.matrix(croatiainput[15:30])#
+croatiafit4 = cv.glmnet(croatiamat4,croatiainput$y)#
+croatiamodel4 <- coef(croatiafit4,croatiafit4$lambda.min)#
+cols = c(c("intercept"),colnames(croatiamat4))#
+outputdf <- data.frame(cols[which(croatiamodel4 != 0)],croatiamodel4[which(croatiamodel4 != 0)])#
+write.csv(file="models/croatiamodel4", x=outputdf)#
+#
+croatiamat5 <- data.matrix(croatiainput[19:30])#
+croatiafit5 = cv.glmnet(croatiamat5,croatiainput$y)#
+croatiamodel5 <- coef(croatiafit5,croatiafit5$lambda.min)#
+cols = c(c("intercept"),colnames(croatiamat5))#
+outputdf <- data.frame(cols[which(croatiamodel5 != 0)],croatiamodel5[which(croatiamodel5 != 0)])#
+write.csv(file="models/croatiamodel5", x=outputdf)#
+#
+serbiainput = read.csv("serbiarinput.csv")#
+#
+serbiamat1 <- data.matrix(serbiainput[3:23])#
+serbiafit1 = cv.glmnet(serbiamat1,serbiainput$y)#
+serbiamodel1 <- coef(serbiafit1,serbiafit1$lambda.min)#
+cols = c(c("intercept"),colnames(serbiamat1))#
+outputdf <- data.frame(cols[which(serbiamodel1 != 0)],serbiamodel1[which(serbiamodel1 != 0)])#
+write.csv(file="models/serbiamodel1", x=outputdf)#
+#
+serbiamat2 <- data.matrix(serbiainput[6:23])#
+serbiafit2 = cv.glmnet(serbiamat2,serbiainput$y)#
+serbiamodel2 <- coef(serbiafit2,serbiafit2$lambda.min)#
+cols = c(c("intercept"),colnames(serbiamat2))#
+outputdf <- data.frame(cols[which(serbiamodel2 != 0)],serbiamodel2[which(serbiamodel2 != 0)])#
+write.csv(file="models/serbiamodel2", x=outputdf)#
+#
+serbiamat3 <- data.matrix(serbiainput[9:23])#
+serbiafit3 = cv.glmnet(serbiamat3,serbiainput$y)#
+serbiamodel3 <- coef(serbiafit3,serbiafit3$lambda.min)#
+cols = c(c("intercept"),colnames(serbiamat3))#
+outputdf <- data.frame(cols[which(serbiamodel3 != 0)],serbiamodel3[which(serbiamodel3 != 0)])#
+write.csv(file="models/serbiamodel3", x=outputdf)#
+#
+serbiamat4 <- data.matrix(serbiainput[12:23])#
+serbiafit4 = cv.glmnet(serbiamat4,serbiainput$y)#
+serbiamodel4 <- coef(serbiafit4,serbiafit4$lambda.min)#
+cols = c(c("intercept"),colnames(serbiamat4))#
+outputdf <- data.frame(cols[which(serbiamodel4 != 0)],serbiamodel4[which(serbiamodel4 != 0)])#
+write.csv(file="models/serbiamodel4", x=outputdf)#
+#
+serbiamat5 <- data.matrix(serbiainput[15:23])#
+serbiafit5 = cv.glmnet(serbiamat5,serbiainput$y)#
+serbiamodel5 <- coef(serbiafit5,serbiafit5$lambda.min)#
+cols = c(c("intercept"),colnames(serbiamat5))#
+outputdf <- data.frame(cols[which(serbiamodel5 != 0)],serbiamodel5[which(serbiamodel5 != 0)])#
+write.csv(file="models/serbiamodel5", x=outputdf)#
+#
+fyrominput = read.csv("fyromrinput.csv")#
+#
+fyrommat1 <- data.matrix(fyrominput[3:16])#
+fyromfit1 = cv.glmnet(fyrommat1,fyrominput$y)#
+fyrommodel1 <- coef(fyromfit1,fyromfit1$lambda.min)#
+cols = c(c("intercept"),colnames(fyrommat1))#
+outputdf <- data.frame(cols[which(fyrommodel1 != 0)],fyrommodel1[which(fyrommodel1 != 0)])#
+write.csv(file="models/fyrommodel1", x=outputdf)#
+#
+fyrommat2 <- data.matrix(fyrominput[5:16])#
+fyromfit2 = cv.glmnet(fyrommat2,fyrominput$y)#
+fyrommodel2 <- coef(fyromfit2,fyromfit2$lambda.min)#
+cols = c(c("intercept"),colnames(fyrommat2))#
+outputdf <- data.frame(cols[which(fyrommodel2 != 0)],fyrommodel2[which(fyrommodel2 != 0)])#
+write.csv(file="models/fyrommodel2", x=outputdf)#
+#
+fyrommat3 <- data.matrix(fyrominput[7:16])#
+fyromfit3 = cv.glmnet(fyrommat3,fyrominput$y)#
+fyrommodel3 <- coef(fyromfit3,fyromfit3$lambda.min)#
+cols = c(c("intercept"),colnames(fyrommat3))#
+outputdf <- data.frame(cols[which(fyrommodel3 != 0)],fyrommodel3[which(fyrommodel3 != 0)])#
+write.csv(file="models/fyrommodel3", x=outputdf)#
+#
+fyrommat4 <- data.matrix(fyrominput[9:16])#
+fyromfit4 = cv.glmnet(fyrommat4,fyrominput$y)#
+fyrommodel4 <- coef(fyromfit4,fyromfit4$lambda.min)#
+cols = c(c("intercept"),colnames(fyrommat4))#
+outputdf <- data.frame(cols[which(fyrommodel4 != 0)],fyrommodel4[which(fyrommodel4 != 0)])#
+write.csv(file="models/fyrommodel4", x=outputdf)#
+#
+fyrommat5 <- data.matrix(fyrominput[11:16])#
+fyromfit5 = cv.glmnet(fyrommat5,fyrominput$y)#
+fyrommodel5 <- coef(fyromfit5,fyromfit5$lambda.min)#
+cols = c(c("intercept"),colnames(fyrommat5))#
+outputdf <- data.frame(cols[which(fyrommodel5 != 0)],fyrommodel5[which(fyrommodel5 != 0)])#
+write.csv(file="models/fyrommodel5", x=outputdf)#
+#
+greeceinput = read.csv("greecerinput.csv")#
+#
+greecemat1 <- data.matrix(greeceinput[3:9])#
+greecefit1 = cv.glmnet(greecemat1,greeceinput$y)#
+greecemodel1 <- coef(greecefit1,greecefit1$lambda.min)#
+cols = c(c("intercept"),colnames(greecemat1))#
+outputdf <- data.frame(cols[which(greecemodel1 != 0)],greecemodel1[which(greecemodel1 != 0)])#
+write.csv(file="models/greecemodel1", x=outputdf)#
+#
+greecemat2 <- data.matrix(greeceinput[4:9])#
+greecefit2 = cv.glmnet(greecemat2,greeceinput$y)#
+greecemodel2 <- coef(greecefit2,greecefit2$lambda.min)#
+cols = c(c("intercept"),colnames(greecemat2))#
+outputdf <- data.frame(cols[which(greecemodel2 != 0)],greecemodel2[which(greecemodel2 != 0)])#
+write.csv(file="models/greecemodel2", x=outputdf)#
+#
+greecemat3 <- data.matrix(greeceinput[5:9])#
+greecefit3 = cv.glmnet(greecemat3,greeceinput$y)#
+greecemodel3 <- coef(greecefit3,greecefit3$lambda.min)#
+cols = c(c("intercept"),colnames(greecemat3))#
+outputdf <- data.frame(cols[which(greecemodel3 != 0)],greecemodel3[which(greecemodel3 != 0)])#
+write.csv(file="models/greecemodel3", x=outputdf)#
+#
+greecemat4 <- data.matrix(greeceinput[6:9])#
+greecefit4 = cv.glmnet(greecemat4,greeceinput$y)#
+greecemodel4 <- coef(greecefit4,greecefit4$lambda.min)#
+cols = c(c("intercept"),colnames(greecemat4))#
+outputdf <- data.frame(cols[which(greecemodel4 != 0)],greecemodel4[which(greecemodel4 != 0)])#
+write.csv(file="models/greecemodel4", x=outputdf)#
+#
+greecemat5 <- data.matrix(greeceinput[7:9])#
+greecefit5 = cv.glmnet(greecemat5,greeceinput$y)#
+greecemodel5 <- coef(greecefit5,greecefit5$lambda.min)#
+cols = c(c("intercept"),colnames(greecemat5))#
+outputdf <- data.frame(cols[which(greecemodel5 != 0)],greecemodel5[which(greecemodel5 != 0)])#
+write.csv(file="models/greecemodel5", x=outputdf)

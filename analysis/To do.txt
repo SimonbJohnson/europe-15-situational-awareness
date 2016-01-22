@@ -1,0 +1,9 @@
+To do:
+1) Python script to pull through data inputs from HXL - done
+2) Automatically generate all models - done
+3) Export models - done
+4) Python - Alert bad models
+5) Python - Calculate confidence interval for each model - done
+6) export to js friendly format - done
+7) quick and dirty visualisation - done
+8) visualisation
