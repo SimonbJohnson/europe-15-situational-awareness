@@ -67,7 +67,7 @@ function generateMap(bordersGeom){
 				iconUrl:'images/red_line.png'
 			},{
 				iconText:'Constructing',
-				iconUrl:'images/red_line.png'
+				iconUrl:'images/red_dash_line.png'
 			},{
 				iconText:'Standby',
 				iconUrl:'images/purple_line.png'
