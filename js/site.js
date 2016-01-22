@@ -66,10 +66,10 @@ function generateMap(bordersGeom){
 				iconText:'Operational',
 				iconUrl:'images/red_line.png'
 			},{
-				iconText:'Constructing',
+				iconText:'Under construction',
 				iconUrl:'images/red_dash_line.png'
 			},{
-				iconText:'Standby',
+				iconText:'On standby',
 				iconUrl:'images/purple_line.png'
 			},{
 				iconText:'Other issues',
