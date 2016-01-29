@@ -36,15 +36,29 @@
 	display:inline-block;
 }
 
+.graphval {
+	font-size: 12px;
+	font-weight: bold;
+	color: #4c4c4c;
+	margin-left: 20px; 
+	margin-bottom: 20px;
+	text-align: right;
+	/* WOULD LIKE TO DO A VERTICAL & RIGHT ALIGN HERE */
+}
+
 .graphlegend {
-	font-size: 14px;	
+	font-size: 13px;
+	font-style: italic;
 }
 
 .graphnote {
-	font-size: 12px;
+	font-size: 14px;
+	font-weight: bold;
 	margin-top: 0px;
 	margin-bottom: 0px;
-}
+	/* margin-left: 300px;  */
+	text-align: right; 
+} 
 
 .infolegend {
 	padding:5px;

@@ -4,8 +4,8 @@ function generateMap(bordersGeom){
 
 
     map = L.map('map', {
-        center: [43,20],
-        zoom: 5,
+        center: [50.5, 6],    //center: [43,20],
+        zoom: 4,			  //zoom: 5,
         layers: [baselayer,baselayer2]
     });
 
@@ -233,13 +233,20 @@ function generateSparklines(data,arrivalMarkers){
             }
         }
     });
+	
+	data.forEach(function(d){  
+		//if ((d['#date'].getDate() == date.getDate()) && (d['#date'].getMonth() == date.getMonth()) && (d['#date'].getFullYear() == date.getFullYear())){    
+			dailyArrivals = d;
+			//arrDate = d['#date'];
+		//};
+    });	 
 
 	 $('#graphs').append('<div><div class="graph" id="graphlegend"></div>');
 	 graphLegend('#graphlegend');
-	 $('#graphs').append('<p class="graphnote"><i>* Note: arrival numbers for each country below are relative (i.e. drawn to same scale).</i><p>');
+	 $('#graphs').append('<span class="graphnote" id="graphnote">Arrivals</span>');
 	
     arrivalMarkers.forEach(function(d,i){
-        $('#graphs').append('<div><div class="graph" id="graph' + i + '"><span class="graphlabel">' + d.area + '</span></div></div>');
+        $('#graphs').append('<div><div class="graph" id="graph' + i + '"><span class="graphlabel">' + d.area + '</span></div><span class="graphval" id="graphval' + i + '"></span></div>');  //CAN REMOVE dailyArrivals[d.tag] from here?
         sparkline('#graph'+i,data,d.tag,max);
     });
 
@@ -277,7 +284,7 @@ function graphLegend(elemId) {
 		
 	svg.append('text')
 		.attr("x", 195)     
-        .attr("y", 20)									 						
+        .attr("y", 20)	
         .attr("dy", "0.25em")							
         .attr("class","graphlegend")
         .text('7-day moving average');
@@ -385,12 +392,26 @@ function sparkline(elemId, data, tag, max) {
         .attr("class","datemarker");
 }
 
-function updateSparkline(data,date){
+function updateSparkline(data,date,arrivalMarkers){
     var width = 200;
+    data.forEach(function(d){  
+		if ((d['#date'].getDate() == date.getDate()) && (d['#date'].getMonth() == date.getMonth()) && (d['#date'].getFullYear() == date.getFullYear())){    
+			dailyArrivals = d;
+		};
+    });	 
+	
     var x = d3.scale.linear().range([0, width]);
     x.domain(d3.extent(data, function(d) { return d['#date']; }));
 
     d3.selectAll('.datemarker').attr('x1',x(date)).attr('x2',x(date));
+	
+	//$('#graphnote').html('<span class="graphnote">Arrivals2</span>');
+	$('#graphnote').html('Arrivals<br/>' + date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear());
+	
+	arrivalMarkers.forEach(function(d,i){
+        $('#graphval'+i).html(d3.format(",.0f")(dailyArrivals[d.tag]));
+    });
+	
 }
 
 
@@ -533,7 +554,7 @@ $.when(dataCall,arrivalsCall,bordersGeomCall,bordersCall).then(function(dataArgs
             data = filterDateRange(begin,end,data);
             updateArrivals(end,arrivals,arrivalMarkers);
 			updateBorders(end,borders);
-            updateSparkline(arrivals,end);
+            updateSparkline(arrivals,end,arrivalMarkers);
         });
 
     var begin = new Date($('#dateinput').val()*1);
@@ -542,7 +563,9 @@ $.when(dataCall,arrivalsCall,bordersGeomCall,bordersCall).then(function(dataArgs
     data = filterDateRange(begin,max,data);
     updateArrivals(max,arrivals,arrivalMarkers);
     updateBorders(max,borders);
+
     var end = new Date($('#dateinput').val()*1);
+	updateSparkline(arrivals,end,arrivalMarkers);
     $('#dateinput').width(200);
     $('#dateupdate').html('<p>Displaying news updates for: '+begin.getDate()+'/'+(begin.getMonth()+1)+'/'+begin.getFullYear()+' - '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'</p><p>Displaying border updates for: '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'</p>');
 });
