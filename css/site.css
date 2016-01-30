@@ -40,10 +40,9 @@
 	font-size: 12px;
 	font-weight: bold;
 	color: #4c4c4c;
-	margin-left: 20px; 
+	margin-left: 15px; 
 	margin-bottom: 20px;
 	text-align: right;
-	/* WOULD LIKE TO DO A VERTICAL & RIGHT ALIGN HERE */
 }
 
 .graphlegend {
@@ -56,8 +55,7 @@
 	font-weight: bold;
 	margin-top: 0px;
 	margin-bottom: 0px;
-	/* margin-left: 300px;  */
-	text-align: right; 
+	text-align: right;
 } 
 
 .infolegend {
