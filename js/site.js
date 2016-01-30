@@ -233,20 +233,13 @@ function generateSparklines(data,arrivalMarkers){
             }
         }
     });
-	
-	data.forEach(function(d){  
-		//if ((d['#date'].getDate() == date.getDate()) && (d['#date'].getMonth() == date.getMonth()) && (d['#date'].getFullYear() == date.getFullYear())){    
-			dailyArrivals = d;
-			//arrDate = d['#date'];
-		//};
-    });	 
 
 	 $('#graphs').append('<div><div class="graph" id="graphlegend"></div>');
 	 graphLegend('#graphlegend');
-	 $('#graphs').append('<span class="graphnote" id="graphnote">Arrivals</span>');
+	 $('#graphs').append('<div><div class="graphnote" id="graphnote"><span="graphnote">Arrivals</span></div>');
 	
     arrivalMarkers.forEach(function(d,i){
-        $('#graphs').append('<div><div class="graph" id="graph' + i + '"><span class="graphlabel">' + d.area + '</span></div><span class="graphval" id="graphval' + i + '"></span></div>');  //CAN REMOVE dailyArrivals[d.tag] from here?
+        $('#graphs').append('<div><div class="graph" id="graph' + i + '"><span class="graphlabel">' + d.area + '</span></div><span class="graphval" id="graphval' + i + '"></span></div>'); 
         sparkline('#graph'+i,data,d.tag,max);
     });
 
@@ -405,11 +398,14 @@ function updateSparkline(data,date,arrivalMarkers){
 
     d3.selectAll('.datemarker').attr('x1',x(date)).attr('x2',x(date));
 	
-	//$('#graphnote').html('<span class="graphnote">Arrivals2</span>');
-	$('#graphnote').html('Arrivals<br/>' + date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear());
+	$('#graphnote').html('Arrivals&nbsp<br/>' + date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear());
 	
 	arrivalMarkers.forEach(function(d,i){
-        $('#graphval'+i).html(d3.format(",.0f")(dailyArrivals[d.tag]));
+		if (!isNaN(dailyArrivals[d.tag])) {
+			$('#graphval'+i).html(d3.format(",.0f")(dailyArrivals[d.tag]));
+		} else {
+			$('#graphval'+i).html("No data");
+		};
     });
 	
 }
@@ -418,10 +414,8 @@ function updateSparkline(data,date,arrivalMarkers){
 
 function updateBorders(end,borders){
 	var dateFormat = d3.time.format("%d-%b-%Y");
-	//var dateFormat = d3.time.format("%d/%m/%Y");
 	
  	borders.sort(function(a, b) {
-		//return a['#date'].getTime() - b['#date'].getTime();
 		return dateFormat.parse(a['#date']).getTime() - dateFormat.parse(b['#date']).getTime();
 	}); 
 
@@ -522,7 +516,6 @@ $.when(dataCall,arrivalsCall,bordersGeomCall,bordersCall).then(function(dataArgs
     arrivals = hxlProxyToJSON(arrivalsArgs[0],false);
     borders = hxlProxyToJSON(bordersArgs[0],false);
 
-    //var dateFormat = d3.time.format("%d-%b-%Y");
 	var dateFormat = d3.time.format("%d/%m/%Y");
 
     data.forEach(function(d){
