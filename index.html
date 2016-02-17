@@ -1,16 +1,17 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
         <title>Situational Overview</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="css/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>       
         <link rel="stylesheet" type="text/css" href="css/site.css"/>
-        <script src="js/jquery.js"></script>
-        <script src="js/leaflet.js"></script>
-        <script src="js/tile.stamen.js"></script>
-        <script src="js/d3.min.js"></script>
-        <script src="js/topojson.v1.min.js"></script>
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/leaflet.js"></script>
+        <script type="text/javascript" src="js/tile.stamen.js"></script>
+        <script type="text/javascript" src="js/d3.min.js"></script>
+        <script type="text/javascript" src="js/topojson.v1.min.js"></script>
         <script type="text/javascript">
             var _gaq = _gaq || [];
             _gaq.push(['_setAccount', 'UA-46399763-1']);
@@ -29,10 +30,10 @@
                 <h1>Europe Migrant Crisis - Situational Overview</h1>
                 <p>The latest updates from Europe regarding issues affecting migrants from the last 7 days.<br/>Hover over an icon in the map to get more information. Use the time slider to the right to look at past events.  <br/>Contact: <a href="mailto:ryales@redcross.org.uk" target="_top">Rachel Yales</a>
             </div>
-			<div class="col-md-4">
-				<input id="dateinput" type="range" step="86400000" />
+            <div class="col-md-4">
+                <input id="dateinput" type="range" step="86400000" />
                 <p id="dateupdate"></p>
-			</div>
+            </div>
         </div>
         <div class="row">           
             <div class="col-md-8">
