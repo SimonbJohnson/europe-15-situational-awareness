@@ -301,7 +301,7 @@ function hxlProxyToJSON(input,headers){
 }
 
 var arrivals
-var modelList = ['05nov05_15dec15_lasso','05dec05_15jan16_lasso'];
+var modelList = ['05nov05_15dec15_lasso','05dec05_15jan16_lasso','05Jan16_15Feb16_lasso'];
 
 var html ='';
 modelList.forEach(function(m){
