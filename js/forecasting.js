@@ -303,6 +303,8 @@ function hxlProxyToJSON(input,headers){
 }
 
 var arrivals
+
+// Model Selector Option
 /*var modelList = ['05nov05_15dec15_lasso','05dec05_15jan16_lasso','05Jan16_15Feb16_lasso'];
 
 var html ='';
@@ -329,7 +331,7 @@ $.ajax({
 	        d['#date'] = dateFormat.parse(d['#date']);
 	    });
 
-        loadModel('forecasting/05Jan16_15Feb16_lasso.json');
+        loadModel('forecasting/05dec05_15jan16_lasso.json');
     }
 });
 
@@ -338,7 +340,6 @@ $('#forecastbutton').on('click',function(e){
 	$('#previous').hide();
 });
 
-// When "Previous Performance" button is clicked, hide predictions and show 
 $('#previousbutton').on('click',function(e){
 	$('#results').hide();
 	$('#previous').show();

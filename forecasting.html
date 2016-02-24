@@ -47,22 +47,24 @@
 
         <div class="row bottomborder">
             <div class="col-md-6">
-                <p>This page displays forecasts for arrival numbers into countries along the Western Balkans route. It offers a 1, 2 and 3 day forecast for arrivals based upon past arrivals data.</p>
+                <p>This page displays forecasts for arrival numbers into countries along the Western Balkans route. It offers a 1, 2 and 3 day forecast for arrivals based upon past data.</p>
 
                 <p>The page is split into two parts:</p>
                     <ul>
-                        <li><b>Forecast</b> shows estimates for the next 1-3 days</li>
+                        <li><b>Run Forecast</b> shows estimates for the next 1-3 days</li>
                         <li><b>Previous Performance</b> allows you to check how closely the model predicted previous arrival numbers</li>
                     </ul>
 
                 <p>When reading the graph, you will note the error bars. In our experience, it is highly unlikely that the real arrivals number will ever exceed the upper bounds of the average error.</p>
 
-                <p class="highlight">NOTE: The results of this model are not guaranteed. Migrant movement is based upon many variables and this model only takes into account past arrivals numbers. For best results, use these predictions as a guide alongside weather conditions, border policies, public opinion, political events, migrant demographics, etc.</p>
+                <p>At this time, predictions are most accurate for the 1 day forecasts, and for the countries further along the route. The closer the country geographically to the border of Europe, the more outside variables affect migrant movement. <!--We have included events of high importance to migrant transit alongside these predictions, and y-->You can explore a situational overview by selecting the tab in the navigation bar above.</p>
 
-                <p>Migrant arrivals data provided by <a href="http://data.unhcr.org/mediterranean/regional.php">UNHCR</a>. Regression analysis uses the <a href="https://en.wikipedia.org/wiki/Lasso_(statistics)">LASSO method</a>.</p>
+                <p class="highlight">NOTE: The results of this model are not guaranteed. Migrant movement is based upon many variables and this model only takes into account past arrivals numbers. For best results, use these predictions as a guide alongside weather conditions, border policies, public opinion, political events, migrant demographics, etc.</p>
             </div>
             <div class="col-md-6">
                 <img id="expimage" src="forecasting/forecastexplanation.png" />
+
+                <p>Migrant arrivals data provided by <a href="http://data.unhcr.org/mediterranean/regional.php">UNHCR</a>. Regression analysis uses the <a href="https://en.wikipedia.org/wiki/Lasso_(statistics)">LASSO method</a>. Model and process by <a href="https://github.com/SimonbJohnson">Simon Johnson</a>, British Red Cross, as part of the SIMS network within the International Federation of the Red Cross and Red Crescent Societies.</p>
             </div>
         </div>
         <!-- <div class="row topspacer">
@@ -81,7 +83,7 @@
             <div class="col-md-12">
 
                 <div id="buttons">
-                    <button id="forecastbutton" class="button">Run Latest Forecast</button>
+                    <button id="forecastbutton" class="button">Run Forecast</button>
                     <button id="previousbutton" class="button">Previous Performance</button>
                 </div>
             </div>
