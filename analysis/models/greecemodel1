@@ -1,5 +1,7 @@
 "","cols.which.greecemodel1....0..","greecemodel1.which.greecemodel1....0.."
-"1","intercept",594.923462850484
-"2","X.affected.arrivegreekislands.1",0.217101205021247
-"3","X.affected.arrivegreekislands.2",0.322657753949843
-"4","X.affected.arrivegreekislands.4",0.193089743256389
+"1","intercept",559.398374269298
+"2","X.affected.arrivegreekislands.1",0.150879613033139
+"3","X.affected.arrivegreekislands.2",0.268177404994598
+"4","X.affected.arrivegreekislands.3",0.0770590334420857
+"5","X.affected.arrivegreekislands.4",0.149038155300094
+"6","X.affected.arrivegreekislands.7",-0.00319094243112783

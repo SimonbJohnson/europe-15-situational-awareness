@@ -2,13 +2,36 @@
     height:500px;
 }
 
+h1 {
+	font-size: 25px;
+}
+
+a {
+	padding: 0;
+}
+
+.navbar {
+	border-bottom-color: black;
+	border-width: 3px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.nav.navbar-nav {
+	padding-top: 10px;
+}
+
+.nav.navbar-nav.navbar-right {
+	padding: 0;
+}
+
 .sticky {
     position: fixed;
     top: 0px;
 }
 
 #dateinput{
- 	margin-top:70px;
+ 	margin-top:10px;
 }
 
 #dateupdate {
@@ -133,4 +156,13 @@
 	border-bottom-color:#bbbbbb;
 	border-bottom-style:solid;
 	padding-bottom:10px;
+}
+
+.container {
+	padding-top: 100px;
+}
+
+p {
+	font-size: 14px;
+	text-align: justify;
 }

@@ -1,3 +1,5 @@
+
+// Load Model and Description
 function loadModel(url){
 	$.ajax({
       dataType: 'json',
@@ -5,14 +7,14 @@ function loadModel(url){
       success: function(data) {
         $('#results').html('');
         $('#previous').html('');
-      	$('#description').html("Description of model: "+data.description);
+      	$('#description').html("Description of Model: "+data.description);
       	models = ['austria','slovenia','croatia','serbia','fyrom'];
       	names = ['Austria','Slovenia','Croatia','Serbia','former Yugoslav Republic of Macedonia'];
       	for(ind=0;ind<models.length;ind++){
 	      	$('#results').append('<h2>'+names[ind]+'</h2>');
 	        graph('#results',arrivals.slice(arrivals.length-40,arrivals.length),models[ind],data.models);
-	        for(ind2=1;ind2<6;ind2++){
-	        	$('#previous').append('<h2>' + names[ind] + ' ' + ind2 + ' day forcast performance</h2>');
+	        for(ind2=1;ind2<4;ind2++){
+	        	$('#previous').append('<h2>' + names[ind] + ': ' + ind2 + ' Day Forecast Performance</h2>');
         		forecastGraph('#previous',arrivals.slice(arrivals.length-40,arrivals.length),models[ind],data.models,ind2);  
 	        }
     	}
@@ -202,7 +204,7 @@ function graph(elemId, data, country, models) {
 
     var forecastg = svg.append("g");
 
-	for (i = 1; i <= 5; i++){
+	for (i = 1; i <= 3; i++){
 		var avgerr = getAverageError(data,models[country][i],tag);
 		var forecastDate = new Date(data[data.length-1]['#date'].getTime());
 		forecastDate.setDate(forecastDate.getDate() + i);
@@ -301,7 +303,7 @@ function hxlProxyToJSON(input,headers){
 }
 
 var arrivals
-var modelList = ['05nov05_15dec15_lasso','05dec05_15jan16_lasso'];
+/*var modelList = ['05nov05_15dec15_lasso','05dec05_15jan16_lasso','05Jan16_15Feb16_lasso'];
 
 var html ='';
 modelList.forEach(function(m){
@@ -312,7 +314,7 @@ $('#load').on('click',function(e){
 	$('#results').show();
 	$('#previous').hide();
 	loadModel('forecasting/'+$('#modeldropdown').val()+'.json');
-});
+});*/
 $('#previous').hide();
 
 $.ajax({
@@ -327,7 +329,7 @@ $.ajax({
 	        d['#date'] = dateFormat.parse(d['#date']);
 	    });
 
-        loadModel('forecasting/05nov05_15dec15_lasso.json');
+        loadModel('forecasting/05Jan16_15Feb16_lasso.json');
     }
 });
 
@@ -336,6 +338,7 @@ $('#forecastbutton').on('click',function(e){
 	$('#previous').hide();
 });
 
+// When "Previous Performance" button is clicked, hide predictions and show 
 $('#previousbutton').on('click',function(e){
 	$('#results').hide();
 	$('#previous').show();
