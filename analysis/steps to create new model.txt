@@ -1,0 +1,7 @@
+steps to create new model:
+1) Run generate_r_inpput_files.py with new date ranges
+2) Run rscript in R
+3) Run combine.py to combine the forecast models
+4) Model will be created as per file name in combine.py
+5) To load model into website edit .json file to this format
+{"description":"description here","model":previous contents of file}
