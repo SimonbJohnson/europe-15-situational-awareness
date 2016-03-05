@@ -4,8 +4,8 @@ function generateMap(bordersGeom){
 
 
     map = L.map('map', {
-        center: [50.5, 6],    //center: [43,20],
-        zoom: 4,			  //zoom: 5,
+        center: [50.5, 6],  //center: [43,20],
+        zoom: 4,            //zoom: 5,
         layers: [baselayer,baselayer2]
     });
 
@@ -21,87 +21,85 @@ function generateMap(bordersGeom){
     var borders = L.geoJson(bordersGeom,{
                     style: style
                 }).addTo(map);
-				
-	var mapLegend = L.control({position: 'bottomleft'});			
-	
-	mapLegend.onAdd = function (map) {
-		var div = L.DomUtil.create('div', 'infolegend');	
-		var iconImportance = [{
-				iconText:'low',
-				iconUrl:'images/yellow.png'
-			},{
-				iconText:'medium',
-				iconUrl:'images/orange.png'
-			},{
-				iconText:'high',
-				iconUrl:'images/red.png'
-			}];
-			
-		var iconCategories = [{
-				iconText:'Border',
-				iconUrl:'images/border_medium-01.png'
-			},{
-				iconText:'Transit',
-				iconUrl:'images/transit_medium-01.png'
-			},{
-				iconText:'Camp',
-				iconUrl:'images/camp_medium-01.png'
-			},{
-				iconText:'Conflict',
-				iconUrl:'images/conflict_medium-01.png'
-			},{
-				iconText:'Policy',
-				iconUrl:'images/policy_medium-01.png'
-			},{
-				iconText:'Registration',
-				iconUrl:'images/registration_medium-01.png'
-		}];
-			
-		var iconArrivals = [{
-			iconText:'Arrivals per country <i>(relative)</i>',
-			iconUrl:'images/green.PNG'
-		}];
-		
-		var iconBorderCrossings = [{
-				iconText:'Operational',
-				iconUrl:'images/red_line.png'
-			},{
-				iconText:'Under construction',
-				iconUrl:'images/red_dash_line.png'
-			},{
-				iconText:'On standby',
-				iconUrl:'images/purple_line.png'
-			},{
-				iconText:'Other issues',
-				iconUrl:'images/blue_line.png'
-			}]
+                
+    var mapLegend = L.control({position: 'bottomleft'});            
+    
+    mapLegend.onAdd = function (map) {
+        var div = L.DomUtil.create('div', 'infolegend');    
+        var iconImportance = [{
+                iconText:'low',
+                iconUrl:'images/yellow.png'
+            },{
+                iconText:'medium',
+                iconUrl:'images/orange.png'
+            },{
+                iconText:'high',
+                iconUrl:'images/red.png'
+            }];
+            
+        var iconCategories = [{
+                iconText:'Border',
+                iconUrl:'images/border.png'
+            },{
+                iconText:'Camp',
+                iconUrl:'images/camp.png'
+            },{
+                iconText:'Conflict',
+                iconUrl:'images/conflict.png'
+            },{
+                iconText:'Policy',
+                iconUrl:'images/policy.png'
+            },{
+                iconText:'Registration',
+                iconUrl:'images/registration.png'
+            },{
+                iconText:'Transit',
+                iconUrl:'images/transit.png'
+        }];
+            
+        var iconArrivals = [{
+            iconText:'Arrivals per country <i>(relative)</i>',
+            iconUrl:'images/green.PNG'
+        }];
+        
+        var iconBorderCrossings = [{
+                iconText:'Physical Barrier',
+                iconUrl:'images/red_line.png'
+            },{
+                iconText:'Barrier under Construction',
+                iconUrl:'images/red_dash_line.png'
+            },{
+                iconText:'Barrier Planned',
+                iconUrl:'images/purple_line.png'
+            },{
+                iconText:'Temporary Controls',
+                iconUrl:'images/blue_line.png'
+            }]
 
-		div.innerHTML += iconArrivals[0] ? '<p class="legendcat"> <img class="icon" src="' + iconArrivals[0].iconUrl + '" alt=legend_icon width="24" height="24"> &nbsp' + iconArrivals[0].iconText + '</p>' : '+';
-		
-		div.innerHTML += '<br/>';
-		
-		div.innerHTML += '<p class="legendhead">News icon colour depicts level<br/>of importance:</p><br/>';
-		
-		for (var i = 0; i < iconImportance.length; i++) {	
-			div.innerHTML += '<div class="impcat"><img class="icon" src="' + iconImportance[i].iconUrl + '" alt=legend_icon width="12" height="12"><br/>' + iconImportance[i].iconText + '</div>'
-		};				
-		div.innerHTML += '<br/>';
-		for (var i = 0; i < iconCategories.length; i++) {			
-			div.innerHTML += iconCategories[i] ? '<p class="legendcat"> <img class="icon" src="' + iconCategories[i].iconUrl + '" alt=legend_icon width="20" height="20"> &nbsp' + iconCategories[i].iconText + '</p>' : '+';
-		}
-		div.innerHTML += '<br/>';
-		
-		div.innerHTML += '<p class="legendhead borderhead">Border crossing controls:</p>';
-		for (var i = 0; i < iconBorderCrossings.length; i++) {			
-			div.innerHTML += iconBorderCrossings[i] ? '<p class="legendcat"> <img class="icon" src="' + iconBorderCrossings[i].iconUrl + '" alt=legend_icon width="20" height="20"> &nbsp' + iconBorderCrossings[i].iconText + '</p>' : '+';
-		}
-		
-		
-		return div;
-	};
-	mapLegend.addTo(map);		
-				
-
+        div.innerHTML += iconArrivals[0] ? '<p class="legendcat"> <img class="icon" src="' + iconArrivals[0].iconUrl + '" alt=legend_icon width="24" height="24"> &nbsp' + iconArrivals[0].iconText + '</p>' : '+';
+        
+        div.innerHTML += '<br/>';
+        
+        div.innerHTML += '<p class="legendhead">News icon colour depicts level<br/>of importance:</p><br/>';
+        
+        for (var i = 0; i < iconImportance.length; i++) {   
+            div.innerHTML += '<div class="impcat"><img class="icon" src="' + iconImportance[i].iconUrl + '" alt=legend_icon width="12" height="12"><br/>' + iconImportance[i].iconText + '</div>'
+        };              
+        div.innerHTML += '<br/>';
+        for (var i = 0; i < iconCategories.length; i++) {           
+            div.innerHTML += iconCategories[i] ? '<p class="legendcat"> <img class="icon" src="' + iconCategories[i].iconUrl + '" alt=legend_icon width="20" height="20"> &nbsp' + iconCategories[i].iconText + '</p>' : '+';
+        }
+        div.innerHTML += '<br/>';
+        
+        div.innerHTML += '<p class="legendhead borderhead">Border crossing controls:</p>';
+        for (var i = 0; i < iconBorderCrossings.length; i++) {          
+            div.innerHTML += iconBorderCrossings[i] ? '<p class="legendcat"> <img class="icon" src="' + iconBorderCrossings[i].iconUrl + '" alt=legend_icon width="20" height="20"> &nbsp' + iconBorderCrossings[i].iconText + '</p>' : '+';
+        }
+        
+        
+        return div;
+    };
+    mapLegend.addTo(map);
 }
 
 function filterDateRange(begin,end,data){
@@ -140,6 +138,7 @@ function findNearestArrival(end,arrivals){
     return current;
 }
 
+
 function createMarkers(data){
 
     data.forEach(function(d){
@@ -151,7 +150,7 @@ function createMarkers(data){
         .on('mouseover',function(e){
             $('#graphs').slideUp();
             $('#article').show();
-            $('#title').html(d['#meta+title']);
+            $('#title').html(d['#meta+title'].toUpperCase());
             $('#content').html(d['#meta+description']);
             $('#date').html(d['#date'].getDate()+'/'+(d['#date'].getMonth()+1)+'/'+d['#date'].getFullYear());
             $('#url').html('<a href="' + d['#meta+url'] + '" target="_blank">Link</a>');
@@ -187,11 +186,11 @@ function createArrivalMarkers(){
         lon:20.965015,
         tag:'#affected+arriveserbia'
     },
-	{	area:'Croatia',
-		lat:45.646912, 
-		lon:16.697362,
-		tag:'#affected+arrivecroatia'
-	},
+    {   area:'Croatia',
+        lat:45.646912, 
+        lon:16.697362,
+        tag:'#affected+arrivecroatia'
+    },
     {
         area:'Hungary',
         lat:47.034759,
@@ -234,10 +233,10 @@ function generateSparklines(data,arrivalMarkers){
         }
     });
 
-	 $('#graphs').append('<div><div class="graph" id="graphlegend"></div>');
-	 graphLegend('#graphlegend');
-	 $('#graphs').append('<div><div class="graphnote" id="graphnote"><span="graphnote">Arrivals</span></div>');
-	
+     $('#graphs').append('<div><div class="graph" id="graphlegend"></div>');
+     graphLegend('#graphlegend');
+     $('#graphs').append('<div><div class="graphnote" id="graphnote"><span="graphnote">Arrivals</span></div>');
+    
     arrivalMarkers.forEach(function(d,i){
         $('#graphs').append('<div><div class="graph" id="graph' + i + '"><span class="graphlabel">' + d.area + '</span></div><span class="graphval" id="graphval' + i + '"></span></div>'); 
         sparkline('#graph'+i,data,d.tag,max);
@@ -248,37 +247,37 @@ function generateSparklines(data,arrivalMarkers){
 }
 
 function graphLegend(elemId) {
-	var width = 350;
-	var height = 40;
-	var svg = d3.select(elemId).append('svg').attr('width', width).attr('height', height);
-	
-	svg.append('line')
+    var width = 350;
+    var height = 40;
+    var svg = d3.select(elemId).append('svg').attr('width', width).attr('height', height);
+    
+    svg.append('line')
         .attr("x1", 0)
         .attr("y1", 20)
         .attr("x2", 40)
         .attr("y2", 20)
         .attr("stroke-width", 1)
         .attr("stroke", "blue");
-	
-	svg.append('line')
+    
+    svg.append('line')
         .attr("x1", 150)
         .attr("y1", 20)
         .attr("x2", 190)
         .attr("y2", 20)
         .attr("stroke-width", 2)
         .attr("stroke", "red");
-		
-	svg.append('text')
-		.attr("x", 45)     
-        .attr("y", 20)									 					
-        .attr("dy", "0.25em")	
+        
+    svg.append('text')
+        .attr("x", 45)     
+        .attr("y", 20)                                                      
+        .attr("dy", "0.25em")   
         .attr("class","graphlegend")
         .text('Daily arrivals');
-		
-	svg.append('text')
-		.attr("x", 195)     
-        .attr("y", 20)	
-        .attr("dy", "0.25em")							
+        
+    svg.append('text')
+        .attr("x", 195)     
+        .attr("y", 20)  
+        .attr("dy", "0.25em")                           
         .attr("class","graphlegend")
         .text('7-day moving average');
 };
@@ -388,66 +387,66 @@ function sparkline(elemId, data, tag, max) {
 function updateSparkline(data,date,arrivalMarkers){
     var width = 200;
     data.forEach(function(d){  
-		if ((d['#date'].getDate() == date.getDate()) && (d['#date'].getMonth() == date.getMonth()) && (d['#date'].getFullYear() == date.getFullYear())){    
-			dailyArrivals = d;
-		};
-    });	 
-	
+        if ((d['#date'].getDate() == date.getDate()) && (d['#date'].getMonth() == date.getMonth()) && (d['#date'].getFullYear() == date.getFullYear())){    
+            dailyArrivals = d;
+        };
+    });  
+    
     var x = d3.scale.linear().range([0, width]);
     x.domain(d3.extent(data, function(d) { return d['#date']; }));
 
     d3.selectAll('.datemarker').attr('x1',x(date)).attr('x2',x(date));
-	
-	$('#graphnote').html('Arrivals&nbsp<br/>' + date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear());
-	
-	arrivalMarkers.forEach(function(d,i){
-		if (!isNaN(dailyArrivals[d.tag])) {
-			$('#graphval'+i).html(d3.format(",.0f")(dailyArrivals[d.tag]));
-		} else {
-			$('#graphval'+i).html("No data");
-		};
+    
+    $('#graphnote').html('Arrivals&nbsp<br/>' + date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear());
+    
+    arrivalMarkers.forEach(function(d,i){
+        if (!isNaN(dailyArrivals[d.tag])) {
+            $('#graphval'+i).html(d3.format(",.0f")(dailyArrivals[d.tag]));
+        } else {
+            $('#graphval'+i).html("No data");
+        };
     });
-	
+    
 }
 
 
 
 function updateBorders(end,borders){
-	var dateFormat = d3.time.format("%d-%b-%Y");
-	
- 	borders.sort(function(a, b) {
-		return dateFormat.parse(a['#date']).getTime() - dateFormat.parse(b['#date']).getTime();
-	}); 
+    var dateFormat = d3.time.format("%d-%b-%Y");
+    
+    borders.sort(function(a, b) {
+        return dateFormat.parse(a['#date']).getTime() - dateFormat.parse(b['#date']).getTime();
+    }); 
 
-	borders.forEach(function(b, i){         //color all borders grey as default starting point
-		d3.selectAll('.'+b['#meta+id'].replace('-','')).attr('stroke','#cccccc').attr('stroke-width',1);
-	});
-	
+    borders.forEach(function(b, i){         //color all borders grey as default starting point
+        d3.selectAll('.'+b['#meta+id'].replace('-','')).attr('stroke','#cccccc').attr('stroke-width',1);
+    });
+    
     borders.forEach(function(b, i){
-		if (dateFormat.parse(b['#date']).getTime() <= end) {
-			//console.log("i:", i, "  date: ", b['#date'], ",   border: ", b);		
-			switch(b['#status']) { 
-				case 'Operational':  //Red thick solid line
-					//console.log("Operational i:", i, "  date: ", b['#date'], ",   border: ", b);
-					d3.selectAll('.'+b['#meta+id'].replace('-','')).attr('stroke','#ff0000').attr('stroke-width',3).style('stroke-dasharray', ('0,0'));
-					break;
-				case 'Lifted':  //Grey default line
-					//console.log("Lifted i:", i, "  date: ", b['#date'], ",   border: ", b);  
-					d3.selectAll('.'+b['#meta+id'].replace('-','')).attr('stroke','#cccccc').attr('stroke-width',1).style('stroke-dasharray', ('0,0'));
-					break;
-				case 'Constructing':   //Red thick dashed line
-					//console.log("Constructing i:", i, "  date: ", b['#date'], ",   border: ", b);	
-					d3.selectAll('.'+b['#meta+id'].replace('-','')).attr('stroke','#ff0000').attr('stroke-width',3).style('stroke-dasharray', ('8,8'));
-					break;
-				case 'Standby':    //Yellow thick dashed line
-					//console.log("Standby i:", i, "  date: ", b['#date'], ",   border: ", b);	
-					d3.selectAll('.'+b['#meta+id'].replace('-','')).attr('stroke','#b135b8').attr('stroke-width',3).style('stroke-dasharray', ('8,20'));
-					break;
-				default:     //Blue thick solid line
-					//console.log("Default i:", i, "  date: ", b['#date'], ",   border: ", b);
-					d3.selectAll('.'+b['#meta+id'].replace('-','')).attr('stroke','#0000ff').attr('stroke-width',3).style('stroke-dasharray', ('0,0'));
-			};
-		}; 
+        if (dateFormat.parse(b['#date']).getTime() <= end) {
+            //console.log("i:", i, "  date: ", b['#date'], ",   border: ", b);      
+            switch(b['#status']) { 
+                case 'Operational':  //Red thick solid line
+                    //console.log("Operational i:", i, "  date: ", b['#date'], ",   border: ", b);
+                    d3.selectAll('.'+b['#meta+id'].replace('-','')).attr('stroke','#ff0000').attr('stroke-width',3).style('stroke-dasharray', ('0,0'));
+                    break;
+                case 'Lifted':  //Grey default line
+                    //console.log("Lifted i:", i, "  date: ", b['#date'], ",   border: ", b);  
+                    d3.selectAll('.'+b['#meta+id'].replace('-','')).attr('stroke','#cccccc').attr('stroke-width',1).style('stroke-dasharray', ('0,0'));
+                    break;
+                case 'Constructing':   //Red thick dashed line
+                    //console.log("Constructing i:", i, "  date: ", b['#date'], ",   border: ", b); 
+                    d3.selectAll('.'+b['#meta+id'].replace('-','')).attr('stroke','#ff0000').attr('stroke-width',3).style('stroke-dasharray', ('8,8'));
+                    break;
+                case 'Standby':    //Yellow thick dashed line
+                    //console.log("Standby i:", i, "  date: ", b['#date'], ",   border: ", b);  
+                    d3.selectAll('.'+b['#meta+id'].replace('-','')).attr('stroke','#F38233').attr('stroke-width',3).style('stroke-dasharray', ('8,20'));
+                    break;
+                default:     //Blue thick solid line
+                    //console.log("Default i:", i, "  date: ", b['#date'], ",   border: ", b);
+                    d3.selectAll('.'+b['#meta+id'].replace('-','')).attr('stroke','#0000ff').attr('stroke-width',3).style('stroke-dasharray', ('0,0'));
+            };
+        }; 
     });
 }
 
@@ -486,7 +485,7 @@ $('#showgraphs').on('click',function(e){
 
 var dataCall = $.ajax({ 
     type: 'GET', 
-    url: 'https://proxy.hxlstandard.org/data.json?strip-headers=on&url=https%3A//docs.google.com/spreadsheets/d/1HnLZh1hUuR6JKw0xwVtC4_a4o0ixREQf9EqN1LSy2D8/pub%3Fgid%3D137269997%26single%3Dtrue%26output%3Dcsv', 
+    url: 'https://proxy.hxlstandard.org/data.json?strip-headers=on&url=https%3A//docs.google.com/spreadsheets/d/1sMsoSq5Xi5tn3quhs7yUFLnPOpWGsrsPADFOzWHr0wk/pub%3Fgid%3D1722427520%26single%3Dtrue%26output%3Dcsv', 
     dataType: 'json',
 });
 
@@ -516,7 +515,7 @@ $.when(dataCall,arrivalsCall,bordersGeomCall,bordersCall).then(function(dataArgs
     arrivals = hxlProxyToJSON(arrivalsArgs[0],false);
     borders = hxlProxyToJSON(bordersArgs[0],false);
 
-	var dateFormat = d3.time.format("%d/%m/%Y");
+    var dateFormat = d3.time.format("%d/%m/%Y");
 
     data.forEach(function(d){
         d['#date'] = dateFormat.parse(d['#date']);
@@ -546,7 +545,7 @@ $.when(dataCall,arrivalsCall,bordersGeomCall,bordersCall).then(function(dataArgs
             $('#dateupdate').html('<p>Displaying news updates for: '+begin.getDate()+'/'+(begin.getMonth()+1)+'/'+begin.getFullYear()+' - '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'</p><p>Displaying border updates for: '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'</p>');
             data = filterDateRange(begin,end,data);
             updateArrivals(end,arrivals,arrivalMarkers);
-			updateBorders(end,borders);
+            updateBorders(end,borders);
             updateSparkline(arrivals,end,arrivalMarkers);
         });
 
@@ -558,7 +557,7 @@ $.when(dataCall,arrivalsCall,bordersGeomCall,bordersCall).then(function(dataArgs
     updateBorders(max,borders);
 
     var end = new Date($('#dateinput').val()*1);
-	updateSparkline(arrivals,end,arrivalMarkers);
+    updateSparkline(arrivals,end,arrivalMarkers);
     $('#dateinput').width(200);
     $('#dateupdate').html('<p>Displaying news updates for: '+begin.getDate()+'/'+(begin.getMonth()+1)+'/'+begin.getFullYear()+' - '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'</p><p>Displaying border updates for: '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'</p>');
 });
