@@ -257,7 +257,7 @@ function graph(elemId, data, country, models) {
         .datum(data)
         .attr("class", "sparkline")
         .attr("d", line)
-        .attr("stroke", "#5C52FF")
+        .attr("stroke", "#B71C1C")
         .attr("stroke-width", 2)
         .attr("fill", "none");
 
@@ -298,7 +298,7 @@ function graph(elemId, data, country, models) {
                 .attr("x2", x(forecastDate))
                 .attr("y2", y(est))
                 .attr("stroke-width", 2)
-                .attr("stroke", "#4F47D3");
+                .attr("stroke", "#B71C1C");
   
         }
         prevDate = new Date(forecastDate.getTime());
@@ -319,7 +319,7 @@ $('#intro').click(function(){
           },
           {
             element: '#buttons',
-            intro:"<div style='width: 350px;'><p>The page is split into two parts:</p><ul><li><b>Run Forecast</b> shows estimates for the next 1-3 days</li><li><b>Previous Performance</b> allows you to check how closely the model predicted previous arrival numbers</li></ul></div>",
+            intro:"<div style='width: 350px;'><p>The page is split into two parts:</p><ul><li><b>Current Forecast</b> shows estimates for the next 1-3 days</li><li><b>Previous Performance</b> allows you to check how closely the model predicted previous arrival numbers</li></ul></div>",
             position: 'bottom'
           },
           {

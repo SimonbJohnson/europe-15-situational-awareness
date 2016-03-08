@@ -186,7 +186,7 @@ a:hover {
     margin-right: auto;
 }
 
-button.btn {
+.btn {
 	background: #e60000;  /* button colour */
 	color: #ffffff;  	  /* text colour */
 	border: #e60000;
