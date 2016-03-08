@@ -7,7 +7,8 @@
 
         <!-- Load CSS Stylesheets -->
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>       
+        <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>   
+        <link rel="stylesheet" type="text/css" href="css/introjs.css"/>     
         <link rel="stylesheet" type="text/css" href="css/site.css"/>
 
         <!-- Load Javascript Libraries -->
@@ -16,6 +17,7 @@
         <script type="text/javascript" src="js/tile.stamen.js"></script>
         <script type="text/javascript" src="js/d3.min.js"></script>
         <script type="text/javascript" src="js/topojson.v1.min.js"></script>
+        <script type="text/javascript" src="js/intro.js"></script>
 
         <!-- Google Analytics Script -->
         <script type="text/javascript">
@@ -31,30 +33,26 @@
         </script>             
     </head>
     <body class="container">
-        <!-- Bootstrap Fixed Navbar -->
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="navbar-header">
-                <h1>Europe Population Movement: Situational Overview</h1>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <!-- <li><a href="#">About SIMS</a></li> -->
-                    <li><a href="../europe-15-situational-awareness/forecasting.html">Arrival Forecasting</a></li>
-                    <li><a href="mailto:im.migration@ifrc.org" target="_top">Email Us</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="http://www.ifrc.org/" target="_blank"><img height="45" alt="IFRC Logo" title="IFRC Logo" src="http://www.ifrc.org/Global/rw/20150315-annual-report/files/small_5301.png" /></a></li>
-                </ul>
-            </div>
-        </nav>
         <div class="row">
             <div class="col-md-8">
-                <p>The latest updates from Europe regarding issues affecting migrants from the last 7 days.<br />
-                Hover over an icon in the map to get more information. Use the time slider to the right to look at past events.</p>
+                <h1 class="title">Situation Overview: Europe Population Movement</h1>
             </div>
             <div class="col-md-4">
+                <a target="_blank" href="http://www.ifrc.org"><img alt="IFRC Logo" id="logo" src="img/ifrc_logo.png" /></a>
+                <br/>
+                <p class="desc">Produced by SIMS.</p>
+                <a id="portal" class="btn right btn-primary btn-sm" href="http://brcmapsteam.github.io/Europe_response/">Return to IM Portal</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <p>The latest updates from Europe regarding issues affecting migrants from the last 7 days.</p>
+                <button id="intro" class="btn btn-primary btn-sm">Need an Explanation?</button>
+            </div>
+            <div class="col-md-4">
+                <h3>Time Slider</h3>
                 <input id="dateinput" type="range" step="86400000" />
-                <p id="dateupdate"></p>
+                <p class="small" id="dateupdate"></p>
             </div>
         </div>
         <div class="row">           
@@ -73,6 +71,9 @@
                     <p id="url"></p>
                 </div>
             </div>
+            <footer>
+                <p>This dashboard is meant to be used as a exploratory tool to learn about the current situation through a variety of methods and sources. The selection of content shown above does not imply the expression of any opinion on the part of the International Federation of Red Cross and Red Crescent Societies or National Societies concerning the legal status or migration policies of a territory or of its authorities.</p>
+            </footer>
         </div>
         <script type="text/javascript" src='js/site.js'></script>
     </body>

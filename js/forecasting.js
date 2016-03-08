@@ -1,3 +1,4 @@
+
 /* 
  * Purpose: Javascript for building arrival forecasting graphs
  *  Author: Simon B Johnson
@@ -303,6 +304,39 @@ function graph(elemId, data, country, models) {
         prevDate = new Date(forecastDate.getTime());
     }                  
 }
+
+$('#intro').click(function(){
+    var intro = introJs();
+    intro.setOptions({
+        steps: [
+          {
+            intro: "<div style='width: 300px;'><p>This page displays forecasts for arrival numbers into countries along the Western Balkans route. It offers a 1, 2 and 3 day forecast for arrivals based upon past data.</p></div>",
+          },
+          {
+            element: '#results',
+            intro:"<div style='width: 350px;'><img id='expimage' alt='Forecasting Explanation' title='Forecasting Explanation' src='forecasting/forecastexplanation.png' /><p>When reading the graph, you will note the error bars. In our experience, it is highly unlikely that the real arrivals number will ever exceed the upper bounds of the average error.</p></div>",
+            position: 'right'
+          },
+          {
+            element: '#buttons',
+            intro:"<div style='width: 350px;'><p>The page is split into two parts:</p><ul><li><b>Run Forecast</b> shows estimates for the next 1-3 days</li><li><b>Previous Performance</b> allows you to check how closely the model predicted previous arrival numbers</li></ul></div>",
+            position: 'bottom'
+          },
+          {
+            element: '#results',
+            intro: "<div style='width: 300px;'><p>At this time, predictions are most accurate for the 1 day forecasts, and for the countries further along the route. The closer the country geographically to the border of Europe, the more outside variables affect migrant movement. You can explore a situational overview by selecting the tab in the navigation bar above.</p></div>",
+            position: 'right'
+          },
+          {
+            intro: "<div style='width: 300px;'><p>If you are wondering where the graph for Greece is&mdash;or your own country which is not included&mdash;please note that arrivals predictions is dependent upon a variety of factors and we are currently working to improve this model. Feedback is welcome.</p></div>",
+          },
+          {
+            intro: "<div style='width: 300px;'><p class='highlight'>NOTE: The results of this model are not guaranteed. Migrant movement is based upon many variables and this model only takes into account past arrivals numbers. For best results, use these predictions as a guide alongside weather conditions, border policies, public opinion, political events, migrant demographics, etc.</p></div>",
+          }
+        ]
+    });
+    intro.start();
+});
 
 function estimate(forecastfromdate,model,data){
     element = findDate(forecastfromdate,data)

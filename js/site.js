@@ -559,5 +559,34 @@ $.when(dataCall,arrivalsCall,bordersGeomCall,bordersCall).then(function(dataArgs
     var end = new Date($('#dateinput').val()*1);
     updateSparkline(arrivals,end,arrivalMarkers);
     $('#dateinput').width(200);
-    $('#dateupdate').html('<p>Displaying news updates for: '+begin.getDate()+'/'+(begin.getMonth()+1)+'/'+begin.getFullYear()+' - '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'</p><p>Displaying border updates for: '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'</p>');
+    $('#dateupdate').html('<p>Displaying news updates for: '+begin.getDate()+'/'+(begin.getMonth()+1)+'/'+begin.getFullYear()+' - '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'<br/>Displaying border updates for: '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'</p>');
+});
+
+$('#intro').click(function(){
+    var intro = introJs();
+    intro.setOptions({
+        steps: [
+          {
+            element: '#graphs',
+            intro: "<div style='width: 300px;'><p><b>These graphs show the daily arrival stats going back to September/October 2015.</b></p><p>The blue line represents the actual number of arrivals and the red line represents the 7 day average trend line.</p></div>",
+            position: 'left'
+          },
+          {
+            element: '#map',
+            intro:"<div style='width: 350px;'><p><b>Hover over an icon in the map to get more information.</b></p><p>The content of a news article or update will appear on the right. Click the link to learn more.</p></div>",
+            position: 'right'
+          },
+          {
+            element: '#dateinput',
+            intro: "<div style='width: 300px;'><b>Move the time slider with your mouse to look at past events.</b></div>",
+            position: 'bottom'
+          },
+          {
+            element: '#showgraphs',
+            intro:"<div style='width: 350px;'><p><b>Clicking this button will return the view to the summary arrival graphs.</p></div>",
+            position: 'right'
+          },
+        ]
+    });
+    intro.start();
 });

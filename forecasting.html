@@ -6,13 +6,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <!-- Load CSS Stylesheets -->
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />      
-        <link rel="stylesheet" type="text/css" href="css/site.css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/introjs.css" />
+        <link rel="stylesheet" type="text/css" href="css/forecasting.css" />
 
         <!-- Load Javascript Libraries -->
         <script type="text/javascript" src="js/jquery.js"></script>
         <script type="text/javascript" src="js/d3.min.js"></script>
         <script type="text/javascript" src="js/d3.tip.min.js"></script>
+        <script type="text/javascript" src="js/intro.js"></script>
 
         <!-- Google Analytics Script -->
         <script type="text/javascript">
@@ -28,43 +30,38 @@
         </script>             
     </head>
     <body class="container forecast">
-        <!-- Bootstrap Fixed Navbar -->
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="navbar-header">
-                <h1>Forecasting Migrant Arrivals through the Balkans</h1>
+        <div class="row">
+            <div class="col-md-8">
+                <h1 class="title">Forecasting Migrant Arrivals through the Balkans</h1>
             </div>
-            <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <!-- <li><a href="#">About SIMS</a></li> -->
-                    <li><a href="../europe-15-situational-awareness/index.html">Situational Overview</a></li>
-                    <li><a href="mailto:im.migration@ifrc.org" target="_top">Email Us</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="http://www.ifrc.org/" target="_blank"><img height="45" alt="IFRC Logo" title="IFRC Logo" src="http://www.ifrc.org/Global/rw/20150315-annual-report/files/small_5301.png" /></a></li>
-                </ul>
+            <div class="col-md-4">
+                <a target="_blank" href="http://www.ifrc.org"><img id="logo" alt="IFRC Logo" src="img/ifrc_logo.png" /></a>
+                <br/>
+                <p class="desc">Produced by SIMS.</p>
+                <button id="intro" class="btn right btn-primary btn-sm">Need an Explanation?</button>
             </div>
-        </nav>
+        </div>
 
         <div class="row bottomborder">
             <div class="col-md-6">
                 <p>This page displays forecasts for arrival numbers into countries along the Western Balkans route. It offers a 1, 2 and 3 day forecast for arrivals based upon past data.</p>
 
-                <p>The page is split into two parts:</p>
-                    <ul>
-                        <li><b>Run Forecast</b> shows estimates for the next 1-3 days</li>
-                        <li><b>Previous Performance</b> allows you to check how closely the model predicted previous arrival numbers</li>
-                    </ul>
-
-                <p>When reading the graph, you will note the error bars. In our experience, it is highly unlikely that the real arrivals number will ever exceed the upper bounds of the average error.</p>
-
-                <p>At this time, predictions are most accurate for the 1 day forecasts, and for the countries further along the route. The closer the country geographically to the border of Europe, the more outside variables affect migrant movement. <!--We have included events of high importance to migrant transit alongside these predictions, and y-->You can explore a situational overview by selecting the tab in the navigation bar above.</p>
-
-                <p class="highlight">NOTE: The results of this model are not guaranteed. Migrant movement is based upon many variables and this model only takes into account past arrivals numbers. For best results, use these predictions as a guide alongside weather conditions, border policies, public opinion, political events, migrant demographics, etc.</p>
+                
             </div>
             <div class="col-md-6">
-                <img id="expimage" alt="Forecasting Explanation" title="Forecasting Explanation" src="forecasting/forecastexplanation.png" />
-
-                <p>Migrant arrivals data provided by <a target="_blank" href="http://data.unhcr.org/mediterranean/regional.php">UNHCR</a>. Regression analysis uses the <a target="_blank" href="https://en.wikipedia.org/wiki/Lasso_(statistics)">LASSO method</a>. Model and process by <a target="_blank" href="https://github.com/SimonbJohnson">Simon Johnson</a>, British Red Cross, as part of the SIMS network within the International Federation of the Red Cross and Red Crescent Societies.</p>
+                <div class="button-row" id="buttons">
+                    <!--<select>
+                        <option id="forecastbutton" value="forecastbutton">Current Forecast</option>
+                        <option id="previousbutton1" value="previousbutton1">Previous Performance for 1 Day Forecasts</option>
+                        <option id="previousbutton2" value="previousbutton2">Previous Performance for 2 Day Forecasts</option>
+                        <option id="previousbutton3" value="previousbutton3">Previous Performance for 3 Day Forecasts</option>
+                    </select>-->
+                    
+                    <button class="btn btn-primary btn-sm" id="forecastbutton">Current Forecast</button><br/>
+                    <button class="btn btn-primary btn-sm" id="previousbutton1">Previous Performance for 1 Day Forecasts</button><br/>
+                    <button class="btn btn-primary btn-sm" id="previousbutton2">Previous Performance for 2 Day Forecasts</button><br/>
+                    <button class="btn btn-primary btn-sm" id="previousbutton3">Previous Performance for 3 Day Forecasts</button>
+                </div>
             </div>
         </div>
         <!-- <div class="row topspacer">
@@ -78,18 +75,13 @@
                 <div id="description">
                 </div>
             </div>
-        </div> -->
+        </div> 
         <div class="row topspacer bottomborder">
-            <div class="col-md-12">
+            <div id="button-row" class="col-md-12">
 
-                <div id="buttons">
-                    <button id="forecastbutton" class="button">Run Forecast</button>
-                    <button id="previousbutton1" class="button">Previous Performance for 1 Day Forecasts</button>
-                    <button id="previousbutton2" class="button">Previous Performance for 2 Day Forecasts</button>
-                    <button id="previousbutton3" class="button">Previous Performance for 3 Day Forecasts</button>
-                </div>
+                
             </div>
-        </div>
+        </div>-->
         <div class="row">
             <div class="col-md-12">
                 <div id="results">
@@ -100,6 +92,11 @@
                 <div id="previous3"></div>
             </div>            
         </div>
+        <footer>
+            <div class="container">
+                <p class="highlight">NOTE: The results of this model are not guaranteed. Migrant movement is based upon many variables and this model only takes into account past arrivals numbers. For best results, use these predictions as a guide alongside weather conditions, border policies, public opinion, political events, migrant demographics, etc.</p>
+            </div>
+        </footer>
         <!-- Run Custom Javascript for the Website -->
         <script src="js/forecasting.js"></script>
     </body>
