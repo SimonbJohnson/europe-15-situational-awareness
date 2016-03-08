@@ -46,19 +46,19 @@ import csv
 url = 'https://docs.google.com/spreadsheets/d/15OC8U1lodClWj0LQ3dUi3sR1emtZxQx5ZDOIPZFgwgM/pub?gid=0&single=true&output=csv'
 
 data = hxl.data(url)
-createList(data,7,'#affected+arriveaustria','05/01/2016','15/02/2016',1,7,['#affected+arrivehungary'],'austriarinput.csv')
+createList(data,7,'#affected+arriveaustria','15/02/2016','07/03/2016',1,7,['#affected+arrivehungary'],'austriarinput.csv')
 
 data = hxl.data(url)
-createList(data,6,'#affected+arriveslovenia','05/01/2016','15/02/2016',1,7,['#affected+arrivehungary','#affected+arriveaustria'],'sloveniarinput.csv')
+createList(data,6,'#affected+arriveslovenia','15/02/2016','07/03/2016',1,7,['#affected+arrivehungary','#affected+arriveaustria'],'sloveniarinput.csv')
 
 data = hxl.data(url)
-createList(data,5,'#affected+arrivecroatia','05/01/2016','15/02/2016',1,7,['#affected+arrivehungary','#affected+arriveaustria','#affected+arriveslovenia'],'croatiarinput.csv')
+createList(data,5,'#affected+arrivecroatia','15/02/2016','07/03/2016',1,7,['#affected+arrivehungary','#affected+arriveaustria','#affected+arriveslovenia'],'croatiarinput.csv')
 
 data = hxl.data(url)
-createList(data,4,'#affected+arriveserbia','05/01/2016','15/02/2016',1,7,['#affected+arrivehungary','#affected+arriveaustria','#affected+arriveslovenia','#affected+arrivecroatia'],'serbiarinput.csv')
+createList(data,4,'#affected+arriveserbia','15/02/2016','07/03/2016',1,7,['#affected+arrivehungary','#affected+arriveaustria','#affected+arriveslovenia','#affected+arrivecroatia'],'serbiarinput.csv')
 
 data = hxl.data(url)
-createList(data,3,'#affected+arrivefyrom','05/01/2016','15/02/2016',1,7,['#affected+arrivehungary','#affected+arriveaustria','#affected+arriveslovenia','#affected+arrivecroatia','#affected+arriveserbia'],'fyromrinput.csv')
+createList(data,3,'#affected+arrivefyrom','15/02/2016','07/03/2016',1,7,['#affected+arrivehungary','#affected+arriveaustria','#affected+arriveslovenia','#affected+arrivecroatia','#affected+arriveserbia'],'fyromrinput.csv')
 
 data = hxl.data(url)
-createList(data,2,'#affected+arrivemainlandgreece','05/01/2016','15/02/2016',1,7,['#affected+arrivehungary','#affected+arriveaustria','#affected+arriveslovenia','#affected+arrivecroatia','#affected+arrivefyrom','#affected+arriveserbia'],'greecerinput.csv')
+createList(data,2,'#affected+arrivemainlandgreece','15/02/2016','07/03/2016',1,7,['#affected+arrivehungary','#affected+arriveaustria','#affected+arriveslovenia','#affected+arrivecroatia','#affected+arrivefyrom','#affected+arriveserbia'],'greecerinput.csv')

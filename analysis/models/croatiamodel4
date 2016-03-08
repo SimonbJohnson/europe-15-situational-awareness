@@ -1,4 +1,6 @@
 "","cols.which.croatiamodel4....0..","croatiamodel4.which.croatiamodel4....0.."
-"1","intercept",2065.42540866264
-"2","X.affected.arrivemainlandgreece.5",0.0592607912611885
-"3","X.affected.arriveserbia.7",-0.0990561443258311
+"1","intercept",254.002672302393
+"2","X.affected.arrivefyrom.4",0.175119646590074
+"3","X.affected.arrivefyrom.5",0.342709969543751
+"4","X.affected.arriveserbia.5",0.0476907090617936
+"5","X.affected.arrivegreekislands.6",-0.0652856806600295
