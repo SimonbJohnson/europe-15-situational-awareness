@@ -1,63 +1,82 @@
-
 body {
     font-family: "Gotham-Light", sans-serif;
+    /* If background image is desired
+	background-color:#ffffff; 
+    background-color:#f3f3f3; 
+	background-image: url("background.png"); 
+	background-size: 100%;
+	background-position: 0% 70%;
+	background-repeat: repeat-y;
+	background-attachment: fixed;
+    */
 }
 
-.title{
-    font-weight: bold;
+#results {
+	display: inline-block;
 }
 
 .container {
-    width: 80%;
+	width: 80%;
 }
 
-.subtitle{
-    font-size: 2em;
+.titledesc {
+    font-size:1.3em;
+	/* color: #777; */
+    color: #000;   
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.title {
+    font-weight: bold;
 }
 
 p {
-    font-size: 1em;
-    color: #555;
+    font-size: 1.2em;
     text-align: justify;
+    color: #555;
+}
+
+li {
+    font-size: 1.2em;
+    color: #555;
 }
 
 .desc {
-    font-size: .8em;
+    font-size: 1em;
     color: #777;
     text-align: right;
+}
+
+/*h1, h2, h3 {
+    color: #B71C1C;
+}*/
+
+a {
+    color: #B71C1C;
+}
+
+a:hover {
+    color: #B71C1C;
 }
 
 .right {
     float: right;
 }
 
-#portal {
-    color: #ffffff;
+#logo {
+    float: right;
+    width: 100%;
+    margin-top: 10px;
 }
 
-a {
-	padding: 0;
+.spacer {
+    margin-top:30px;
+	margin-bottom: 30px;
 }
 
-.loading {
-	padding: 1em;
-	font-size: 300%;
-}
-
-#map {
-    height:500px;
-}
-
-.highlight {
-	color:#F39000;
-	font-weight:bold;
-}
-
-.bottomborder {
-	border-bottom-width:1px;
-	border-bottom-color:#bbbbbb;
-	border-bottom-style:solid;
-	padding-bottom:10px;
+.spacer-md {
+    margin-top:20px;
 }
 
 .sticky {
@@ -137,52 +156,12 @@ a {
   shape-rendering: crispEdges;
 }
 
-.forecast{
-	background-color:#fafafa;
-}
-
 .topspacer {
 	margin-top:20px;
 }
 
-footer {
-	font-style: italic;
-}
-
-.btn {
-    background: #e60000;  /* button colour */
-    color: #ffffff;       /* text colour */
-    border: #e60000;
-    font-weight: bold;
-    font-size: 13px;
-    
-}
-
-#logo {
-    float: right;
-    width: 100%;
-    margin-top: 10px;
-}
-
-.button {
-	margin-right:10px;
-	margin-left:10px;
-	border-width:3px;
-	border-color:#4F47D3;
-	border-style:solid;
-	background-color:#4F47D3;
-	color:#fafafa;
-}
-
-.small {
-	font-size: .8em;
-}
-
 #dateinput{
-	/*
  	margin-top:10px;
- 	*/
- 	width: 100%;
 }
 
 #dateupdate {
@@ -191,10 +170,6 @@ footer {
  	border-bottom-style:solid;
  	border-bottom-width:1px;
  	border-bottom-color:#cccccc;
-}
-
-#portal {
-	color: #ffffff;
 }
 
 #url {
@@ -209,4 +184,24 @@ footer {
 	display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+.btn {
+	background: #e60000;  /* button colour */
+	color: #ffffff;  	  /* text colour */
+	border: #e60000;
+	font-weight: bold;
+	font-size: 13px;
+	
+}
+
+.btn {
+	margin-top: .4em;
+	margin-bottom: .4em;
+}
+
+.highlight {
+	font-size: 1em;
+	color:#B71C1C;
+	font-weight:bold;
 }
