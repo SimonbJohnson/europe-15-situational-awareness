@@ -242,7 +242,7 @@ function generateSparklines(data,arrivalMarkers){
         sparkline('#graph'+i,data,d.tag,max);
     });
 
-    $('#graphs').append('<br/><p>Access <a href="https://docs.google.com/spreadsheets/d/15OC8U1lodClWj0LQ3dUi3sR1emtZxQx5ZDOIPZFgwgM/edit?usp=sharing" target="_blanks">full data</a>.  Arrivals data from <a href="http://data.unhcr.org/mediterranean/regional.php">UNHCR data portal</a>.</p>');
+    $('#graphs').append('<br/><p class="small">Access <a href="https://docs.google.com/spreadsheets/d/15OC8U1lodClWj0LQ3dUi3sR1emtZxQx5ZDOIPZFgwgM/edit?usp=sharing" target="_blanks">full data</a>.  Arrivals data from <a href="http://data.unhcr.org/mediterranean/regional.php">UNHCR data portal</a>.</p>');
     
 }
 
@@ -542,7 +542,7 @@ $.when(dataCall,arrivalsCall,bordersGeomCall,bordersCall).then(function(dataArgs
             var end = new Date($('#dateinput').val()*1);
             var begin = new Date($('#dateinput').val()*1);
             begin.setDate(begin.getDate()-7);
-            $('#dateupdate').html('<p>Displaying news updates for: '+begin.getDate()+'/'+(begin.getMonth()+1)+'/'+begin.getFullYear()+' - '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'</p><p>Displaying border updates for: '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'</p>');
+            $('#dateupdate').html('<p>Displaying news updates for: '+begin.getDate()+'/'+(begin.getMonth()+1)+'/'+begin.getFullYear()+' - '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'<br/>Displaying border updates for: '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'</p>');
             data = filterDateRange(begin,end,data);
             updateArrivals(end,arrivals,arrivalMarkers);
             updateBorders(end,borders);
@@ -577,7 +577,7 @@ $('#intro').click(function(){
             position: 'right'
           },
           {
-            element: '#dateinput',
+            element: '#timeslider',
             intro: "<div style='width: 300px;'><b>Move the time slider with your mouse to look at past events.</b></div>",
             position: 'bottom'
           },
@@ -585,7 +585,7 @@ $('#intro').click(function(){
             element: '#showgraphs',
             intro:"<div style='width: 350px;'><p><b>Clicking this button will return the view to the summary arrival graphs.</p></div>",
             position: 'right'
-          },
+          }
         ]
     });
     intro.start();
