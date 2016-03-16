@@ -1,9 +1,6 @@
 "","cols.which.austriamodel2....0..","austriamodel2.which.austriamodel2....0.."
-"1","intercept",443.276058801729
-"2","X.affected.arrivefyrom.2",0.17579455349617
-"3","X.affected.arriveserbia.2",0.360930102087278
-"4","X.affected.arriveslovenia.2",0.0949103417308081
-"5","X.affected.arrivefyrom.3",0.207409823704061
-"6","X.affected.arriveserbia.3",0.0187645025098035
-"7","X.affected.arrivefyrom.4",0.0118066474117472
-"8","X.affected.arriveserbia.5",0.0300566256516706
+"1","intercept",156.072711884845
+"2","X.affected.arrivefyrom.2",0.264266387188663
+"3","X.affected.arriveslovenia.2",0.137823442458365
+"4","X.affected.arrivefyrom.3",0.45227096709416
+"5","X.affected.arrivefyrom.4",0.0344212749612559
