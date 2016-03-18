@@ -8,6 +8,7 @@
         <!-- Load CSS Stylesheets -->
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>   
+		<link rel="stylesheet" type="text/css" href="css/nouislider.min.css"/>  
         <link rel="stylesheet" type="text/css" href="css/introjs.css"/>     
         <link rel="stylesheet" type="text/css" href="css/site.css"/>
 
@@ -17,6 +18,7 @@
         <script type="text/javascript" src="js/tile.stamen.js"></script>
         <script type="text/javascript" src="js/d3.min.js"></script>
         <script type="text/javascript" src="js/topojson.v1.min.js"></script>
+		<script type="text/javascript" src="js/nouislider.min.js"></script>
         <script type="text/javascript" src="js/intro.js"></script>
 
         <!-- Google Analytics Script -->
@@ -55,11 +57,13 @@
             <div class="col-md-4">
 				<div id = "timeslider">
 					<p id="slider_title">Time Slider</p>
-					<input id="dateinput" type="range" step="86400000" />
-					<p class="small" id="dateupdate"></p>
+					<div id="dateinput"></div>
+					<p class="small" id="dateupdate">
+					</p>
+										
 				</div>
 				<div id="text">                
-					<div id="graphs"></div>
+					<div id="graphs" class="on"></div>
 					<div id="article">
 						<p><button id="showgraphs">Show Graphs</button></p>
 						<h4 id="title"></h4>
@@ -70,27 +74,9 @@
 				</div>
             </div>
         </div>
-       <!--  <div class="row">   -->         
-           <!--  <div class="col-md-8">
-                <div id="map-container">
-                    <div id="map"></div>
-                </div>
-            </div> -->
-           <!--  <div id="text" class="col-md-4">                
-                <div id="graphs"></div>
-                <div id="article">
-                    <p><button id="showgraphs">Show Graphs</button></p>
-                    <h4 id="title"></h4>
-                    <p id="date"><p>
-                    <p id="content"></p>
-                    <p id="url"></p>
-                </div>
-            </div> -->
-		<!-- </div> -->
             <footer>
                 <p>This dashboard is meant to be used as an exploratory tool to learn about the current situation through a variety of methods and sources. The selection of content shown above does not imply the expression of any opinion on the part of the International Federation of Red Cross and Red Crescent Societies or National Societies concerning the legal status or migration policies of a territory or of its authorities.</p>
             </footer>
-        <!-- </div> -->
         <script type="text/javascript" src='js/site.js'></script>
     </body>
 </html>
