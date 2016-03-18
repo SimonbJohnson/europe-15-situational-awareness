@@ -199,10 +199,8 @@ footer {
 }
 
 #dateinput{
-	/*
- 	margin-top:10px;
- 	*/
- 	width: 100%;
+	margin-left: 105px;
+	width: 200px;
 }
 
 #dateupdate {
