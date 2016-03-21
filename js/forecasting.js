@@ -146,6 +146,7 @@ function forecastGraph(elemId, data, country, models, lag) {
         var forecastDate = new Date(d['#date']);
 
         var est = estimate(forecastDate,models[country][lag],data);
+        if(est<0){est=0}
         if(!isNaN(est)){
             forecastg.append("rect")
                    .attr("x", x(prevDate)+(x(forecastDate)-x(prevDate))*0.5)
@@ -281,7 +282,7 @@ function graph(elemId, data, country, models) {
         var forecastDate = new Date(data[data.length-1]['#date'].getTime());
         forecastDate.setDate(forecastDate.getDate() + i);
         var est = estimate(forecastDate,models[country][i],data);
-
+        if(est<0){est=0}
         if(!isNaN(est)){
             forecastg.append("rect")
                 .attr("class","err"+i)
@@ -362,7 +363,7 @@ function getAverageError(data,model,tag){
 
     data.slice(7,data.length).forEach(function(d) {
         var est = estimate(d["#date"],model,data);
-        console.log(est);
+        if(est<0){est=0}
         // If 
         if(!isNaN(est) && d[tag]!="N/A"){
             errorabsum += Math.abs(est-d[tag]);
@@ -446,7 +447,7 @@ $.ajax({
         });
 
         // Default model url for onload
-        loadModel("forecasting/15Feb16_07Mar16_lasso.json");
+        loadModel("forecasting/25Feb16_20Mar16_lasso.json");
     }
 });
 
