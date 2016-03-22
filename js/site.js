@@ -129,7 +129,7 @@ function filterDateRange(begin,end,data){
 function updateArrivals(end,arrivals,arrivalMarkers){
 	
     var arrival = findNearestArrival(end,arrivals);
-    console.log("in updateArrivals, end = ", end, "   arrivals = ", arrival);
+    //console.log("in updateArrivals, end = ", end, "   arrivals = ", arrival);
 	arrivalMarkers.forEach(function(m){
         m.circle.setRadius(Math.pow(arrival[m.tag],0.5)/2);
     });
@@ -394,28 +394,29 @@ function sparkline(elemId, data, tag, max) {
         .attr("class","datemarker");
 }
 
-function updateSparkline(data,date,arrivalMarkers){
+function updateSparkline(arr_data,date,arrivalMarkers){
     var width = 200;
-    data.forEach(function(d){  
+	dailyArrivals = {};
+    arr_data.forEach(function(d){  
         if ((d['#date'].getDate() == date.getDate()) && (d['#date'].getMonth() == date.getMonth()) && (d['#date'].getFullYear() == date.getFullYear())){    
             dailyArrivals = d;
-        };
-    });  
+			console.log("dailyArrivals: ", d);
+		};
+	});  	
     
     var x = d3.scale.linear().range([0, width]);
-    x.domain(d3.extent(data, function(d) { return d['#date']; }));
+    x.domain(d3.extent(arr_data, function(d) { return d['#date']; }));
 
     d3.selectAll('.datemarker').attr('x1',x(date)).attr('x2',x(date));
     
-    //$('#graphnote').html('Arrivals&nbsp<br/>' + date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear());
 	$('#graphnote').html('Arrivals&nbsp<br/>' + formatDate(date));
-    
+		
     arrivalMarkers.forEach(function(d,i){
-        if (!isNaN(dailyArrivals[d.tag])) {
+		if (!isNaN(dailyArrivals[d.tag])) {
             $('#graphval'+i).html(d3.format(",.0f")(dailyArrivals[d.tag]));
         } else {
             $('#graphval'+i).html("No data");
-        };
+        }; 
     });
     
 }
@@ -548,77 +549,56 @@ $.when(dataCall,arrivalsCall,bordersGeomCall,bordersCall).then(function(dataArgs
     data = createMarkers(data);
 	
 	
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-    var max = d3.max(data,function(d){return d['#date'].getTime();});			  //most recent date as timestamp
-    //var min = d3.min(data,function(d){return d['#date'].getTime()+7*86400000});   //first date for display (i.e. first date in dataset + 1 week)	
+	/////////////////////////////////
+	// Timeslider with noUiSlider: //
+	/////////////////////////////////
+	
+    var max = d3.max(data,function(d){return d['#date'].getTime();});  //most recent date in data as timestamp
 	var min = d3.min(data,function(d){return d['#date'].getTime()});   //first date for display as timestamp
 	var one_day = 24 * 60 * 60 * 1000;
 	var one_week = 7 * 24 * 60 * 60 * 1000;
-	console.log("min_date: ", min);
-	console.log("max_date: ", max);
 	
-	var begin = new Date(max-one_week*4);   //date of start handle
+	var begin = new Date(max-one_week*5);   //date of start handle
 	var end = new Date(max);				//date of end handle
 	var endOfDay = new Date(max);
-
 	
 	var dateSlider = document.getElementById('dateinput');
 
 	noUiSlider.create(dateSlider, {
-		start: [begin, end], // Handle start positions
-		step: one_day, // Slider moves in increments of 'one_day'
-		margin: 0, // Handles must be at least 1 day apart (i.e. 24hrs)
-		connect: true, // Display a colored bar between the handles
-		//direction: 'rtl', // Put '0' at the bottom of the slider
-		orientation: 'horizontal', // Orient the slider hotizontally
-		behaviour: 'tap-drag', // Move handle on tap, bar is draggable
-		range: { // Slider can select '0' to '100'
+		start: [begin, end], 		// handle start positions
+		step: one_day, 				// move slider in increments of 'one_day'
+		margin: 0, 					// handles may be 0 days apart 
+		connect: true, 				// display colored bar between handles
+		//direction: 'rtl', 		// put '0' at the bottom of the slider
+		orientation: 'horizontal', 
+		behaviour: 'tap-drag', 		// move handle on tap, bar is draggable
+		range: { 				
 			'min': min,
 			'max': max
 		}/* ,
 		format: wNumb({decimals: 0}) */
-		 /* ,
+		/* ,
 		pips: { // Show a scale with the slider
-			mode: 'range',
-			density: 3,
-			
-		}  */
+			mode: 'range', 
+			mode: 'count',
+			values: 5,
+			density: 3
+			//format: wNumb({decimals: 0}) 
+		}   */
 	});
 	
-	
-	
-	/* var dateValues = [
-		document.getElementById('event-start'),
-		document.getElementById('event-end')
-	];  */ 
 
 	dateSlider.noUiSlider.on('update', function(values, handle) {
-		//console.log("in dateSlider values = ", values);
-		//console.log("in dateSlider handle = ", handle);
-		//dateValues[handle].innerHTML = formatDate(new Date(+values[handle]));
-		//var value = values[handle];
-		//if (handle == 0) {
 			var begin = new Date(+values[0]);
 			begin.setHours(0,0,0,0);
-		//} else if (handle == 1) {
 			var end = new Date(+values[1]);
 			end.setHours(0,0,0,0);
 			var endOfDay = new Date(+values[1]);
 			endOfDay.setHours(23,59,59,999);
-		//};
         
-		//dateValues[handle].innerHTML = new Date(+values[handle]);
-		//$('#dateupdate').html('<p>NEW news updates for: ' + values[0] + ' - ' + values[1] + '</p>');
-		//$('#dateupdate').html('<p>NEW Displaying news updates for: '+begin.getDate()+'/'+(begin.getMonth()+1)+'/'+begin.getFullYear()+' - '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'<br/>NEW Displaying border updates for: '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'</p>');
-		
-		
-		
-		//endOfDay = endOfDay.setDate(end.getDate() + 1);	
-		console.log("UPDATE HERE: begin = ", begin, formatDate(begin), "     end = ", end, formatDate(end), "     next day = ", endOfDay);
 				
-		data = filterDateRange(begin,endOfDay,data);				//****** WANT end+1 here   tomorrow.setDate(tomorrow.getDate() + 1);
-		//console.log("  data = ", data);
+		data = filterDateRange(begin,endOfDay,data);				
 		updateArrivals(end,arrivals,arrivalMarkers);
 		updateBorders(end,borders);
 		updateSparkline(arrivals,end,arrivalMarkers);
@@ -629,17 +609,10 @@ $.when(dataCall,arrivalsCall,bordersGeomCall,bordersCall).then(function(dataArgs
 			$('#dateupdate').html('<p>Displaying news updates for: '+formatDate(begin)+' - '+formatDate(end)+'<br/>Displaying border updates for: '+formatDate(end)+'</p>');
 		};
 	});
-			
-    //var begin = new Date(+values[handle]);
-	//begin.setDate(begin.getDate()-7);
-	//console.log("UPDATE FIRST TIME ONLY HERE: begin = ", begin, "     end = ", end);
-	//begin.setDate(begin.getDate());
-	//endOfDay = endOfDay.setDate(end.getDate() + 1);	
 	
-    data = filterDateRange(begin,endOfDay,data);				//******** WANT end+1 here
+    data = filterDateRange(begin,endOfDay,data);				
     updateArrivals(end,arrivals,arrivalMarkers);
     updateBorders(end,borders);
-	//var end = new Date(+values[handle]);
 	updateSparkline(arrivals,end,arrivalMarkers);
 	
 	if (formatDate(begin)==formatDate(end)) {
@@ -647,101 +620,13 @@ $.when(dataCall,arrivalsCall,bordersGeomCall,bordersCall).then(function(dataArgs
 	} else {
 		$('#dateupdate').html('<p>Displaying news updates for: '+formatDate(begin)+' - '+formatDate(end)+'<br/>Displaying border updates for: '+formatDate(end)+'</p>');
 	};
-	//$('#dateupdate').html('<p>Displaying news updates for: '+formatDate(begin)+' - '+formatDate(end)+'<br/>Displaying border updates for: '+formatDate(end)+'</p>');
 
-
-  /*   $('#dateinput')
-		.attr('max',max)
-        .attr('min',min)
-        .attr('value',max)
-        .on('input',function(e){
-            var end = new Date($('#dateinput').val()*1);		//end = date on slider
-            var begin = new Date($('#dateinput').val()*1);
-            begin.setDate(begin.getDate()-7);					//begin = 1 week before date on slider
-            $('#dateupdate').html('<p>Displaying news updates for: '+begin.getDate()+'/'+(begin.getMonth()+1)+'/'+begin.getFullYear()+' - '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'<br/>Displaying border updates for: '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'</p>');
-            data = filterDateRange(begin,end,data);
-            updateArrivals(end,arrivals,arrivalMarkers);
-            updateBorders(end,borders);
-            updateSparkline(arrivals,end,arrivalMarkers);
-        });
-
-    var begin = new Date($('#dateinput').val()*1);			//date of slider   
-    begin.setDate(begin.getDate()-7);
-    data = filterDateRange(begin,max,data);
-    updateArrivals(max,arrivals,arrivalMarkers);
-    updateBorders(max,borders);
-
-    var end = new Date($('#dateinput').val()*1);
-    updateSparkline(arrivals,end,arrivalMarkers);
-    $('#dateupdate').html('<p>Displaying news updates for: '+begin.getDate()+'/'+(begin.getMonth()+1)+'/'+begin.getFullYear()+' - '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'<br/>Displaying border updates for: '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'</p>');
-	 */
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	
-	/* var max = d3.max(data,function(d){return d['#date'].getTime();});			  //most recent date
-    var min = d3.min(data,function(d){return d['#date'].getTime()+7*86400000});   //first date for display (i.e. first date in dataset + 1 week)
-
-    $('#dateinput')
-		.attr('max',max)
-        .attr('min',min)
-        .attr('value',max)
-        .on('input',function(e){
-            var end = new Date($('#dateinput').val()*1);		//end = date on slider
-            var begin = new Date($('#dateinput').val()*1);
-            begin.setDate(begin.getDate()-7);					//begin = 1 week before date on slider
-            $('#dateupdate').html('<p>Displaying news updates for: '+begin.getDate()+'/'+(begin.getMonth()+1)+'/'+begin.getFullYear()+' - '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'<br/>Displaying border updates for: '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'</p>');
-            data = filterDateRange(begin,end,data);
-            updateArrivals(end,arrivals,arrivalMarkers);
-            updateBorders(end,borders);
-            updateSparkline(arrivals,end,arrivalMarkers);
-        });
-
-    var begin = new Date($('#dateinput').val()*1);			//date of slider   
-    begin.setDate(begin.getDate()-7);
-    data = filterDateRange(begin,max,data);
-    updateArrivals(max,arrivals,arrivalMarkers);
-    updateBorders(max,borders);
-
-    var end = new Date($('#dateinput').val()*1);
-    updateSparkline(arrivals,end,arrivalMarkers);
-    $('#dateupdate').html('<p>Displaying news updates for: '+begin.getDate()+'/'+(begin.getMonth()+1)+'/'+begin.getFullYear()+' - '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'<br/>Displaying border updates for: '+end.getDate()+'/'+(end.getMonth()+1)+'/'+end.getFullYear()+'</p>'); */
-	
-	
 });
 
-// Create a list of day and monthnames.
-var
-	/* weekdays = [
-		"Sunday", "Monday", "Tuesday",
-		"Wednesday", "Thursday", "Friday",
-		"Saturday"
-	], */
-	weekdays = [
-		"Sun", "Mon", "Tue",
-		"Wed", "Thu", "Fri",
-		"Sat"
-	],
-	months = [
-		"Jan", "Feb", "Mar",
-		"Apr", "May", "Jun", "Jul",
-		"Aug", "Sep", "Oct",
-		"Nov", "Dec"
-	];
-	/* months = [
-		"January", "February", "March",
-		"April", "May", "June", "July",
-		"August", "September", "October",
-		"November", "December"
-	]; */
+var weekdays = ["Sun", "Mon", "Tue","Wed", "Thu", "Fri","Sat"]
+var months = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct","Nov", "Dec"];
 
-
-// Create a string representation of the date.
+// Create string representation of date
 function formatDate ( date ) {
     return weekdays[date.getDay()] + " " +
         date.getDate() + " " +
@@ -749,30 +634,18 @@ function formatDate ( date ) {
         date.getFullYear();
 }
 
-
- $('#intro').click(function(){
-	 
-	if ($('#article').hasClass('on')) {
+// Tour / Intro.js
+ $('#intro').click(function(){ 
+	if ($('#article').hasClass('on')) {					//hide articles to start
 		console.log("Articles being turned off");
 		$('#article').hide();
 		$('#article').removeClass('on');
 	};
-	if (!$('#graphs').hasClass('on')) {
+	if (!$('#graphs').hasClass('on')) {					//show graphs to start
 		console.log("Graphs being turned on");
 		$('#graphs').slideDown();				
 		$('#graphs').addClass('on');
 	};
-	
- 	/* .onchange(function() {
-		if ($('#article').hasClass('on')) {
-			console.log('article on');
-		} else if ($('#graphs').hasClass('on')) {
-			console.log('graphs on');
-		} else {
-			console.log('neither on');
-		};
-	})   */
-
 	var options_before = {
         steps: [
           {
@@ -780,49 +653,22 @@ function formatDate ( date ) {
             intro:"<div style='width: 350px;'><p><b>Hover over an icon in the map to get more information.</b></p><p>The content of a news article or update will appear on the right. Click the link to learn more.</p></div>",
             position: 'right'
           },{
-            element: '#graphs',
+            element: '#text',
             intro: "<div style='width: 300px;'><p><b>These graphs show the daily arrival stats going back to September/October 2015.</b></p><p>The blue line represents the actual number of arrivals and the red line represents the 7 day average trend line.</p></div>",
             position: 'left'
-			/* onbeforechange: function() {
-				console.log("now should show graphs");
-				if ($('#article').hasClass('on')) {
-					$('#article').hide();
-					$('#article').removeClass('on');
-				};
-				if (!$('#graphs').hasClass('on')) {
-					$('#graphs').slideDown();				
-					$('#graphs').addClass('on');
-				};	 */			
-				/* $('#graphs').slideUp();
-				$('#article').show();
-				$('#graphs').removeClass('on');
-				$('#article').addClass('on'); */
-			//}
           },{
-            element: '#article',
+            element: '#text',
 			intro: "<div style='width: 300px;'><p><b>Hovering over an icon in the map reveals the associated news article here.</p></div>",
             position: 'left'
 		  },
 		  {
             element: '#showgraphs',
             intro:"<div style='width: 350px;'><p><b>Clicking this button will return the view to the summary arrival graphs.</p></div>",
-            position: 'right'
-			//onchange: function() {
-			//	console.log("now should show articles");
-				/* $('#graphs').slideDown();
-				$('#article').hide();
-				$('#graphs').addClass('on');
-				$('#article').removeClass('on'); */
-			/* 	$('#graphs').slideUp();
-				$('#article').show();
-				$('#graphs').removeClass('on');
-				$('#article').addClass('on'); 
-			} */
-          },
-          
+            position: 'left'
+          },        
           {
             element: '#timeslider',
-            intro: "<div style='width: 300px;'><b>Move the time slider with your mouse to look at past events.</b></div>",
+            intro: "<div style='width: 300px;'><b>Move both handles on the time slider with your mouse to look at the desired range of past events.</b><p>All news events for the time range will be displayed. Border controls on the map and arrival statistics in the graphs will be displayed for the final date in the range.</p></div>",
             position: 'bottom'
           }          
         ]		
@@ -832,13 +678,8 @@ function formatDate ( date ) {
 	var intro = introJs();
 	intro.setOptions(options_before);
 	intro.start()
-		/* .onbeforechange(function () {
-			if (intro._currentStep == "1") {	//should show daily arrival graphs here
-				console.log("This is step 1 onbeforechange");
-			};
-		}) */
 		.onchange(function () {
-			if ((intro._currentStep == "1")||(intro._currentStep == "3")) {	//should show daily arrival graphs here
+			if ((intro._currentStep == "1")) {     //||(intro._currentStep == "3")) {	//should show daily arrival graphs here
 				console.log("This is step 1 onchange");
 				if ($('#article').hasClass('on')) {
 					console.log("Articles being turned off");
@@ -851,7 +692,7 @@ function formatDate ( date ) {
 					$('#graphs').addClass('on');
 				};
 			};	
-			if ((intro._currentStep == "2")||(intro._currentStep == "5"))  {	//should show daily arrival graphs here
+			if ((intro._currentStep == "2")||(intro._currentStep == "5"))  {	//should show daily arrival graphs here - in case user moves backwards
 				console.log("This is step 2")
 				if ($('#graphs').hasClass('on')) {
 					console.log("Graphs being turned off");
