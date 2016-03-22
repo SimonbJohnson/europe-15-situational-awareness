@@ -54,11 +54,28 @@ a {
     height:550px;
 }
 
-#slider_title {
+/* #slider_title {
 	font-size: 1.5em;
 	margin-top: 5px;
 	margin-bottom: 0px;
+	display: inline-block;
+} */
+
+#timeslider {
+	height:120px;
+	width: 100%;
+} 
+
+#slider_scale {
+	font-size: 0.9em;
+	color: #bbbbbb;
+	margin-top: 25px;
+	margin-bottom: 5px;
+	margin-left: 75px;
+	width: 240px;
+	display: inline-block;
 }
+
 
 .highlight {
 	color:#F39000;
@@ -201,6 +218,7 @@ footer {
 #dateinput{
 	margin-left: 105px;
 	width: 200px;
+	display: inline-block;
 }
 
 #dateupdate {
