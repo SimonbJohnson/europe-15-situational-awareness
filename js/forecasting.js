@@ -5,7 +5,7 @@
  */
 
 // Global variables
-var arrivals;
+var arrivals, high_imp;
 
 // Load model and append headers to html doc
 function loadModel(url) {
@@ -146,7 +146,7 @@ function forecastGraph(elemId, data, country, models, lag) {
         var forecastDate = new Date(d['#date']);
 
         var est = estimate(forecastDate,models[country][lag],data);
-        if(est<0){est=0}
+		if(est<0){est=0}
         if(!isNaN(est)){
             forecastg.append("rect")
                    .attr("x", x(prevDate)+(x(forecastDate)-x(prevDate))*0.5)
@@ -282,7 +282,7 @@ function graph(elemId, data, country, models) {
         var forecastDate = new Date(data[data.length-1]['#date'].getTime());
         forecastDate.setDate(forecastDate.getDate() + i);
         var est = estimate(forecastDate,models[country][i],data);
-        if(est<0){est=0}
+
         if(!isNaN(est)){
             forecastg.append("rect")
                 .attr("class","err"+i)
@@ -305,6 +305,7 @@ function graph(elemId, data, country, models) {
         prevDate = new Date(forecastDate.getTime());
     }                  
 }
+
 
 $('#intro').click(function(){
     var intro = introJs();
@@ -363,7 +364,7 @@ function getAverageError(data,model,tag){
 
     data.slice(7,data.length).forEach(function(d) {
         var est = estimate(d["#date"],model,data);
-        if(est<0){est=0}
+        //console.log(est);
         // If 
         if(!isNaN(est) && d[tag]!="N/A"){
             errorabsum += Math.abs(est-d[tag]);
@@ -389,6 +390,71 @@ function addDays(date, days) {
     result.setDate(result.getDate() + days);
     return result;
 }
+
+// Create string representation of date
+var weekdays = ["Sun", "Mon", "Tue","Wed", "Thu", "Fri","Sat"]
+var months = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct","Nov", "Dec"];
+function formatDate ( date ) {
+    return weekdays[date.getDay()] + " " +
+        date.getDate() + " " +
+        months[date.getMonth()] + " " +
+        date.getFullYear();
+}
+
+function showImpEvents() {
+	//should filter events first before sorting
+	high_imp.sort(function(a,b){return a['#date'].getTime() - b['#date'].getTime()});   //sort all from most recent to least
+	
+	$('#high_imp_news').append("<h3>High Importance News Events</h3><br/>");
+    high_imp.forEach(function(d,i){   
+		if (d['#meta+category']=='border') {		//use only border events
+			var one_week = 7 * 24 * 60 * 60 * 1000;
+			if (Date.now() - d['#date'].getTime() <= 2*one_week) {		//events from past 2 weeks
+				$('#high_imp_news').append('<div class="high_imp_news_item news_item'+ i + '" onmouseover="mouseoverNewsItem('+i+')" onmouseout="mouseoutNewsItem('+i+')" onclick="clickNewsItem('+i+')"><img class="icon" src="images/' + d['#meta+category'] + '_high-01.png' + '" alt=legend_icon width="18" height="18">' + '&nbsp&nbsp<p class="art_date">' + formatDate(d['#date']) + '</p><br/><p class="art_title">' + d['#meta+title'].toUpperCase() + '</p></div>');
+			};
+		};
+		
+		
+       /*  .on('mouseover',function(e){
+            $('#graphs').slideUp();
+            $('#article').show();
+			$('#graphs').removeClass('on');
+            $('#article').addClass('on');
+            $('#title').html(d['#meta+title'].toUpperCase());
+            $('#content').html(d['#meta+description']);
+            $('#date').html(d['#date'].getDate()+'/'+(d['#date'].getMonth()+1)+'/'+d['#date'].getFullYear());
+            $('#url').html('<a href="' + d['#meta+url'] + '" target="_blank">Link</a>');
+        }); */
+        //d.visible = false;
+    });
+	
+};
+
+function mouseoverNewsItem(i) {
+	//console.log("mouseover news item ", i);
+	$(".news_item" + i).css("backgroundColor", "#eaeaea");
+}
+
+function mouseoutNewsItem(i) {
+	//console.log("mouseout news item ", i);
+	$(".news_item" + i).css("backgroundColor", "#ffffff");
+}
+
+function clickNewsItem(i,d) {
+/* 	console.log("clicked news item ", i,d);
+	if (!$(".news_item" + i).hasClass('on')) {
+		$(".news_item" + i).addClass('on');
+		$(".news_item" + i).append('<button class="news_item_desc'+i+'" onclick="removeNewsItem('+i+')">Hide description</button>');	
+		$(".news_item" + i).append('<div class="news_item_desc'+i+'">Some more text here </div>');
+	}	 */
+}
+
+function removeNewsItem(i,d) {
+/* 	console.log("unclicked news item ", i,d);
+	$(".news_item" + i).removeClass('on');
+	$(".news_item_desc" + i).remove(); */
+}
+
 
 // Connect Google spreadsheet data to JSON through HXL Proxy
 function hxlProxyToJSON(input,headers){
@@ -447,9 +513,29 @@ $.ajax({
         });
 
         // Default model url for onload
-        loadModel("forecasting/25Feb16_20Mar16_lasso.json");
+        loadModel("forecasting/15Feb16_07Mar16_lasso.json");
     }
 });
+
+// Load high importance events from HXL proxy
+$.ajax({
+    dataType: "json",
+    //url: "https://proxy.hxlstandard.org/data.json?url=https%3A//docs.google.com/spreadsheets/d/1sMsoSq5Xi5tn3quhs7yUFLnPOpWGsrsPADFOzWHr0wk/edit%23gid%3D1722427520&select-query01-01=%23meta%2Bimportance%3Dhigh&filter01=select&name=high_imp_news_events",
+	url: "https://proxy.hxlstandard.org/data/6oWgnM/download/high_imp.json",
+    success: function(data) {
+        high_imp = hxlProxyToJSON(data,true);
+        // Sets date format for parsing
+        var dateFormat = d3.time.format("%d/%m/%Y");
+        // Parse date for each
+        high_imp.forEach(function(d){
+            d["#date"] = dateFormat.parse(d["#date"]);
+        });
+		
+		// Display high importance events
+		showImpEvents();
+    }
+});
+
 
 // On click event for "Run Forecast" button
 $("#forecastbutton").on("click",function(e){
