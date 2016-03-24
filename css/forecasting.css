@@ -15,6 +15,26 @@ body {
 	display: inline-block;
 }
 
+#high_imp_news {
+	margin-top: 40px;
+}
+
+.high_imp_news_item {
+	margin-top: 10px;
+	font-size: 0.8em;
+}
+
+.art_date{
+	font-style: italic;
+	margin-bottom: 0px;
+	display: inline-block;
+}
+
+.art_title{
+	margin-left: 25px;
+	margin-top: 0px;
+}
+
 .container {
 	width: 80%;
 }
@@ -201,6 +221,7 @@ a:hover {
 }
 
 .highlight {
+	margin-top: 40px;
 	font-size: 1em;
 	color:#B71C1C;
 	font-weight:bold;
