@@ -5,7 +5,7 @@
  */
 
 // Global variables
-var arrivals, high_imp;
+var arrivals;
 
 // Load model and append headers to html doc
 function loadModel(url) {
@@ -146,7 +146,7 @@ function forecastGraph(elemId, data, country, models, lag) {
         var forecastDate = new Date(d['#date']);
 
         var est = estimate(forecastDate,models[country][lag],data);
-		if(est<0){est=0}
+        if(est<0){est=0}
         if(!isNaN(est)){
             forecastg.append("rect")
                    .attr("x", x(prevDate)+(x(forecastDate)-x(prevDate))*0.5)
@@ -282,7 +282,7 @@ function graph(elemId, data, country, models) {
         var forecastDate = new Date(data[data.length-1]['#date'].getTime());
         forecastDate.setDate(forecastDate.getDate() + i);
         var est = estimate(forecastDate,models[country][i],data);
-
+        if(est<0){est=0}
         if(!isNaN(est)){
             forecastg.append("rect")
                 .attr("class","err"+i)
@@ -305,7 +305,6 @@ function graph(elemId, data, country, models) {
         prevDate = new Date(forecastDate.getTime());
     }                  
 }
-
 
 $('#intro').click(function(){
     var intro = introJs();
@@ -364,7 +363,7 @@ function getAverageError(data,model,tag){
 
     data.slice(7,data.length).forEach(function(d) {
         var est = estimate(d["#date"],model,data);
-        //console.log(est);
+        if(est<0){est=0}
         // If 
         if(!isNaN(est) && d[tag]!="N/A"){
             errorabsum += Math.abs(est-d[tag]);
@@ -401,11 +400,12 @@ function formatDate ( date ) {
         date.getFullYear();
 }
 
+
 function showImpEvents() {
-	//should filter events first before sorting
+	//!!!should filter events first before sorting
 	high_imp.sort(function(a,b){return a['#date'].getTime() - b['#date'].getTime()});   //sort all from most recent to least
 	
-	$('#high_imp_news').append("<h3>High Importance News Events</h3><br/>");
+	$('#high_imp_news').append("<h3>High Importance Border Events</h3><h4>(in the last 2 weeks)</h4><br/>");
     high_imp.forEach(function(d,i){   
 		if (d['#meta+category']=='border') {		//use only border events
 			var one_week = 7 * 24 * 60 * 60 * 1000;
@@ -413,19 +413,6 @@ function showImpEvents() {
 				$('#high_imp_news').append('<div class="high_imp_news_item news_item'+ i + '" onmouseover="mouseoverNewsItem('+i+')" onmouseout="mouseoutNewsItem('+i+')" onclick="clickNewsItem('+i+')"><img class="icon" src="images/' + d['#meta+category'] + '_high-01.png' + '" alt=legend_icon width="18" height="18">' + '&nbsp&nbsp<p class="art_date">' + formatDate(d['#date']) + '</p><br/><p class="art_title">' + d['#meta+title'].toUpperCase() + '</p></div>');
 			};
 		};
-		
-		
-       /*  .on('mouseover',function(e){
-            $('#graphs').slideUp();
-            $('#article').show();
-			$('#graphs').removeClass('on');
-            $('#article').addClass('on');
-            $('#title').html(d['#meta+title'].toUpperCase());
-            $('#content').html(d['#meta+description']);
-            $('#date').html(d['#date'].getDate()+'/'+(d['#date'].getMonth()+1)+'/'+d['#date'].getFullYear());
-            $('#url').html('<a href="' + d['#meta+url'] + '" target="_blank">Link</a>');
-        }); */
-        //d.visible = false;
     });
 	
 };
@@ -440,20 +427,42 @@ function mouseoutNewsItem(i) {
 	$(".news_item" + i).css("backgroundColor", "#ffffff");
 }
 
-function clickNewsItem(i,d) {
-/* 	console.log("clicked news item ", i,d);
-	if (!$(".news_item" + i).hasClass('on')) {
-		$(".news_item" + i).addClass('on');
-		$(".news_item" + i).append('<button class="news_item_desc'+i+'" onclick="removeNewsItem('+i+')">Hide description</button>');	
-		$(".news_item" + i).append('<div class="news_item_desc'+i+'">Some more text here </div>');
-	}	 */
+function clickNewsItem(j) {
+ 	//console.log("clicked news item ", j);
+	high_imp.forEach(function(d,i){   
+		if (i==j) {
+			//console.log(i,'=',j,' ', d);			
+			if ((!$(".news_item" + i).hasClass('on')) && (!$(".news_item" + i).hasClass('disable_display'))) {
+				//console.log(i,'=',j,' adding news text');
+				$(".news_item" + i).addClass('on');
+				$(".news_item" + i).append('<button class="news_item_btn news_item_btn'+i+'" onclick="removeNewsItem('+i+')">Hide article</button>');	
+				$(".news_item" + i).append('<div class="news_item_desc news_item_desc'+i+'">'+d['#meta+description']+'</div>');
+			} else {
+				//console.log(i,'=',j,' but article already on so not adding news text');
+			}
+			$(".news_item" + i).removeClass('disable_display');			
+		};		
+	});
+	
 }
 
-function removeNewsItem(i,d) {
-/* 	console.log("unclicked news item ", i,d);
-	$(".news_item" + i).removeClass('on');
-	$(".news_item_desc" + i).remove(); */
+function removeNewsItem(j) {
+	//console.log("unclicked news item ", j);
+	high_imp.forEach(function(d,i){   
+		if (i==j) {
+			//console.log(i,'=',j,' ', d);
+			if ($(".news_item" + i).hasClass('on')) {
+				//console.log(i,'=',j,' removing news text');
+				$(".news_item" + i).removeClass('on');
+				$(".news_item" + i).addClass('disable_display');
+				$(".news_item_btn" + i).remove();
+				$(".news_item_desc" + i).remove();
+			}
+		};			
+	});
 }
+
+
 
 
 // Connect Google spreadsheet data to JSON through HXL Proxy
@@ -513,7 +522,7 @@ $.ajax({
         });
 
         // Default model url for onload
-        loadModel("forecasting/15Feb16_07Mar16_lasso.json");
+        loadModel("forecasting/25Feb16_20Mar16_lasso.json");
     }
 });
 
@@ -535,7 +544,6 @@ $.ajax({
 		showImpEvents();
     }
 });
-
 
 // On click event for "Run Forecast" button
 $("#forecastbutton").on("click",function(e){
