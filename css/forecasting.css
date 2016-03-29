@@ -35,6 +35,10 @@ body {
 	margin-top: 0px;
 }
 
+.news_item_btn, .news_item_desc {
+	margin-left: 25px;
+}
+
 .container {
 	width: 80%;
 }
