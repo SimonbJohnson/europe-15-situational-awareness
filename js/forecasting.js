@@ -402,12 +402,12 @@ function formatDate ( date ) {
 
 
 function showImpEvents() {
-	//!!!should filter events first before sorting
+	//should filter events first before sorting!
 	high_imp.sort(function(a,b){return a['#date'].getTime() - b['#date'].getTime()});   //sort all from most recent to least
 	
-	$('#high_imp_news').append("<h3>High Importance Border Events</h3><h4>(in the last 2 weeks)</h4><br/>");
+	$('#high_imp_news').append("<h3>High Importance Events</h3><h4>(in the last 2 weeks)</h4><br/>");
     high_imp.forEach(function(d,i){   
-		if (d['#meta+category']=='border') {		//use only border events
+		if ((d['#meta+category']=='border') || (d['#meta+category']=='policy') || (d['#meta+category']=='camp')) {		//show border, policy, and camp events
 			var one_week = 7 * 24 * 60 * 60 * 1000;
 			if (Date.now() - d['#date'].getTime() <= 2*one_week) {		//events from past 2 weeks
 				$('#high_imp_news').append('<div class="high_imp_news_item news_item'+ i + '" onmouseover="mouseoverNewsItem('+i+')" onmouseout="mouseoutNewsItem('+i+')" onclick="clickNewsItem('+i+')"><img class="icon" src="images/' + d['#meta+category'] + '_high-01.png' + '" alt=legend_icon width="18" height="18">' + '&nbsp&nbsp<p class="art_date">' + formatDate(d['#date']) + '</p><br/><p class="art_title">' + d['#meta+title'].toUpperCase() + '</p></div>');
@@ -437,9 +437,7 @@ function clickNewsItem(j) {
 				$(".news_item" + i).addClass('on');
 				$(".news_item" + i).append('<button class="news_item_btn news_item_btn'+i+'" onclick="removeNewsItem('+i+')">Hide article</button>');	
 				$(".news_item" + i).append('<div class="news_item_desc news_item_desc'+i+'">'+d['#meta+description']+'</div>');
-			} else {
-				//console.log(i,'=',j,' but article already on so not adding news text');
-			}
+			} 
 			$(".news_item" + i).removeClass('disable_display');			
 		};		
 	});
@@ -455,8 +453,10 @@ function removeNewsItem(j) {
 				//console.log(i,'=',j,' removing news text');
 				$(".news_item" + i).removeClass('on');
 				$(".news_item" + i).addClass('disable_display');
+				$(".news_item" + i).css("backgroundColor", "#ffffff");
 				$(".news_item_btn" + i).remove();
 				$(".news_item_desc" + i).remove();
+				
 			}
 		};			
 	});
@@ -545,7 +545,40 @@ $.ajax({
     }
 });
 
-// On click event for "Run Forecast" button
+$("#forecastselection").on("change", function(e) {
+	selection = $("#forecastselection").val();
+	//console.log("forecast selection = ", selection);
+	switch (selection) {
+		case "forecastbutton":  $("#results").show();
+								$("#previous1").hide();
+								$("#previous2").hide();
+								$("#previous3").hide();
+								break;
+		case "previousbutton1":	$("#results").hide();
+								$("#previous1").show();
+								$("#previous2").hide();
+								$("#previous3").hide();
+								break;
+		case "previousbutton2":	$("#results").hide();
+								$("#previous1").hide();
+								$("#previous2").show();
+								$("#previous3").hide();
+								break;
+		case "previousbutton3":	$("#results").hide();
+								$("#previous1").hide();
+								$("#previous2").hide();
+								$("#previous3").show();
+								break;		
+	};
+	//$("#forecastselection").css("background","#e60000");  /* button colour */
+	//$("#forecastselection").css("color","#ffffff");  	  /* text colour */
+	//$("#forecastselection").css("border","#e60000");
+	//$("#forecastselection").addClass("btn-primary");
+}); 
+
+
+
+/* // On click event for "Run Forecast" button
 $("#forecastbutton").on("click",function(e){
     $("#results").show();
     $("#previous1").hide();
@@ -571,4 +604,4 @@ $("#previousbutton3").on("click",function(e) {
     $("#previous1").hide();
     $("#previous2").hide();
     $("#previous3").show();
-});
+}); */
