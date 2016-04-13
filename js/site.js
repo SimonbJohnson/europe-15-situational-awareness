@@ -218,6 +218,12 @@ function createArrivalMarkers(){
         lat:47.468727,
         lon:14.627394,
         tag:'#affected+arriveaustria'
+    },
+    {
+        area:'Germany',
+        lat:50.9430854,
+        lon:9.6113336,
+        tag:'#affected+arrivegermany'
     }];
 
     data.forEach(function(d){
@@ -329,7 +335,7 @@ function sparkline(elemId, data, tag, max) {
         tempObj = {};
         var movAvgs = [];
 
-        country = ['#affected+arriveaustria','#affected+arrivecroatia','#affected+arrivefyrom','#affected+arrivegreekislands','#affected+arrivehungary','#affected+arrivemainlandgreece','#affected+arriveserbia','#affected+arriveslovenia'];
+        country = ['#affected+arrivegermany','#affected+arriveaustria','#affected+arrivecroatia','#affected+arrivefyrom','#affected+arrivegreekislands','#affected+arrivehungary','#affected+arrivemainlandgreece','#affected+arriveserbia','#affected+arriveslovenia'];
         
         for (i=0; i<=data.length-1; i++) {    //for each day in the array
             if ((i>=numDaysMovAvgBuffer) && (i<=data.length-1-numDaysMovAvgBuffer)) {    //remove buffer days
