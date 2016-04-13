@@ -215,8 +215,7 @@ a:hover {
 	color: #ffffff;  	  /* text colour */
 	border: #e60000;
 	font-weight: bold;
-	font-size: 13px;
-	
+	font-size: 13px;	
 }
 
 .btn {
@@ -229,4 +228,17 @@ a:hover {
 	font-size: 1em;
 	color:#B71C1C;
 	font-weight:bold;
+}
+
+.options-style {
+	background: #FFA500;  /* button colour */
+	color: #ffffff;  	  /* text colour */
+	font-size: 15px;
+	font-weight: bold;
+	border: #e60000;
+	border-radius: 2px;
+    padding: 10px;
+	margin-top: 10px;
+	margin-left: 100px; 
+	margin-bottom: 10px;
 }
