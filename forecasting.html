@@ -33,6 +33,7 @@
         <div class="row">
             <div class="col-md-8">
                 <h1 class="title">Forecasting Migrant Arrivals through the Balkans</h1>
+				<button id="intro" class="btn btn-primary btn-sm">Need an Explanation?</button>
             </div>
             <div class="col-md-4">
                 <a target="_blank" href="http://www.ifrc.org"><img id="logo" alt="IFRC Logo" src="img/IFRC_logo_English_CMYK.svg" /></a>
@@ -47,7 +48,7 @@
                 <p>This page displays forecasts for arrival numbers into countries along the Western Balkans route. It offers a 1, 2 and 3 day forecast for arrivals based upon past data.</p>
                 <div id="options">
                     <select id="forecastselection" class="options-style">
-                        <option value="forecastbutton">Current Forecast</option>
+                        <option selected="selected" value="forecastbutton">Current Forecast</option>
                         <option value="previousbutton1">Previous Performance for 1 Day Forecasts</option>
                         <option value="previousbutton2">Previous Performance for 2 Day Forecasts</option>
                         <option value="previousbutton3">Previous Performance for 3 Day Forecasts</option>
@@ -64,7 +65,7 @@
                 </div>                
             </div>
             <div class="col-md-6">
-				<button id="intro" class="btn btn-primary btn-sm">Need an Explanation?</button>
+				<!-- <button id="intro" class="btn btn-primary btn-sm">Need an Explanation?</button> -->
                 <!-- <div class="button-row" id="buttons"> -->
 				
             </div>
@@ -98,7 +99,7 @@
             </div>            
         </div> -->
 		<div class="row">
-            <div class="col-md-6">
+            <div id="graphs" class="col-md-6">
                 <div id="results">
                     <p class="loading">Loading...</p>
                 </div>
