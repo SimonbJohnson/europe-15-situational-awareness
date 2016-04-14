@@ -311,23 +311,29 @@ $('#intro').click(function(){
     intro.setOptions({
         steps: [
           {
-            intro: "<div style='width: 300px;'><p>This page displays forecasts for arrival numbers into countries along the Western Balkans route. It offers a 1, 2 and 3 day forecast for arrivals based upon past data.</p></div>",
+            intro: "<div style='width: 300px;'><p><b>This page displays forecasts for arrival numbers into countries along the Western Balkans route. It offers a 1, 2 and 3 day forecast for arrivals based upon past data.</b></p></div>",
           },
           {
-            element: '#results',
+            element: '#forecastselection',
+            intro:"<div style='width: 350px;'><p>Different types of forecast can be selected:</p><ul><li><b>Current Forecast</b> shows estimates for the next 1-3 days</li><li><b>Previous Performance</b> (for either 1-, 2-, or 3-day forecasts) allows you to check how closely the model predicted previous arrival numbers</li></ul></div>",
+            position: 'bottom'
+          },
+		  {
+            element: '#graphs',
             intro:"<div style='width: 350px;'><img id='expimage' alt='Forecasting Explanation' title='Forecasting Explanation' src='forecasting/forecastexplanation.png' /><p>When reading the graph, you will note the error bars. In our experience, it is highly unlikely that the real arrivals number will ever exceed the upper bounds of the average error.</p></div>",
             position: 'right'
           },
+          
           {
-            element: '#buttons',
-            intro:"<div style='width: 350px;'><p>The page is split into two parts:</p><ul><li><b>Current Forecast</b> shows estimates for the next 1-3 days</li><li><b>Previous Performance</b> allows you to check how closely the model predicted previous arrival numbers</li></ul></div>",
-            position: 'bottom'
-          },
-          {
-            element: '#results',
+            element: '#graphs',
             intro: "<div style='width: 300px;'><p>At this time, predictions are most accurate for the 1 day forecasts, and for the countries further along the route. The closer the country geographically to the border of Europe, the more outside variables affect migrant movement. You can explore a situational overview by selecting the tab in the navigation bar above.</p></div>",
             position: 'right'
           },
+		  {
+			element: '#high_imp_news',  
+			intro: "<div style='width: 300px;'><p>High importance news events within the last 2 weeks, relating to either borders, policy, or camps, are listed here.</p></div>",
+            position: 'left'
+		  },
           {
             intro: "<div style='width: 300px;'><p>If you are wondering where the graph for Greece is&mdash;or your own country which is not included&mdash;please note that arrivals predictions is dependent upon a variety of factors and we are currently working to improve this model. Feedback is welcome.</p></div>",
           },
