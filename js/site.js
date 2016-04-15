@@ -103,35 +103,80 @@ function generateMap(bordersGeom){
 }
 
 function filterDateRange(begin,end,data){
-	var one_day = 24 * 60 * 60 * 1000;
-	
+	var one_day = 24 * 60 * 60 * 1000;	
 	//console.log("UPDATE HERE: begin = ", begin, "     end = ", end);
 	//console.log("  data = ", data);
-	
 
     data.forEach(function(d){    //+begin.getDate()+'/'+(begin.getMonth()+1)+'/'+begin.getFullYear()+
-        if(d['#date']>=begin&&d['#date']<=end){
-            if(!d.visible){
-                d.marker.addTo(map);
-                d.visible = true;
+        if (d['#date']>=begin&&d['#date']<=end) {   //if within dates
+            if (!d.visible) {					  //and not visible
+                d.marker.addTo(map);			  //add marker to the map
+                d.visible = true;				  //and make it visible
             }
 			//console.log("YES THIS ONE SHOULD DISPLAY: ", d);
-        } else {
-            if(d.visible){
-                map.removeLayer(d.marker);
-                d.visible = false;
+        } else {								  //if not within dates
+            if (d.visible) {					  //and is visible
+                map.removeLayer(d.marker);		  //remove marker from map
+                d.visible = false;				  //and make it invisible
            }
         }
     });   
     return data;
 };
 
-function updateArrivals(end,arrivals,arrivalMarkers){
-	
+function removeAllNewsIcons(data) {
+	data.forEach(function(d){ 
+		if (d.visible) {
+			map.removeLayer(d.marker);
+			d.visible = false;
+        };
+	});	
+	return data;
+};
+
+/* var tooltip = d3.select("body")
+			.append("div")
+			.style("position", "absolute")
+			.style("z-index", "10")
+			.style("visibility", "hidden")
+			.text("a simple tooltip");	 */
+			
+			
+/* var tip = d3.tip()																		
+	.attr('class', 'd3-tip')
+	.offset([0,0])
+	.html(function(d) {
+		//console.log("in tip here", d[0], d[1], d[2]);
+		console.log("in tip here", d);
+		tip_text = "test text here";
+		return tip_text;
+	});  */	
+
+		
+function updateArrivals(end,arrivals,arrivalMarkers){			
     var arrival = findNearestArrival(end,arrivals);
     //console.log("in updateArrivals, end = ", end, "   arrivals = ", arrival);
 	arrivalMarkers.forEach(function(m){
         m.circle.setRadius(Math.pow(arrival[m.tag],0.5)/2);
+		//console.log("*", m.area, end, arrival[m.tag]);
+		m.circle.on('mouseover',function(e){
+			console.log("mouseover circle", m.area, formatDate(end), arrival[m.tag]);
+			//return tooltip.style("visibility", "visible");
+			//tip.show([m.area, end, arrival[m.tag]]);
+			//tip.show('LOLOLOL');
+		}); 
+		m.circle.on('mouseout',function(e){
+			//return tooltip.style("visibility", "hidden");
+			//tip.hide([m.area, end, arrival[m.tag]]);
+		}); 
+		
+    });
+}
+
+function removeArrivals(arrivalMarkers){	
+    //console.log("in updateArrivals, end = ", end, "   arrivals = ", arrival);
+	arrivalMarkers.forEach(function(m){
+        m.circle.setRadius(0);
     });
 }
 
@@ -231,7 +276,10 @@ function createArrivalMarkers(){
             color: '#0A0',
             fillColor: '#0A0',
             fillOpacity: 0.5
-        });
+        })
+		/* .on('mouseover',function(e){
+			console.log("mouseover circle", d.area);
+		}); */ 
         d.circle.addTo(map);
     });
 
@@ -406,7 +454,7 @@ function updateSparkline(arr_data,date,arrivalMarkers){
     arr_data.forEach(function(d){  
         if ((d['#date'].getDate() == date.getDate()) && (d['#date'].getMonth() == date.getMonth()) && (d['#date'].getFullYear() == date.getFullYear())){    
             dailyArrivals = d;
-			console.log("dailyArrivals: ", d);
+			//console.log("dailyArrivals: ", d);
 		};
 	});  	
     
@@ -468,6 +516,12 @@ function updateBorders(end,borders){
     });
 }
 
+function removeBorders(borders){
+	borders.forEach(function(b, i){         //color all borders grey as default starting point
+        d3.selectAll('.'+b['#meta+id'].replace('-','')).attr('stroke','#cccccc').attr('stroke-width',1);
+    });	
+};
+
 function hxlProxyToJSON(input,headers){
     var output = [];
     var keys=[]
@@ -502,6 +556,38 @@ $('#showgraphs').on('click',function(e){
 	$('#article').removeClass('on');
 });
 
+/* $('#show-news').on('click',function(e){
+	console.log("Clicked show news here");
+	if ($('#show-news').hasClass('show')) {
+		console.log("    show news is on here, turning it off");
+		$('#show-news').removeClass('show');
+		$('#show-news').css('background', '#a9a6a6');
+		data = removeAllNewsIcons(data);
+	} else {
+		console.log("    show news is off here, turning it on");
+		$('#show-news').addClass('show');
+		$('#show-news').css('background', '#e60000');
+		console.log("    begin: ", begin);
+		console.log("    end: ", endOfDay);
+		data = filterDateRange(begin,endOfDay,data);
+	};
+});
+
+$('#show-arrivals').on('click',function(e){
+	console.log("Clicked show arrivals here");
+	if ($('#show-arrivals').hasClass('show')) {
+		console.log("    show arrivals is on here, turning it off");
+		$('#show-arrivals').removeClass('show');
+		$('#show-arrivals').css('background', '#a9a6a6');
+	} else {
+		console.log("    show arrivals is off here, turning it on");
+		$('#show-arrivals').addClass('show');
+		$('#show-arrivals').css('background', '#e60000');
+	};
+}); */ 
+
+
+
 //load data
 
 var dataCall = $.ajax({ 
@@ -528,8 +614,15 @@ var bordersGeomCall = $.ajax({
     dataType: 'json',
 });
 
-//when both ready construct dashboard
 
+
+//global variables
+var begin = new Date();   //date of start handle
+var end = new Date();				//date of end handle
+var endOfDay = new Date();
+
+
+//when both ready construct dashboard
 $.when(dataCall,arrivalsCall,bordersGeomCall,bordersCall).then(function(dataArgs,arrivalsArgs,bordersGeomArgs,bordersArgs){
     var bordersGeom = topojson.feature(bordersGeomArgs[0],bordersGeomArgs[0].objects.europe_borders);
     data = hxlProxyToJSON(dataArgs[0],false);
@@ -567,7 +660,10 @@ $.when(dataCall,arrivalsCall,bordersGeomCall,bordersCall).then(function(dataArgs
 	
 	var begin = new Date(max-one_week*5);   //date of start handle
 	var end = new Date(max);				//date of end handle
-	var endOfDay = new Date(max);
+	var endOfDay = new Date(max);	//DON'T NEED THIS?
+	
+	var hand1 = new Date();
+	var hand2 = new Date();
 	
 	var dateSlider = document.getElementById('dateinput');
 
@@ -603,29 +699,99 @@ $.when(dataCall,arrivalsCall,bordersGeomCall,bordersCall).then(function(dataArgs
 			var endOfDay = new Date(+values[1]);
 			endOfDay.setHours(23,59,59,999);
         
-				
-		data = filterDateRange(begin,endOfDay,data);				
-		updateArrivals(end,arrivals,arrivalMarkers);
-		updateBorders(end,borders);
+			hand1 = begin;
+			hand2 = endOfDay;
+		
+		if ($('#show-news').hasClass('show')) {
+			data = filterDateRange(begin,endOfDay,data);	
+		};
+		if ($('#show-arrivals').hasClass('show')) {
+			updateArrivals(end,arrivals,arrivalMarkers);
+		};
+		if ($('#show-borders').hasClass('show')) {
+			updateBorders(end,borders);
+		};
+		//updateBorders(end,borders);
 		updateSparkline(arrivals,end,arrivalMarkers);
 		
+		//console.log("begin in dateSlider: ", begin);
+		//console.log("end in dateslider: ", end);
+		
 		if (formatDate(begin)==formatDate(end)) {
-			$('#dateupdate').html('<p>Displaying news updates for: '+formatDate(begin)+'<br/>Displaying border updates for: '+formatDate(end)+'</p>');
+			//$('#dateupdate').html('<p>Displaying news updates for: '+formatDate(begin)+'<br/>Displaying border updates for: '+formatDate(end)+'</p>');
+			$('#dateupdate').html('<p>'+formatDate(end)+'</p>');
+			$('#newsdate').html('<p>'+formatDate(begin)+'</p>');
 		} else {
-			$('#dateupdate').html('<p>Displaying news updates for: '+formatDate(begin)+' - '+formatDate(end)+'<br/>Displaying border updates for: '+formatDate(end)+'</p>');
+			//$('#dateupdate').html('<p>Displaying news updates for: '+formatDate(begin)+' - '+formatDate(end)+'<br/>Displaying border updates for: '+formatDate(end)+'</p>');
+			$('#dateupdate').html('<p>'+formatDate(begin)+' - '+formatDate(end)+'</p>');
+			$('#newsdate').html('<p>'+formatDate(begin)+' - '+formatDate(end)+'</p>');
 		};
+		$('#arrivalsdate').html('<p>'+formatDate(end)+'</p>');
+		$('#bordersdate').html('<p>'+formatDate(end)+'</p>');
 	});
+	
+	//console.log("begin outside dateSlider: ", hand1);
+	//console.log("end outside dateslider: ", hand2);
+	
 	
     data = filterDateRange(begin,endOfDay,data);				
     updateArrivals(end,arrivals,arrivalMarkers);
     updateBorders(end,borders);
 	updateSparkline(arrivals,end,arrivalMarkers);
 	
-	if (formatDate(begin)==formatDate(end)) {
-		$('#dateupdate').html('<p>Displaying news updates for: '+formatDate(begin)+'<br/>Displaying border updates for: '+formatDate(end)+'</p>');
+	/* if (formatDate(begin)==formatDate(end)) {
+		//$('#dateupdate').html('<p>Displaying news updates for: '+formatDate(begin)+'<br/>Displaying border updates for: '+formatDate(end)+'</p>');
+		$('#dateupdate').html('<p>Dates selected: '+formatDate(end)+'</p>');
 	} else {
-		$('#dateupdate').html('<p>Displaying news updates for: '+formatDate(begin)+' - '+formatDate(end)+'<br/>Displaying border updates for: '+formatDate(end)+'</p>');
-	};
+		//$('#dateupdate').html('<p>Displaying news updates for: '+formatDate(begin)+' - '+formatDate(end)+'<br/>Displaying border updates for: '+formatDate(end)+'</p>');
+		$('#dateupdate').html('<p>Dates selected: '+formatDate(begin)+' - '+formatDate(end)+'</p>');
+	}; */
+	
+	
+ 	$('#show-news').on('click',function(e){
+		if ($('#show-news').hasClass('show')) {   			//turn off
+			$('#show-news').removeClass('show');
+			$('#show-news').css('background', '#a9a6a6');
+			$('#newsdate').css('color', '#a9a6a6');
+			data = removeAllNewsIcons(data);
+		} else {											//turn on
+			$('#show-news').addClass('show');
+			$('#show-news').css('background', '#e60000');			
+			data = filterDateRange(hand1,hand2,data);
+		};
+	});
+
+	$('#show-arrivals').on('click',function(e){
+		console.log("Clicked show arrivals here");
+		if ($('#show-arrivals').hasClass('show')) {			//turn off
+			console.log("    show arrivals is on here, turning it off");
+			$('#show-arrivals').removeClass('show');
+			$('#show-arrivals').css('background', '#a9a6a6');
+			removeArrivals(arrivalMarkers);
+		} else {											//turn on
+			console.log("    show arrivals is off here, turning it on");
+			$('#show-arrivals').addClass('show');
+			$('#show-arrivals').css('background', '#e60000');
+			updateArrivals(hand2,arrivals,arrivalMarkers);
+		};
+	});	 
+	
+	$('#show-borders').on('click',function(e){
+		console.log("Clicked show borders here");
+		if ($('#show-borders').hasClass('show')) {			//turn off
+			console.log("    show borders is on here, turning it off");
+			$('#show-borders').removeClass('show');
+			$('#show-borders').css('background', '#a9a6a6');
+			removeBorders(borders);
+		} else {											//turn on
+			console.log("    show borders is off here, turning it on");
+			$('#show-borders').addClass('show');
+			$('#show-borders').css('background', '#e60000');
+			updateBorders(hand2, borders);
+		};
+	});
+	
+	
 
 });
 

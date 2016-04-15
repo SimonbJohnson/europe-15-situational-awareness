@@ -7,9 +7,9 @@
 
         <!-- Load CSS Stylesheets -->
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>   
-		<link rel="stylesheet" type="text/css" href="css/nouislider.min.css"/>  
-        <link rel="stylesheet" type="text/css" href="css/introjs.css"/>     
+        <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>
+		<link rel="stylesheet" type="text/css" href="css/nouislider.min.css"/>
+        <link rel="stylesheet" type="text/css" href="css/introjs.css"/>
         <link rel="stylesheet" type="text/css" href="css/site.css"/>
 
         <!-- Load Javascript Libraries -->
@@ -20,6 +20,7 @@
         <script type="text/javascript" src="js/topojson.v1.min.js"></script>
 		<script type="text/javascript" src="js/nouislider.min.js"></script>
         <script type="text/javascript" src="js/intro.js"></script>
+		<!-- <script type="text/javascript" src="js/d3.tip.js" charset="utf-8"></script> -->
 
         <!-- Google Analytics Script -->
         <script type="text/javascript">
@@ -32,7 +33,7 @@
                  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
                  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
             })();
-        </script>             
+        </script>
     </head>
     <body class="container">
         <div class="row">
@@ -50,18 +51,56 @@
             <div class="col-md-8">
                 <p>The latest updates from Europe regarding issues affecting migrants from the last 7 days.</p>
                 <button id="intro" class="btn btn-primary btn-sm">Need an Explanation?</button>
-				<div id="map-container">
+				<div class="row">
+					<div class="col-md-2"></div>
+					<div class="col-md-10">
+						<div id="map-options">
+							<!-- <div class="col-md-3"></div>
+							<div class="col-md-3">
+								<button id="show-news" class="btn2 btn-primary show">Display news items</button>
+								<p class="small" id="newsdate"></p>
+							</div>
+							<div class="col-md-3">
+								<button id="show-arrivals" class="btn2 btn-primary show">Display arrival numbers</button>
+								<p class="small" id="arrivalsdate"></p>
+							</div>
+							<div class="col-md-3">
+								<button id="show-borders" class="btn2 btn-primary show">Display border controls</button>
+								<p class="small" id="bordersdate"></p>
+							</div> -->
+							
+							<table width="100%">
+								<tr>
+									<td><button id="show-news" class="btn2 btn-primary show">Display news items</button></td>
+									<td><button id="show-arrivals" class="btn2 btn-primary show">Display arrival numbers</button></td>
+									<td><button id="show-borders" class="btn2 btn-primary show">Display border controls</button></td>
+								</tr>
+								<tr>
+									<!-- <td height="12px" width="30%"><p class="small" id="newsdate"></p></td>
+									<td width="35%"><p class="small" id="arrivalsdate"></p></td>
+									<td width="35%"><p class="small" id="bordersdate"></p></td> -->
+									<td height="10" width="30%" class="small" id="newsdate"></td>
+									<td width="35%" class="small" id="arrivalsdate"></td>
+									<td width="35%" class="small" id="bordersdate"></td>
+									
+								</tr>
+							</table>						
+							
+						</div>
+					</div>
+				</div>
+				<div id="map-container">	
                     <div id="map"></div>
                 </div>
             </div>
             <div class="col-md-4">
 				<div id = "timeslider">
 					<!-- <p id="slider_title">Time Slider</p> -->
-					<div id="slider_scale"><span style="margin-left:5px;">Oct 2015</span><span style="margin-left:32px;">Dec</span><span style="margin-left:15px;">Jan</span><span style="margin-left:40px;">Mar 2016</span></div>
+					<div id="slider_scale"><span style="margin-left:5px;">Oct 2015</span><span style="margin-left:32px;">Dec</span><span style="margin-left:45px;">Feb</span><span style="margin-left:35px;">Apr 2016</span></div>
 					<div id="dateinput"></div>
-					<p class="small" id="dateupdate"></p>										
+					<p class="small" id="dateupdate"></p>
 				</div>
-				<div id="text">                
+				<div id="text">
 					<div id="graphs" class="on"></div>
 					<div id="article">
 						<p><button id="showgraphs">Show Graphs</button></p>
