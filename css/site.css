@@ -47,7 +47,7 @@ a {
 }
 
 #map-container {
-	margin-top: 30px;
+	margin-top: 0px;
 }
 
 #map {
@@ -72,7 +72,7 @@ a {
 	margin-top: 25px;
 	margin-bottom: 5px;
 	margin-left: 75px;
-	width: 240px;
+	width: 280px;
 	display: inline-block;
 }
 
@@ -192,8 +192,24 @@ footer {
     border: #e60000;
     font-weight: bold;
     font-size: 13px;
-    
+	margin-bottom: 5px;
+	margin-top: 0px;
 }
+
+.btn2 {
+    background: #e60000;  /* button colour */
+    color: #ffffff;       /* text colour */
+    border: #e60000;
+	border-radius: 3px;
+	padding: 5px;
+    font-weight: bold;
+    font-size: 13px;
+	margin-bottom: 2px;
+	margin-top: 0px;
+/* 	display: list-item; */
+	display: inline;
+}
+
 
 #logo {
     float: right;
@@ -204,15 +220,18 @@ footer {
 .button {
 	margin-right:10px;
 	margin-left:10px;
-	border-width:3px;
-	border-color:#4F47D3;
+	border-width:0px;
+	border-color:none;
 	border-style:solid;
-	background-color:#4F47D3;
-	color:#fafafa;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	/* background-color:#4F47D3;
+	color:#fafafa; */
 }
 
 .small {
 	font-size: .8em;
+	margin-bottom: 0px;
 }
 
 #dateinput{
@@ -223,10 +242,23 @@ footer {
 
 #dateupdate {
  	margin-top:10px;
+	margin-left: 125px;
  	height:40px;
  	border-bottom-style:solid;
  	border-bottom-width:1px;
  	border-bottom-color:#cccccc;
+}
+
+/* #newsdate {
+	display: inline;
+} */
+
+#map-options {
+	margin-top: 30px;
+}
+
+.sameline {
+	display: inline-block;
 }
 
 #portal {
