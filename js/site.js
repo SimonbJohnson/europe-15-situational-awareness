@@ -311,12 +311,14 @@ function generateSparklines(data,arrivalMarkers){
         }
     });
 
-     $('#graphs').append('<div><div class="graph" id="graphlegend"></div>');
-     graphLegend('#graphlegend');
-     $('#graphs').append('<div><div class="graphnote" id="graphnote"><span="graphnote">Arrivals</span></div>');
+    $('#graphs').append('<div><div class="graph" id="graphlegend"></div>');
+    graphLegend('#graphlegend');
+    $('#graphs').append('<div><div class="graphnote" id="graphnote"><span="graphnote">Arrivals		</span></div>');
     
+
     arrivalMarkers.forEach(function(d,i){
-        $('#graphs').append('<div><div class="graph" id="graph' + i + '"><span class="graphlabel">' + d.area + '</span></div><span class="graphval" id="graphval' + i + '"></span></div>'); 
+        $('#graphs').append('<div id="allgraphs"><span class="graphlabel">' + d.area + '</span><span class="graph" id="graph' + i + '"></span><span class="graphval" id="graphval' + i + '"></span></div>'); 
+		//$('#graphs').append('<div><div class="graph" id="graph' + i + '"><span class="graphlabel">' + d.area + '</span></div><span class="graphval" id="graphval' + i + '"></span></div>'); 
         sparkline('#graph'+i,data,d.tag,max);
     });
 
@@ -477,7 +479,7 @@ function updateSparkline(arr_data,date,arrivalMarkers){
 
     d3.selectAll('.datemarker').attr('x1',x(date)).attr('x2',x(date));
     
-	$('#graphnote').html('Arrivals&nbsp<br/>' + formatDate(date));
+	$('#graphnote').html('Arrivals<br/>' + formatDate(date));
 		
     arrivalMarkers.forEach(function(d,i){
 		if (!isNaN(dailyArrivals[d.tag])) {
@@ -745,14 +747,11 @@ $.when(dataCall,arrivalsCall,bordersGeomCall,bordersCall).then(function(dataArgs
 	});
 
 	$('#show-arrivals').on('click',function(e){
-		console.log("Clicked show arrivals here");
 		if ($('#show-arrivals').hasClass('show')) {			//turn off
-			console.log("    show arrivals is on here, turning it off");
 			$('#show-arrivals').removeClass('show');
 			$('#show-arrivals').css('background', '#a9a6a6');
 			removeArrivals(arrivalMarkers);
 		} else {											//turn on
-			console.log("    show arrivals is off here, turning it on");
 			$('#show-arrivals').addClass('show');
 			$('#show-arrivals').css('background', '#e60000');
 			updateArrivals(hand2,arrivals,arrivalMarkers);
@@ -760,22 +759,16 @@ $.when(dataCall,arrivalsCall,bordersGeomCall,bordersCall).then(function(dataArgs
 	});	 
 	
 	$('#show-borders').on('click',function(e){
-		console.log("Clicked show borders here");
 		if ($('#show-borders').hasClass('show')) {			//turn off
-			console.log("    show borders is on here, turning it off");
 			$('#show-borders').removeClass('show');
 			$('#show-borders').css('background', '#a9a6a6');
 			removeBorders(borders);
 		} else {											//turn on
-			console.log("    show borders is off here, turning it on");
 			$('#show-borders').addClass('show');
 			$('#show-borders').css('background', '#e60000');
 			updateBorders(hand2, borders);
 		};
 	});
-	
-	
-
 });
 
 var weekdays = ["Sun", "Mon", "Tue","Wed", "Thu", "Fri","Sat"]
