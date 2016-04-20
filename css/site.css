@@ -71,7 +71,8 @@ a {
 
 #timeslider {
 	height:120px;
-	width: 100%;
+	/* width: 100%; */
+	width: 400px;
 } 
 
 #slider_scale {
@@ -102,6 +103,11 @@ a {
     top: 0px;
 }
 
+#allgraphs {
+	width: 400px;
+	max-width: 500px;
+}
+
 .graphlabel {
 	width:90px;
 	font-size: 13px;
@@ -112,20 +118,20 @@ a {
 
 .graph {
 	display:inline-block;
-	width: 85%;
+	width: 200px;
 }
 
 .graphs {
-	width: 100%;
+	width: 400px;
 }
 
 .graphval {
 	display: inline-block; 
-	/* width: 60px; */
+	width: 60px; 
 	font-size: 12px;
 	font-weight: bold;
 	color: #4c4c4c;
-	text-align: right;  
+	text-align: right;   
 	margin-right: 0px;
 	margin-left: 8px;
 	/* margin-bottom: 10px;
@@ -138,6 +144,7 @@ a {
 }
 
 .graphnote {
+	width: 400px;
 	font-size: 14px;
 	font-weight: bold;
 	margin-top: 0px;
