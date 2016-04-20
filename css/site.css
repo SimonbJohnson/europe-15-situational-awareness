@@ -61,6 +61,14 @@ a {
 	display: inline-block;
 } */
 
+.arrinfo {
+    padding:5px;
+    background-color:white;
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+ }
+
 #timeslider {
 	height:120px;
 	width: 100%;
@@ -95,12 +103,16 @@ a {
 }
 
 .graphlabel {
-	width:100px;
+	width:90px;
+	font-size: 13px;
 	display: inline-block;
+	margin-top: 15px;
+	margin-bottom: 0px;
 }
 
 .graph {
 	display:inline-block;
+	width: 85%;
 }
 
 .graphs {
@@ -109,12 +121,13 @@ a {
 
 .graphval {
 	display: inline-block; 
-	width: 60px;
+	/* width: 60px; */
 	font-size: 12px;
 	font-weight: bold;
 	color: #4c4c4c;
 	text-align: right;  
 	margin-right: 0px;
+	margin-left: 8px;
 	/* margin-bottom: 10px;
 	margin-left: 10px; */
 }
@@ -206,10 +219,29 @@ footer {
     font-size: 13px;
 	margin-bottom: 2px;
 	margin-top: 0px;
+	/* margin-left: 20px; */
 /* 	display: list-item; */
 	display: inline;
 }
 
+#show-arrivals {
+	margin-left: 20px;
+}
+
+#show-borders {
+	margin-left: 40px;
+} 
+
+#arrivalsdate {
+	padding-left: 20px;
+} 
+#bordersdate {
+	padding-left: 40px;
+}
+#newsdate {
+	white-space: nowrap;
+	overflow: visible;
+} 
 
 #logo {
     float: right;

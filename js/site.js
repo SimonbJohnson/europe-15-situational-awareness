@@ -8,6 +8,16 @@ function generateMap(bordersGeom){
         zoom: 4,            //zoom: 5,
         layers: [baselayer,baselayer2]
     });
+	
+	
+	var arrInfo = L.control({position: 'topright'});	
+	arrInfo.onAdd = function (map) {
+		var arrDiv = L.DomUtil.create('arrDiv', 'arrinfo');   //create a div with class 'arrinfo'
+		updateArrInfo('','','');
+		return arrDiv;
+		};
+	arrInfo.addTo(map);	
+	
 
     var style = function(feature) {
             return {
@@ -134,13 +144,7 @@ function removeAllNewsIcons(data) {
 	return data;
 };
 
-/* var tooltip = d3.select("body")
-			.append("div")
-			.style("position", "absolute")
-			.style("z-index", "10")
-			.style("visibility", "hidden")
-			.text("a simple tooltip");	 */
-			
+	
 			
 /* var tip = d3.tip()																		
 	.attr('class', 'd3-tip')
@@ -148,26 +152,26 @@ function removeAllNewsIcons(data) {
 	.html(function(d) {
 		//console.log("in tip here", d[0], d[1], d[2]);
 		console.log("in tip here", d);
-		tip_text = "test text here";
-		return tip_text;
-	});  */	
+		//tip_text = "test text here";
+		//return tip_text;
+		return "ok";
+	});  */ 
 
 		
 function updateArrivals(end,arrivals,arrivalMarkers){			
     var arrival = findNearestArrival(end,arrivals);
     //console.log("in updateArrivals, end = ", end, "   arrivals = ", arrival);
 	arrivalMarkers.forEach(function(m){
+		d=[m.area, formatDate(end), arrival[m.tag]];
         m.circle.setRadius(Math.pow(arrival[m.tag],0.5)/2);
-		//console.log("*", m.area, end, arrival[m.tag]);
 		m.circle.on('mouseover',function(e){
-			console.log("mouseover circle", m.area, formatDate(end), arrival[m.tag]);
-			//return tooltip.style("visibility", "visible");
-			//tip.show([m.area, end, arrival[m.tag]]);
-			//tip.show('LOLOLOL');
+			//console.log("mouseover circle", m.area, formatDate(end), arrival[m.tag]);			
+			updateArrInfo(m.area, formatDate(end), d3.format(",.0f")(arrival[m.tag]));
+			//tip.show(d);
 		}); 
 		m.circle.on('mouseout',function(e){
-			//return tooltip.style("visibility", "hidden");
-			//tip.hide([m.area, end, arrival[m.tag]]);
+			//tip.hide(d);
+			noArrInfo();
 		}); 
 		
     });
@@ -190,6 +194,16 @@ function findNearestArrival(end,arrivals){
     });
     return current;
 }
+
+
+function updateArrInfo(cntry, dt, arrNum) {
+	infoUpdate = '<p style="margin-bottom:5px"; ><b>Arrivals on ' + dt +'</b></p><p style="float: right" style="margin-bottom:0px";>' + cntry + ': <i>' + arrNum + '</i></p>';
+	$('.arrinfo').html(infoUpdate);	
+};
+
+function noArrInfo() {
+	$('.arrinfo').html('');	
+};
 
 
 function createMarkers(data){
@@ -555,37 +569,6 @@ $('#showgraphs').on('click',function(e){
 	$('#article').hide();
 	$('#article').removeClass('on');
 });
-
-/* $('#show-news').on('click',function(e){
-	console.log("Clicked show news here");
-	if ($('#show-news').hasClass('show')) {
-		console.log("    show news is on here, turning it off");
-		$('#show-news').removeClass('show');
-		$('#show-news').css('background', '#a9a6a6');
-		data = removeAllNewsIcons(data);
-	} else {
-		console.log("    show news is off here, turning it on");
-		$('#show-news').addClass('show');
-		$('#show-news').css('background', '#e60000');
-		console.log("    begin: ", begin);
-		console.log("    end: ", endOfDay);
-		data = filterDateRange(begin,endOfDay,data);
-	};
-});
-
-$('#show-arrivals').on('click',function(e){
-	console.log("Clicked show arrivals here");
-	if ($('#show-arrivals').hasClass('show')) {
-		console.log("    show arrivals is on here, turning it off");
-		$('#show-arrivals').removeClass('show');
-		$('#show-arrivals').css('background', '#a9a6a6');
-	} else {
-		console.log("    show arrivals is off here, turning it on");
-		$('#show-arrivals').addClass('show');
-		$('#show-arrivals').css('background', '#e60000');
-	};
-}); */ 
-
 
 
 //load data

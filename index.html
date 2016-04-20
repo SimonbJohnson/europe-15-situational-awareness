@@ -20,7 +20,7 @@
         <script type="text/javascript" src="js/topojson.v1.min.js"></script>
 		<script type="text/javascript" src="js/nouislider.min.js"></script>
         <script type="text/javascript" src="js/intro.js"></script>
-		<!-- <script type="text/javascript" src="js/d3.tip.js" charset="utf-8"></script> -->
+		<script type="text/javascript" src="js/d3.tip.min.js" charset="utf-8"></script>
 
         <!-- Google Analytics Script -->
         <script type="text/javascript">
@@ -55,30 +55,13 @@
 					<div class="col-md-2"></div>
 					<div class="col-md-10">
 						<div id="map-options">
-							<!-- <div class="col-md-3"></div>
-							<div class="col-md-3">
-								<button id="show-news" class="btn2 btn-primary show">Display news items</button>
-								<p class="small" id="newsdate"></p>
-							</div>
-							<div class="col-md-3">
-								<button id="show-arrivals" class="btn2 btn-primary show">Display arrival numbers</button>
-								<p class="small" id="arrivalsdate"></p>
-							</div>
-							<div class="col-md-3">
-								<button id="show-borders" class="btn2 btn-primary show">Display border controls</button>
-								<p class="small" id="bordersdate"></p>
-							</div> -->
-							
 							<table width="100%">
 								<tr>
 									<td><button id="show-news" class="btn2 btn-primary show">Display news items</button></td>
-									<td><button id="show-arrivals" class="btn2 btn-primary show">Display arrival numbers</button></td>
-									<td><button id="show-borders" class="btn2 btn-primary show">Display border controls</button></td>
+									<td><button id="show-arrivals" class="btn2 btn-primary show-arrivals show">Display arrival numbers</button></td>
+									<td><button id="show-borders" class="btn2 btn-primary show-borders show">Display border controls</button></td>
 								</tr>
 								<tr>
-									<!-- <td height="12px" width="30%"><p class="small" id="newsdate"></p></td>
-									<td width="35%"><p class="small" id="arrivalsdate"></p></td>
-									<td width="35%"><p class="small" id="bordersdate"></p></td> -->
 									<td height="10" width="30%" class="small" id="newsdate"></td>
 									<td width="35%" class="small" id="arrivalsdate"></td>
 									<td width="35%" class="small" id="bordersdate"></td>
