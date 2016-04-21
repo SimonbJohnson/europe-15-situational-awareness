@@ -1,5 +1,7 @@
 "","cols.which.fyrommodel2....0..","fyrommodel2.which.fyrommodel2....0.."
-"1","intercept",-21.4607151955848
-"2","X.affected.arrivegreekislands.3",0.00448315545203619
-"3","X.affected.arrivegreekislands.5",0.00522400626009014
-"4","X.affected.arrivemainlandgreece.7",0.0541726044373405
+"1","intercept",-20.3869278915652
+"2","X.affected.arrivegreekislands.3",0.0305321354317014
+"3","X.affected.arrivemainlandgreece.4",0.00344757508020669
+"4","X.affected.arrivegreekislands.5",0.017037102056158
+"5","X.affected.arrivegreekislands.7",0.000683983659549665
+"6","X.affected.arrivemainlandgreece.7",0.0167535962063137
