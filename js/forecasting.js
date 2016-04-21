@@ -311,23 +311,29 @@ $('#intro').click(function(){
     intro.setOptions({
         steps: [
           {
-            intro: "<div style='width: 300px;'><p>This page displays forecasts for arrival numbers into countries along the Western Balkans route. It offers a 1, 2 and 3 day forecast for arrivals based upon past data.</p></div>",
+            intro: "<div style='width: 300px;'><p><b>This page displays forecasts for arrival numbers into countries along the Western Balkans route. It offers a 1, 2 and 3 day forecast for arrivals based upon past data.</b></p></div>",
           },
           {
-            element: '#results',
+            element: '#forecastselection',
+            intro:"<div style='width: 350px;'><p>Different types of forecast can be selected:</p><ul><li><b>Current Forecast</b> shows estimates for the next 1-3 days</li><li><b>Previous Performance</b> (for either 1-, 2-, or 3-day forecasts) allows you to check how closely the model predicted previous arrival numbers</li></ul></div>",
+            position: 'bottom'
+          },
+		  {
+            element: '#graphs',
             intro:"<div style='width: 350px;'><img id='expimage' alt='Forecasting Explanation' title='Forecasting Explanation' src='forecasting/forecastexplanation.png' /><p>When reading the graph, you will note the error bars. In our experience, it is highly unlikely that the real arrivals number will ever exceed the upper bounds of the average error.</p></div>",
             position: 'right'
           },
+          
           {
-            element: '#buttons',
-            intro:"<div style='width: 350px;'><p>The page is split into two parts:</p><ul><li><b>Current Forecast</b> shows estimates for the next 1-3 days</li><li><b>Previous Performance</b> allows you to check how closely the model predicted previous arrival numbers</li></ul></div>",
-            position: 'bottom'
-          },
-          {
-            element: '#results',
+            element: '#graphs',
             intro: "<div style='width: 300px;'><p>At this time, predictions are most accurate for the 1 day forecasts, and for the countries further along the route. The closer the country geographically to the border of Europe, the more outside variables affect migrant movement. You can explore a situational overview by selecting the tab in the navigation bar above.</p></div>",
             position: 'right'
           },
+		  {
+			element: '#high_imp_news',  
+			intro: "<div style='width: 300px;'><p>High importance news events within the last 2 weeks, relating to either borders, policy, or camps, are listed here.</p></div>",
+            position: 'left'
+		  },
           {
             intro: "<div style='width: 300px;'><p>If you are wondering where the graph for Greece is&mdash;or your own country which is not included&mdash;please note that arrivals predictions is dependent upon a variety of factors and we are currently working to improve this model. Feedback is welcome.</p></div>",
           },
@@ -390,6 +396,81 @@ function addDays(date, days) {
     return result;
 }
 
+// Create string representation of date
+var weekdays = ["Sun", "Mon", "Tue","Wed", "Thu", "Fri","Sat"]
+var months = ["Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct","Nov", "Dec"];
+function formatDate ( date ) {
+    return weekdays[date.getDay()] + " " +
+        date.getDate() + " " +
+        months[date.getMonth()] + " " +
+        date.getFullYear();
+}
+
+
+function showImpEvents() {
+	//should filter events first before sorting!
+	high_imp.sort(function(a,b){return a['#date'].getTime() - b['#date'].getTime()});   //sort all from most recent to least
+	
+	$('#high_imp_news').append("<h3>High Importance Events</h3><h4>(in the last 2 weeks)</h4><br/>");
+    high_imp.forEach(function(d,i){   
+		if ((d['#meta+category']=='border') || (d['#meta+category']=='policy') || (d['#meta+category']=='camp')) {		//show border, policy, and camp events
+			var one_week = 7 * 24 * 60 * 60 * 1000;
+			if (Date.now() - d['#date'].getTime() <= 2*one_week) {		//events from past 2 weeks
+				$('#high_imp_news').append('<div class="high_imp_news_item news_item'+ i + '" onmouseover="mouseoverNewsItem('+i+')" onmouseout="mouseoutNewsItem('+i+')" onclick="clickNewsItem('+i+')"><img class="icon" src="images/' + d['#meta+category'] + '_high-01.png' + '" alt=legend_icon width="18" height="18">' + '&nbsp&nbsp<p class="art_date">' + formatDate(d['#date']) + '</p><br/><p class="art_title">' + d['#meta+title'].toUpperCase() + '</p></div>');
+			};
+		};
+    });
+	
+};
+
+function mouseoverNewsItem(i) {
+	//console.log("mouseover news item ", i);
+	$(".news_item" + i).css("backgroundColor", "#eaeaea");
+}
+
+function mouseoutNewsItem(i) {
+	//console.log("mouseout news item ", i);
+	$(".news_item" + i).css("backgroundColor", "#ffffff");
+}
+
+function clickNewsItem(j) {
+ 	//console.log("clicked news item ", j);
+	high_imp.forEach(function(d,i){   
+		if (i==j) {
+			//console.log(i,'=',j,' ', d);			
+			if ((!$(".news_item" + i).hasClass('on')) && (!$(".news_item" + i).hasClass('disable_display'))) {
+				//console.log(i,'=',j,' adding news text');
+				$(".news_item" + i).addClass('on');
+				$(".news_item" + i).append('<button class="news_item_btn news_item_btn'+i+'" onclick="removeNewsItem('+i+')">Hide article</button>');	
+				$(".news_item" + i).append('<div class="news_item_desc news_item_desc'+i+'">'+d['#meta+description']+'</div>');
+			} 
+			$(".news_item" + i).removeClass('disable_display');			
+		};		
+	});
+	
+}
+
+function removeNewsItem(j) {
+	//console.log("unclicked news item ", j);
+	high_imp.forEach(function(d,i){   
+		if (i==j) {
+			//console.log(i,'=',j,' ', d);
+			if ($(".news_item" + i).hasClass('on')) {
+				//console.log(i,'=',j,' removing news text');
+				$(".news_item" + i).removeClass('on');
+				$(".news_item" + i).addClass('disable_display');
+				$(".news_item" + i).css("backgroundColor", "#ffffff");
+				$(".news_item_btn" + i).remove();
+				$(".news_item_desc" + i).remove();
+				
+			}
+		};			
+	});
+}
+
+
+
+
 // Connect Google spreadsheet data to JSON through HXL Proxy
 function hxlProxyToJSON(input,headers){
     // Assign empty arrays
@@ -451,7 +532,59 @@ $.ajax({
     }
 });
 
-// On click event for "Run Forecast" button
+// Load high importance events from HXL proxy
+$.ajax({
+    dataType: "json",
+    //url: "https://proxy.hxlstandard.org/data.json?url=https%3A//docs.google.com/spreadsheets/d/1sMsoSq5Xi5tn3quhs7yUFLnPOpWGsrsPADFOzWHr0wk/edit%23gid%3D1722427520&select-query01-01=%23meta%2Bimportance%3Dhigh&filter01=select&name=high_imp_news_events",
+	url: "https://proxy.hxlstandard.org/data/6oWgnM/download/high_imp.json",
+    success: function(data) {
+        high_imp = hxlProxyToJSON(data,true);
+        // Sets date format for parsing
+        var dateFormat = d3.time.format("%d/%m/%Y");
+        // Parse date for each
+        high_imp.forEach(function(d){
+            d["#date"] = dateFormat.parse(d["#date"]);
+        });
+		
+		// Display high importance events
+		showImpEvents();
+    }
+});
+
+$("#forecastselection").on("change", function(e) {
+	selection = $("#forecastselection").val();
+	//console.log("forecast selection = ", selection);
+	switch (selection) {
+		case "forecastbutton":  $("#results").show();
+								$("#previous1").hide();
+								$("#previous2").hide();
+								$("#previous3").hide();
+								break;
+		case "previousbutton1":	$("#results").hide();
+								$("#previous1").show();
+								$("#previous2").hide();
+								$("#previous3").hide();
+								break;
+		case "previousbutton2":	$("#results").hide();
+								$("#previous1").hide();
+								$("#previous2").show();
+								$("#previous3").hide();
+								break;
+		case "previousbutton3":	$("#results").hide();
+								$("#previous1").hide();
+								$("#previous2").hide();
+								$("#previous3").show();
+								break;		
+	};
+	//$("#forecastselection").css("background","#e60000");  /* button colour */
+	//$("#forecastselection").css("color","#ffffff");  	  /* text colour */
+	//$("#forecastselection").css("border","#e60000");
+	//$("#forecastselection").addClass("btn-primary");
+}); 
+
+
+
+/* // On click event for "Run Forecast" button
 $("#forecastbutton").on("click",function(e){
     $("#results").show();
     $("#previous1").hide();
@@ -477,4 +610,4 @@ $("#previousbutton3").on("click",function(e) {
     $("#previous1").hide();
     $("#previous2").hide();
     $("#previous3").show();
-});
+}); */
