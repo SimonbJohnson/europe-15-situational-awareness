@@ -24,8 +24,8 @@ function loadModel(url) {
             $("#description").html("Description of Model: " + data.description);
         
             // Set arrays for models and their proper names
-            models = ["austria","slovenia","croatia","serbia","fyrom"];
-            names = ["Austria","Slovenia","Croatia","Serbia","The former Yugoslav Republic of Macedonia"];
+            models = ["austria","hungary","serbia"];
+            names = ["Austria","Hungary","Serbia"];
 
             // For each object in the model json file...
             for(a=0;a<models.length;a++) {
